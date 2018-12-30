@@ -15,6 +15,18 @@
     </script>
   </head>
   <body>
+    <nav>
+      <ul>
+        <li>File<ul>
+          <li onclick="nav_settings()">Settings</li>
+          <li onclick="nav_exit()">Exit</li>
+        </ul></li>
+        <li>Edit</li>
+        <li>View</li>
+        <li>Window</li>
+      </ul>
+      <a></a>
+    </nav>
     <div id="root"></div>
     <script>
       {
@@ -24,6 +36,15 @@
           ? 'http://localhost:' + port + '/dist/bundle.js'
           : './dist/bundle.js';
         document.body.appendChild(script);
+      }
+      // navbar functions
+      var electron = require('electron');
+      var win = electron.remote.getCurrentWindow();
+      var nav_settings = () => {
+        electron.ipcRenderer.send("settings");
+      }
+      var nav_exit = () => {
+        win.close();
       }
     </script>
   </body>

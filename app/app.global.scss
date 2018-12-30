@@ -8,6 +8,8 @@ body {
   background-image: linear-gradient(45deg, rgba(0, 216, 255, .5) 10%, rgba(0, 1, 127, .7));
   font-family: Arial, Helvetica, Helvetica Neue, serif;
   overflow-y: hidden;
+  padding: 0;
+  margin: 0;
 }
 
 h2 {
@@ -22,8 +24,29 @@ p {
   font-size: 24px;
 }
 
+nav {
+  position: fixed;
+  padding: .2em;
+  color: #0d4080;
+  background-color: rgba(255, 255, 255, 0.774);
+  width: 100%;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
 li {
   list-style: none;
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 .5em 0 .5em;
+  transition: all .3s;
+}
+li:hover  {
+  color: #4287db;
+  text-shadow: 0 0 1em rgba(54, 138, 255, 0.548)
 }
 
 a {

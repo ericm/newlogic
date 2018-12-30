@@ -1,8 +1,9 @@
-const { app, BrowserWindow, Menu, shell } = require('electron');
+const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron');
 
 let menu;
 let template;
 let mainWindow = null;
+let settingsWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -35,6 +36,10 @@ const installExtensions = () => {
 
   return Promise.resolve([]);
 };
+
+var settings = () => {
+  
+}
 
 app.on('ready', () =>
   installExtensions()
@@ -69,5 +74,10 @@ app.on('ready', () =>
       }]).popup(mainWindow);
     });
   }
+
   mainWindow.setMenu(null);
+
+  ipcMain.on("settings", () => {
+    settings("");
+  });
 }));
