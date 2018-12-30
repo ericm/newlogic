@@ -38,7 +38,23 @@ const installExtensions = () => {
 };
 
 var settings = () => {
-  
+  settingsWindow = new BrowserWindow({
+    show: false,
+    width: 500,
+    height: 500,
+    alwaysOnTop: true
+  });
+
+  settingsWindow.loadURL(`file://${__dirname}/settings.html`);
+
+  settingsWindow.webContents.on('did-finish-load', () => {
+    settingsWindow.show();
+    settingsWindow.focus();
+  });
+
+  settingsWindow.on('closed', () => {
+    settingsWindow = null;
+  });
 }
 
 app.on('ready', () =>
