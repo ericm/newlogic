@@ -1,0 +1,18 @@
+{
+  "name": "newlogic",
+  "productName": "newlogic",
+  "version": "1.0.0",
+  "description": "A circuit builder",
+  "main": "./main.js",
+  "author": {
+    "name": "Eric Moynihan",
+    "email": "mail@er1c.me",
+    "url": "https://er1c.me"
+  },
+  "scripts": {
+    "postinstall": "npm rebuild --runtime=electron --target=1.6.6 --disturl=https://atom.io/download/atom-shell --build-from-source"
+  },
+  "license": "MIT",
+  "dependencies": {
+  }
+}
