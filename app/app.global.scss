@@ -77,6 +77,10 @@ li ul li {
   font-size: 1.1em;
   display: block;
 }
+li ul li i {
+  float: right;
+  font-style: normal;
+}
 li ul li:hover {
   background: #255ca0;
   color:  rgba(255, 255, 255, 0.774);
