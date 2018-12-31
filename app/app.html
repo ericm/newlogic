@@ -21,14 +21,26 @@
           <li onclick="nav_settings(this)">Settings</li>
           <li onclick="nav_exit(this)">Exit</li>
         </ul></li>
-        <li onclick="menu_toggle(this)">Edit</li>
-        <li onclick="menu_toggle(this)">View</li>
-        <li onclick="menu_toggle(this)">Window</li>
-        <li onclick="menu_toggle(this)">About</li>
+        <li onclick="menu_toggle(this)">Edit<ul>
+          <li onclick="nav_settings(this)">Settings</li>
+          <li onclick="nav_exit(this)">Exit</li>
+        </ul></li>
+        <li onclick="menu_toggle(this)">View<ul>
+          <li onclick="nav_settings(this)">Settings</li>
+          <li onclick="nav_exit(this)">Exit</li>
+        </ul></li>
+        <li onclick="menu_toggle(this)">Window<ul>
+          <li onclick="nav_settings(this)">Settings</li>
+          <li onclick="nav_exit(this)">Exit</li>
+        </ul></li>
+        <li onclick="menu_toggle(this)">About<ul>
+          <li onclick="nav_settings(this)">Settings</li>
+          <li onclick="nav_exit(this)">Exit</li>
+        </ul></li>
       </ul>
       <a></a>
     </nav>
-    <div id="root"></div>
+    <div onclick="menu_off()" id="root"></div>
     <script>
       {
         const script = document.createElement('script');
@@ -42,10 +54,19 @@
       let electron = require('electron');
       const win = electron.remote.getCurrentWindow();
       const menu_toggle = (el) => {
-        document.getElementsByClassName("cl")[0].classList.remove("cl");
-        document.getElementsByClassName("clb")[0].classList.remove("clb");
+        if (typeof document.getElementsByClassName("cl")[0] !== "undefined" 
+            && document.getElementsByClassName("cl")[0] !== el) {
+          document.getElementsByClassName("cl")[0].classList.remove("cl");
+          document.getElementsByClassName("clb")[0].classList.remove("clb");
+        }
         el.classList.toggle("cl");
         el.children[0].classList.toggle("clb");
+      }
+      const menu_off = () => {
+        if (typeof document.getElementsByClassName("cl")[0] !== "undefined") {
+          document.getElementsByClassName("cl")[0].classList.remove("cl");
+          document.getElementsByClassName("clb")[0].classList.remove("clb");
+        }
       }
       const nav_settings = () => {
         electron.ipcRenderer.send("settings");
