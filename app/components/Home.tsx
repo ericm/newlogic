@@ -8,7 +8,9 @@ export default class Home extends React.Component {
     return (
       <div>
         <div className={styles.container} data-tid="container">
-          <Workspace />
+          <div className={styles.window}>
+            <Workspace />
+          </div>
         </div>
       </div>
     );

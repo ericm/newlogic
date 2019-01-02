@@ -1,16 +1,18 @@
 :local {
   .container {
-    position: absolute;
-    top: 30%;
-    left: 10px;
+    position: fixed;
     text-align: center;
+    width: 100vw;
+    height: 100vh;
+    margin-top: 24px;
+    background: rgb(219, 219, 219);
   }
 
-  .container h2 {
-    font-size: 5rem;
-  }
-
-  .container a {
-    font-size: 1.4rem;
+  .window {
+    border: .3em solid rgb(80, 80, 80);
+    height: calc(100vh*.8);
+    width: calc(100vw*.8);
+    border-radius: .5em;
+    background: #fff;
   }
 }
