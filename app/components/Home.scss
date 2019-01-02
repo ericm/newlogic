@@ -10,9 +10,13 @@
 
   .window {
     border: .3em solid rgb(80, 80, 80);
-    height: calc(100vh*.8);
-    width: calc(100vw*.8);
     border-radius: .5em;
     background: #fff;
+    overflow: auto;
+    width: 50vw;
+    height: 50vh;
+    min-width: 40vw;
+    min-height: 30vh;
+    resize: both;
   }
 }
