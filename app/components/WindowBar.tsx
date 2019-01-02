@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-let styles = require("./WindowBar.scss");
+let styles = require("./styles/WindowBar.scss");
 
 export default class WindowBar extends React.Component<{title: string}, {title: string}> {
     constructor(props: any) {
@@ -10,7 +10,10 @@ export default class WindowBar extends React.Component<{title: string}, {title: 
     render() {
         return (
             <div className={styles.main}>
-                <h1>{this.state.title}</h1>
+                <h1 draggable={true}>{this.state.title}</h1>
+                <div className={styles.body}>
+                    {this.props.children}
+                </div>
             </div>
         )
     }

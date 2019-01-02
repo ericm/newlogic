@@ -1,0 +1,28 @@
+:local {
+    .main {
+        border: .3em solid rgb(80, 80, 80);
+        border-radius: .2em;
+        background: #fff;
+        overflow: auto;
+        width: 30vw;
+        height: 30vh;
+        min-width: 30vw;
+        min-height: 30vh;
+        resize: both;
+    }
+    .main h1 {
+        height: 20px;
+        background: #505050;
+        margin: 0;
+        vertical-align: bottom;
+        font-size: 1em;
+        text-transform: uppercase;
+        text-align: left;
+        width: 100%;
+        user-select: none;
+        cursor: move;
+    }
+    .body {
+        width: 100%;
+    }
+}
