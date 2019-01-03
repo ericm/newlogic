@@ -5,7 +5,7 @@ let styles = require("./styles/WindowBar.scss");
 
 export default class WindowBar extends React.Component<WinBarProps, WinBarState> {
 
-    constructor(props: any) {
+    constructor(props: WinBarProps) {
         super(props);
         this.state = {title: this.props.title, x: 0, y: 24, initX: 0, initY: 24, moving: false, posX: 0, posY: 0};
     }
