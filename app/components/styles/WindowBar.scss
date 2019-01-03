@@ -10,19 +10,20 @@
         min-height: 30vh;
         resize: both;
         position: fixed;
+        font-family: 'PT_Sans';
     }
     .main header {
         height: 20px;
         background: #505050;
         margin: 0;
-        vertical-align: bottom;
-        font-size: 1em;
+        font-size: .9em;
         text-transform: uppercase;
         text-align: left;
         width: 100%;
         user-select: none;
         cursor: move;
         touch-action: none;
+        color: rgba(255, 255, 255, 0.925);
     }
     .main h1 {
         margin: 0;
