@@ -21,7 +21,7 @@
         text-align: left;
         width: 100%;
         user-select: none;
-        cursor: move;
+        
         touch-action: none;
         color: rgba(255, 255, 255, 0.925);
     }
@@ -29,9 +29,11 @@
         margin: 0;
         padding: 0;
         font-size: 1em;
+        width: calc(100% - 3em);
+        cursor: move;
     }
     .nav {
-        width: 5em;
+        width: 3em;
         position: absolute;
         right: 0;
         background: transparent;
@@ -41,6 +43,7 @@
     }
     .nav span {
         padding: 0 .4em;
+        cursor: pointer;
     }
     .body {
         width: 100%;
