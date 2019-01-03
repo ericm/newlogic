@@ -4,10 +4,8 @@
         border-radius: .2em;
         background: #fff;
         overflow: auto;
-        width: 30vw;
-        height: 30vh;
-        min-width: 30vw;
-        min-height: 30vh;
+        min-width: 200px;
+        min-height: 200px;
         resize: both;
         position: fixed;
         font-family: 'PT_Sans';
@@ -21,7 +19,6 @@
         text-align: left;
         width: 100%;
         user-select: none;
-        
         touch-action: none;
         color: rgba(255, 255, 255, 0.925);
     }

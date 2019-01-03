@@ -24,7 +24,7 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
                     let mX = e.clientX - this.state.initX + this.state.posX,
                         mY = e.clientY - this.state.initY + this.state.posY;
 
-                    mY += this.state.posY == 0 ? 24 : 0;
+                    mY += this.state.posY < 24 ? 24 : 0;
 
                     this.setState({x: mX, y: mY});
                 }
@@ -93,7 +93,8 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 
         if (!this.state.closed) {
             return (
-                <div onClick={this.windowClick} style={{top: this.state.y, left: this.state.x, width: this.state.width, height: this.state.height, zIndex: this.state.z}} className={styles.main}>
+                <div onClick={this.windowClick} style={{top: this.state.y, left: this.state.x, width: this.state.width, 
+                height: this.state.height, zIndex: this.state.z}} className={styles.main} onDoubleClick={this.toggleMax}>
                     <header>
                         <h1 onMouseDown={this.windowDrag} onMouseMove={this.windowDrag} onMouseUp={this.windowDrag} onMouseLeave={this.windowDrag}>{this.state.title}</h1>
                         <nav className={styles.nav}>
