@@ -1,6 +1,6 @@
 :local {
     .main {
-        border: .3em solid rgb(80, 80, 80);
+        border: .2em solid rgb(80, 80, 80);
         border-radius: .2em;
         background: #fff;
         overflow: auto;
@@ -29,6 +29,18 @@
         margin: 0;
         padding: 0;
         font-size: 1em;
+    }
+    .nav {
+        width: 5em;
+        position: absolute;
+        right: 0;
+        background: transparent;
+        top: -.15em;
+        color: #fff;
+        text-align: right;
+    }
+    .nav span {
+        padding: 0 .4em;
     }
     .body {
         width: 100%;

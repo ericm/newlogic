@@ -6,7 +6,10 @@ export interface WinBarState {
     initY: number, 
     moving: boolean, 
     posX: number, 
-    posY: number
+    posY: number,
+    width: string,
+    height: string,
+    max: boolean
 }
 export interface WinBarProps {
     title: string
