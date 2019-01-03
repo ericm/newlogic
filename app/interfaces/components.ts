@@ -12,7 +12,10 @@ export interface WinBarState {
     max: boolean,
     winWidth: number,
     winHeight: number,
-    focused: boolean
+    focused: boolean,
+    z: number,
+    saved: boolean,
+    closed: boolean
 }
 export interface WinBarProps {
     title: string
