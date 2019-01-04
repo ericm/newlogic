@@ -1,49 +1,54 @@
 :local {
-    .main {
-        border: .2em solid rgb(80, 80, 80);
-        border-radius: .2em;
-        background: #fff;
-        overflow: hidden;
-        min-width: 200px;
-        min-height: 200px;
-        resize: both;
-        position: fixed;
-        font-family: 'PT_Sans';
-    }
-    .main header {
-        height: 20px;
-        background: #505050;
-        margin: 0;
-        font-size: .9em;
-        text-transform: uppercase;
-        text-align: left;
-        width: 100%;
-        user-select: none;
-        touch-action: none;
-        color: rgba(255, 255, 255, 0.925);
-    }
-    .main h1 {
-        margin: 0;
-        padding: 0;
-        font-size: 1em;
-        width: calc(100% - 3em);
-        cursor: move;
-    }
-    .nav {
-        width: 3em;
-        position: absolute;
-        right: 0;
-        background: transparent;
-        top: -.15em;
-        color: #fff;
-        text-align: right;
-    }
-    .nav span {
-        padding: 0 .4em;
-        cursor: pointer;
-    }
-    .body {
-        position: relative;
-        overflow: hidden;
-    }
+	.main {
+		border: .2em solid rgb(80, 80, 80);
+		border-radius: .2em;
+		background: #fff;
+		overflow: hidden;
+		min-width: 200px;
+		min-height: 200px;
+		resize: both;
+		position: fixed;
+		font-family: 'PT_Sans';
+	}
+
+	.main header {
+		height: 20px;
+		background: #505050;
+		margin: 0;
+		font-size: .9em;
+		text-transform: uppercase;
+		text-align: left;
+		width: 100%;
+		user-select: none;
+		touch-action: none;
+		color: rgba(255, 255, 255, 0.925);
+	}
+
+	.main h1 {
+		margin: 0;
+		padding: 0;
+		font-size: 1em;
+		width: calc(100% - 3em);
+		cursor: move;
+	}
+
+	.nav {
+		width: 3em;
+		position: absolute;
+		right: 0;
+		background: transparent;
+		top: -.15em;
+		color: #fff;
+		text-align: right;
+	}
+
+	.nav span {
+		padding: 0 .4em;
+		cursor: pointer;
+	}
+
+	.body {
+		position: relative;
+		overflow: hidden;
+	}
 }
