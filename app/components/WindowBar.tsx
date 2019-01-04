@@ -94,15 +94,15 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
         if (!this.state.closed) {
             return (
                 <div onClick={this.windowClick} style={{top: this.state.y, left: this.state.x, width: this.state.width, 
-                height: this.state.height, zIndex: this.state.z}} className={styles.main} onDoubleClick={this.toggleMax}>
+                height: this.state.height, zIndex: this.state.z}} className={styles.main}>
                     <header>
-                        <h1 onMouseDown={this.windowDrag} onMouseMove={this.windowDrag} onMouseUp={this.windowDrag} onMouseLeave={this.windowDrag}>{this.state.title}</h1>
+                        <h1 onDoubleClick={this.toggleMax} onMouseDown={this.windowDrag} onMouseMove={this.windowDrag} onMouseUp={this.windowDrag} onMouseLeave={this.windowDrag}>{this.state.title}</h1>
                         <nav className={styles.nav}>
                             <span onClick={this.toggleMax}>&#9633;</span>
                             <span onClick={this.close}>x</span>
                         </nav>
                     </header>
-                    <div className={styles.body}>
+                    <div style={{width: this.state.width, height: this.state.height - 30}} className={styles.body}>
                         {this.props.children}
                     </div>
                 </div>
