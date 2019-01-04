@@ -27,8 +27,6 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 					let mX = e.clientX - this.state.initX + this.state.posX,
 						mY = e.clientY - this.state.initY + this.state.posY;
 
-					mY += this.state.posY < 24 ? 24 : 0;
-
 					this.setState({ x: mX, y: mY });
 				}
 				break;
@@ -67,8 +65,8 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 
 	private windowClick = (e: React.MouseEvent<HTMLDivElement>): void => {
 
-		let width = e.currentTarget.offsetWidth - 7;
-		let height = e.currentTarget.offsetHeight - 7;
+		let width = e.currentTarget.offsetWidth - 7,
+			height = e.currentTarget.offsetHeight - 7;
 
 		if (width !== this.state.width) {
 			this.setState({ width });
