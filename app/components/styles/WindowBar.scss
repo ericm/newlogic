@@ -3,7 +3,7 @@
         border: .2em solid rgb(80, 80, 80);
         border-radius: .2em;
         background: #fff;
-        overflow: auto;
+        overflow: hidden;
         min-width: 200px;
         min-height: 200px;
         resize: both;
@@ -44,5 +44,6 @@
     }
     .body {
         position: relative;
+        overflow: hidden;
     }
 }

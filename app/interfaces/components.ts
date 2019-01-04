@@ -1,3 +1,4 @@
+// WinBar
 export interface WinBarState {
     title: string, 
     x: number, 
@@ -18,5 +19,16 @@ export interface WinBarState {
     closed: boolean
 }
 export interface WinBarProps {
-    title: string
+    title: string,
+    type: string,
+    identity: number
+}
+
+// Workspace
+export interface WorkspaceState {
+
+}
+export interface WorkspaceProps {
+    width: number,
+    height: number
 }

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { WinBarState, WinBarProps } from '../interfaces/components';
 
+import Workspace from './Workspace';
+
 let styles = require("./styles/WindowBar.scss");
 
 export default class WindowBar extends React.Component<WinBarProps, WinBarState> {
@@ -64,12 +66,15 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 
     private windowClick = (e: React.MouseEvent<HTMLDivElement>): void => {
 
-        if (e.currentTarget.scrollWidth !== this.state.width) {
-            this.setState({width: e.currentTarget.scrollWidth});
+        let width = e.currentTarget.offsetWidth - 7;
+        let height = e.currentTarget.offsetHeight - 7;
+
+        if (width !== this.state.width) {
+            this.setState({width});
         }
 
-        if (e.currentTarget.scrollHeight !== this.state.height) {
-            this.setState({height: e.currentTarget.scrollHeight});
+        if (height !== this.state.height) {
+            this.setState({height});
         }
 
         if (!this.state.focused) {
@@ -103,7 +108,12 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
                         </nav>
                     </header>
                     <div style={{width: this.state.width, height: this.state.height - 30}} className={styles.body}>
-                        {this.props.children}
+                        {(() => {
+                            switch (this.props.type) {
+                                case "Workspace":   return <Workspace width={this.state.width} height={this.state.height - 30} />;
+                                default:            return null;
+                            }
+                        })()}
                     </div>
                 </div>
             );
