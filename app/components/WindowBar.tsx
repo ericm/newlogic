@@ -10,7 +10,7 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 	constructor(props: WinBarProps) {
 		super(props);
 		this.state = {
-			title: this.props.title, x: 0, y: 24, initX: 0, initY: 24, moving: false,
+			title: this.props.title, x: 0, y: 0, initX: 0, initY: 0, moving: false,
 			posX: 0, posY: 0, width: 200, height: 200, max: false, winWidth: 200, winHeight: 200, focused: true, z: 100,
 			saved: true, closed: false
 		};
@@ -24,8 +24,8 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 			}
 			case "mousemove": {
 				if (this.state.moving && !this.state.max) {
-					let mX = e.clientX - this.state.initX + this.state.posX,
-						mY = e.clientY - this.state.initY + this.state.posY;
+					let mX = Math.abs(e.clientX - this.state.initX + this.state.posX),
+						mY = Math.abs(e.clientY - this.state.initY + this.state.posY);
 
 					this.setState({ x: mX, y: mY });
 				}
