@@ -9,12 +9,9 @@ export default class AndGate extends React.Component<AndProps, AndState> {
 
 	public render() {
 
-			return (
-				<Image image={image} />
-			);
-		} 
-		
-
-	
+		return (
+			<Image image={image} />
+		);
+	} 
 
 }
