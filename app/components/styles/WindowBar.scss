@@ -40,11 +40,25 @@
 		top: -.15em;
 		color: #fff;
 		text-align: right;
+		height: inherit;
+		overflow: wrap;
 	}
 
 	.nav span {
-		padding: 0 .4em;
+		padding: 0 .3em;
 		cursor: pointer;
+		vertical-align: -2px;
+		border-radius: 1em;
+		transition: background .3s;
+		height: 15px;
+	}
+	.nav span:hover {
+		background: rgba(255, 255, 255, 0.514);
+	}
+	.nav span img {
+		width: .8em;
+		display: inline;
+		vertical-align: 1px;
 	}
 
 	.body {

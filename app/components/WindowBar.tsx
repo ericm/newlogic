@@ -4,6 +4,8 @@ import { WinBarState, WinBarProps } from '../interfaces/components';
 import Workspace from './Workspace';
 
 let styles = require("./styles/WindowBar.scss");
+let xImg = require('../img/x.svg');
+let mImg = require('../img/m.svg');
 
 export default class WindowBar extends React.Component<WinBarProps, WinBarState> {
 
@@ -24,8 +26,15 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 			}
 			case "mousemove": {
 				if (this.state.moving && !this.state.max) {
-					let mX = Math.abs(e.clientX - this.state.initX + this.state.posX),
-						mY = Math.abs(e.clientY - this.state.initY + this.state.posY);
+					let mX = e.clientX - this.state.initX + this.state.posX,
+						mY = e.clientY - this.state.initY + this.state.posY;
+
+					if (mX < 0) {
+						mX *= -.6;
+					}
+					if (mY < 0) {
+						mY *= -.6;
+					}
 
 					this.setState({ x: mX, y: mY });
 				}
@@ -86,7 +95,7 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 
 		if (!this.state.max) {
 			this.setState({
-				x: 0, y: 24, initX: this.state.x, initY: this.state.y,
+				x: 0, y: 0, initX: this.state.x, initY: this.state.y,
 				max: true, width: window.innerWidth, height: window.innerHeight, winWidth: this.state.width, winHeight: this.state.height
 			});
 		} else {
@@ -106,8 +115,8 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 					<header>
 						<h1 onDoubleClick={this.toggleMax} onMouseDown={this.windowDrag} onMouseMove={this.windowDrag} onMouseUp={this.windowDrag} onMouseLeave={this.windowDrag}>{this.state.title}</h1>
 						<nav className={styles.nav}>
-							<span onClick={this.toggleMax}>&#9633;</span>
-							<span onClick={this.close}>x</span>
+							<span onClick={this.toggleMax}><img src={mImg} /></span>
+							<span onClick={this.close}><img style={{marginBottom: -1.5}} src={xImg} /></span>
 						</nav>
 					</header>
 					<div style={{ width: this.state.width, height: this.state.height - 30 }} className={styles.body}>

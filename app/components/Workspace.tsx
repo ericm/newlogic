@@ -11,6 +11,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			<Stage width={this.props.width} height={this.props.height} className={styles.main}>
 				<Layer>
 					<Text text="hi" />
+					
 				</Layer>
 			</Stage>
 		)
