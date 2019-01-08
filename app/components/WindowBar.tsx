@@ -9,7 +9,7 @@ let mImg = require('../img/m.svg');
 
 export default class WindowBar extends React.Component<WinBarProps, WinBarState> {
 
-	constructor(props: WinBarProps) {
+	public constructor(props: WinBarProps) {
 		super(props);
 		this.state = {
 			title: this.props.title, x: 0, y: 0, initX: 0, initY: 0, moving: false,

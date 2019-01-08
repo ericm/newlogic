@@ -26,7 +26,7 @@ export interface WinBarProps {
 
 // Workspace
 export interface WorkspaceState {
-
+	
 }
 export interface WorkspaceProps {
 	width: number,
