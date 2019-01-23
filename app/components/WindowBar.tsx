@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { WinBarState, WinBarProps } from '../interfaces/components';
+import { WinBarState, WinBarProps, WinBarResize } from '../interfaces/components';
 
 import Workspace from './Workspace';
 const styles = require('./styles/WindowBar.scss');
@@ -13,10 +13,16 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 			focused: false,
 			offsetX: 0,
 			offsetY: 0,
-			width: 80,
-			height: 80,
+			width: 0,
+			height: 0,
 			resize: this.props.resize
 		};
+	}
+
+	public resize = (n: WinBarResize) => {
+		this.setState(
+			{width: n.width, height: n.height, offsetX: n.x, offsetY:n.y}
+		);
 	}
 
 	private returnType: any = () => {

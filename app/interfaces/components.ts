@@ -1,3 +1,11 @@
+// Home
+export interface HomeState {
+
+}
+export interface HomeProps {
+
+}
+
 // WinBar
 export interface WinBarState {
 	title: string,
@@ -12,7 +20,13 @@ export interface WinBarProps {
 	title: string,
 	type: string,
 	identity: number,
-	resize: string
+	resize: string,
+}
+export interface WinBarResize {
+	width: number,
+	height: number,
+	x: number,
+	y: number
 }
 
 // Workspace
