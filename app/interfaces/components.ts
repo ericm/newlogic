@@ -1,6 +1,12 @@
 // Home
+interface Child extends WinBarResize {
+	initWidth: number,
+	initHeight: number,
+	initX: number,
+	initY: number
+}
 export interface HomeState {
-
+	child1: Child
 }
 export interface HomeProps {
 

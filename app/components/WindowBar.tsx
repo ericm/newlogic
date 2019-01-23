@@ -19,7 +19,7 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 		};
 	}
 
-	public resize = (n: WinBarResize) => {
+	public resize = (n: WinBarResize): void => {
 		this.setState(
 			{width: n.width, height: n.height, offsetX: n.x, offsetY:n.y}
 		);
