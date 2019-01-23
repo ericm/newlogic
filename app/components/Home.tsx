@@ -9,7 +9,7 @@ export default class Home extends React.Component {
 		return (
 			<div>
 				<div className={styles.container} data-tid="container">
-					<WindowBar identity={1} type={"Workspace"} title={"Canvas"} />
+					<WindowBar resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"} />
 				</div>
 			</div>
 		);

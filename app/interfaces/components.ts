@@ -5,12 +5,14 @@ export interface WinBarState {
 	offsetX: number,
 	offsetY: number,
 	width: number,
-	height: number
+	height: number,
+	resize: string
 }
 export interface WinBarProps {
 	title: string,
 	type: string,
-	identity: number
+	identity: number,
+	resize: string
 }
 
 // Workspace
