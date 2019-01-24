@@ -1,10 +1,13 @@
 :local {
 	.main {
-		border: .2em solid rgb(80, 80, 80);
+		border: 0;
+		padding: 0;
+		margin: 0;
 		background: #fff;
 		overflow: hidden;
 		position: relative;
 		font-family: 'PT_Sans';
+		display: inline-block;
 	}
 	.body {
 		position: relative;

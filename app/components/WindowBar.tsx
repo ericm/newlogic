@@ -35,7 +35,7 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 	public render(): JSX.Element {
 		return (
 			<div className={styles.main} style={
-				{width: this.state.width.toString()+'vw', height: this.state.height.toString()+'vh'}
+				{width: this.state.width.toString()+'vw', height: this.state.height.toString()+'vh', left: this.state.offsetX, top: this.state.offsetY}
 			}>
 				{this.returnType()}
 			</div>

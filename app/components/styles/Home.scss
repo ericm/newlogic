@@ -6,14 +6,20 @@
 		height: 100vh;
 		margin-top: 24px;
 		background: rgb(219, 219, 219);
+		display: inline;
 	}
 	.window {
 		width: min-content;
 		height: min-content;
+		display: inline;
+		padding: 0;
+		border: 0;
+		margin: 0;
 	}
 	.barV {
-		width: 0;
-		height: 0;
+		display: inline-block;
+		width: 5px;
+		height: 5px;
 		padding: 0;
 		margin: 0;
 	}

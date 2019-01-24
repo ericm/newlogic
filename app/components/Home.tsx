@@ -17,19 +17,63 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 		};
 	}
 
-	public componentDidMount(): void {
-		// TODO: get these vals from settings
-		let props: WinBarResize = {
-			width: this.state.child1.width, height: this.state.child1.height, x: this.state.child1.x, y: this.state.child1.y
-		};
-		if (this._child1 !== null) {
-			this._child1.resize(props);
+	private resizeChild = (i: number): void => {
+		switch(i) {
+			case 1: {
+				const props: WinBarResize = {
+					width: this.state.child1.width, height: this.state.child1.height, x: this.state.child1.x, y: this.state.child1.y
+				};
+				if (this._child1 !== null) {
+					this._child1.resize(props);
+				}
+				break;
+			}
 		}
 	}
 
-	private onDragResize = (e: React.DragEvent): void => {
-		switch(e.type) {
-			case "ondragcapture": this.setState({})
+	public componentDidMount(): void {
+		// TODO: get these vals from settings
+		this.resizeChild(1);
+	}
+
+	private onDragResize = (e: React.DragEvent<HTMLDivElement>): void => {
+		let parentStyles: HTMLElement;
+		let child = this.state.child1;
+		if (e.currentTarget instanceof Element && e.currentTarget.parentElement instanceof Element) {
+			let lockV = false;
+			let lockH = false;
+			parentStyles = e.currentTarget.parentElement;
+
+			switch(parentStyles.id) {
+				case "child1": {
+					lockV = true;
+				}
+			}
+
+			const cH =  window.innerHeight;
+			const cW =  window.innerWidth;
+			const mousePosX = (( e.clientX - child.initX) / cW) * 100;
+			const mousePosY = (( e.clientY - child.initY) / cH) * 100;
+
+			switch(e.type) {
+				case "dragstart": {
+					child.initHeight = (parentStyles.offsetHeight / cH) * 100;
+					child.initWidth = (parentStyles.offsetWidth / cW) * 100;
+					child.initX = e.clientX;
+					child.initY = e.clientY;
+					break;
+				}
+				case "drag": {
+					child.height = child.initWidth - (lockV ? 0 : mousePosY);
+					child.width = child.initWidth - (lockH ? 0 : mousePosX);
+					child.x = e.clientX - child.initX;
+					child.y = e.clientY - child.initY;
+					break;
+				}
+			}
+			console.log(child);
+			this.setState({child1: child});
+			this.resizeChild(1);
 		}
 	}
 
@@ -38,8 +82,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 		return (
 			<div>
 				<div className={styles.container} data-tid="container">
-					<div className={styles.window}>
-						<div onDrag={this.onDragResize} style={{height: this.state.child1.height}} className={styles.barV} />
+					<div id={"child1"} className={styles.window}>
+						<div onDragStart={this.onDragResize} onDrag={this.onDragResize} style={{height: this.state.child1.height.toString() + "vh"}} className={styles.barV} />
 						<WindowBar ref={(child) => { this._child1 = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"} />
 					</div>
 				</div>
