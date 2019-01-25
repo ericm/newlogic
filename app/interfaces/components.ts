@@ -1,12 +1,13 @@
 // Home
-interface Child extends WinBarResize {
+export interface Child extends WinBarResize {
 	initWidth: number,
 	initHeight: number,
 	initX: number,
 	initY: number
 }
 export interface HomeState {
-	child1: Child
+	child1: Child,
+	child2: Child
 }
 export interface HomeProps {
 
@@ -33,6 +34,14 @@ export interface WinBarResize {
 	height: number,
 	x: number,
 	y: number
+}
+
+// Menu
+export interface MenuState {
+
+}
+export interface MenuProps {
+
 }
 
 // Workspace

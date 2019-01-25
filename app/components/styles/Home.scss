@@ -1,7 +1,7 @@
 :local {
 	.container {
 		position: fixed;
-		text-align: right;
+		text-align: left;
 		width: 100vw;
 		height: 100vh;
 		margin-top: 24px;
@@ -18,9 +18,10 @@
 	}
 	.barV {
 		display: inline-block;
-		width: 5px;
-		height: 5px;
+		width: .5vw;
+		height: .5vh;
 		padding: 0;
+		background-color: rgb(109, 109, 109);
 		margin: 0;
 	}
 }
