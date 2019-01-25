@@ -52,8 +52,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
 			const cH =  window.innerHeight;
 			const cW =  window.innerWidth;
-			const mousePosX = (( e.clientX - child.initX) / cW) * 100;
-			const mousePosY = (( e.clientY - child.initY) / cH) * 100;
+			const mousePosX = (( e.clientX == 0 ? child.x : e.clientX - child.initX) / cW) * 100;
+			const mousePosY = (( e.clientY == 0 ? child.y : e.clientY - child.initY) / cH) * 100;
 
 			switch(e.type) {
 				case "dragstart": {
@@ -64,14 +64,17 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 					break;
 				}
 				case "drag": {
-					child.height = child.initWidth - (lockV ? 0 : mousePosY);
-					child.width = child.initWidth - (lockH ? 0 : mousePosX);
+					if (!lockV) child.height = child.initHeight - mousePosY;
+					if (!lockH) child.width = child.initWidth - mousePosX;
+
 					child.x = e.clientX - child.initX;
 					child.y = e.clientY - child.initY;
 					break;
 				}
 			}
-			console.log(child);
+
+			if (child.width >= 100) child.width = 99;
+			console.log(cH, child.height, e.type);
 			this.setState({child1: child});
 			this.resizeChild(1);
 		}
@@ -83,7 +86,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 			<div>
 				<div className={styles.container} data-tid="container">
 					<div id={"child1"} className={styles.window}>
-						<div onDragStart={this.onDragResize} onDrag={this.onDragResize} style={{height: this.state.child1.height.toString() + "vh"}} className={styles.barV} />
+						<div onDragEnd={this.onDragResize} onDragStart={this.onDragResize} onDrag={this.onDragResize} style={{height: this.state.child1.height.toString() + "vh"}} className={styles.barV} />
 						<WindowBar ref={(child) => { this._child1 = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"} />
 					</div>
 				</div>
