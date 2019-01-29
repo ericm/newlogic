@@ -50,13 +50,15 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
 	private onDragResize = (e: React.DragEvent<HTMLDivElement>): void => {
 		let parentStyles: HTMLElement;
-		let otherSize: HTMLElement;
 		let lockV = false;
 		let lockH = false;
 		let child: Child;
 		let childOther: Child[] = [];
+
+		console.log(e.type);
 		
-		if (e.currentTarget instanceof Element && e.currentTarget.parentElement instanceof Element) {
+		if (e.currentTarget instanceof Element && e.currentTarget.parentElement instanceof Element
+			&& e.currentTarget.parentElement.parentElement instanceof Element) {
 			
 			parentStyles = e.currentTarget.parentElement;
 
@@ -67,7 +69,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 					childOther.push(this.state.child2);
 					break;
 				}
-				default: child = this.state.child1;
+				default: {
+					child = this.state.child1;
+				};
 			}
 
 			const cH =  window.innerHeight;
@@ -79,19 +83,25 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 				case "dragstart": {
 					child.initHeight = (parentStyles.offsetHeight / cH) * 100;
 					child.initWidth = (parentStyles.offsetWidth / cW) * 100;
+
+					childOther.forEach((v: Child) => {
+						v.initHeight = v.height;
+						v.initWidth = v.width;
+					});
 					
 					child.initX = e.clientX;
 					child.initY = e.clientY;
-
-					childOther.forEach((i: Child) => {
-						i.initWidth = 
-					})
-
+							
 					break;
 				}
 				case "drag": {
-					if (!lockV) child.height = child.initHeight - mousePosY;
-					if (!lockH) child.width = child.initWidth - mousePosX;
+					if (!lockV) child.height = child.initHeight - mousePosY - 0.5;
+					if (!lockH) child.width = child.initWidth - mousePosX - 0.5;
+
+					childOther.forEach((v: Child) => {
+						if (!lockV) v.height = v.initHeight + mousePosY;
+						if (!lockH) v.width = v.initWidth + mousePosX;
+					});
 
 					child.x = e.clientX - child.initX;
 					child.y = e.clientY - child.initY;
@@ -105,10 +115,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 				case "child1": {
 					this.setState({child1: child});
 					this.resizeChild(1);
-					break;
-				}
-				case "child2": {
-					this.setState({child2: child});
+					this.setState({child2: childOther[0]});
 					this.resizeChild(2);
 					break;
 				}
