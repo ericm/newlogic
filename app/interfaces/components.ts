@@ -5,6 +5,10 @@ export interface Child extends WinBarResize {
 	initX: number,
 	initY: number
 }
+export interface Component {
+	width: number,
+	height: number
+}
 export interface HomeState {
 	child1: Child,
 	child2: Child
@@ -14,13 +18,11 @@ export interface HomeProps {
 }
 
 // WinBar
-export interface WinBarState {
+export interface WinBarState extends Component {
 	title: string,
 	focused: boolean,
 	offsetX: number,
 	offsetY: number,
-	width: number,
-	height: number,
 	resize: string
 }
 export interface WinBarProps {
@@ -29,9 +31,7 @@ export interface WinBarProps {
 	identity: number,
 	resize: string,
 }
-export interface WinBarResize {
-	width: number,
-	height: number,
+export interface WinBarResize extends Component {
 	x: number,
 	y: number
 }
@@ -40,15 +40,15 @@ export interface WinBarResize {
 export interface MenuState {
 
 }
-export interface MenuProps {
-
+export interface MenuProps extends Component {
+	
 }
 
 // Workspace
 export interface WorkspaceState {
-	
+	width: string,
+	height: string
 }
-export interface WorkspaceProps {
-	width: number,
-	height: number
+export interface WorkspaceProps extends Component {
+
 }

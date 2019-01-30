@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { WinBarState, WinBarProps, WinBarResize } from '../interfaces/components';
 
-import Workspace from './Workspace';
-import Menu from './Menu';
+// import Workspace from './Workspace';
+// import Menu from './Menu';
 const styles = require('./styles/WindowBar.scss');
 
 export default class WindowBar extends React.Component<WinBarProps, WinBarState> {
@@ -29,20 +29,20 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 		// }
 	}
 
-	private returnType: any = () => {
-		switch(this.props.type) {
-			case "Workspace": return(<Workspace width={this.state.width} height={this.state.height}/>);
-			case "Menu": return(<Menu />);
-			default: return (<div></div>);
-		}
-	}
+	// private returnType: any = () => {
+	// 	switch(this.props.type) {
+	// 		case "Workspace": return(<Workspace width={this.state.width} height={this.state.height}/>);
+	// 		case "Menu": return(<Menu />);
+	// 		default: return (<div></div>);
+	// 	}
+	// }
 
 	public render(): JSX.Element {
 		return (
 			<div className={styles.main} style={
 				{width: this.state.width.toString()+'vw', height: this.state.height.toString()+'vh'}
 			}>
-				{this.returnType()}
+				{this.props.children}
 			</div>
 		);
 	}

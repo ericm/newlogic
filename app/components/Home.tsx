@@ -1,15 +1,19 @@
-// This ccmponents controls the resizing of all of the windows
+// This component controls the resizing of all of the windows
 // It then sends the updated states to each component afftected by a resize
 import * as React from 'react';
-import { HomeProps, HomeState, WinBarResize, Child } from '../interfaces/components';
+import { HomeProps, HomeState, WinBarResize, Child, Component } from '../interfaces/components';
 
 import WindowBar from './WindowBar';
+import Menu from './Menu';
+import Workspace from './Workspace';
 
 let styles = require('./styles/Home.scss');
 
 export default class Home extends React.Component<HomeProps, HomeState> {
-	private _child1: WindowBar | null;
-	private _child2: WindowBar | null;
+	private _child1: WindowBar;
+	private _child2: WindowBar;
+
+	private _component1: Workspace;
 
 	public constructor(props: HomeProps) {
 		super(props);
@@ -25,18 +29,22 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 				const props: WinBarResize = {
 					width: this.state.child1.width, height: this.state.child1.height, x: this.state.child1.x, y: this.state.child1.y
 				};
-				if (this._child1 !== null) {
-					this._child1.resize(props);
+				const n: Component = {
+					width: props.width, height: props.height
 				}
+
+				this._child1.resize(props);
+				this._component1.resize(n)
+				
 				break;
 			}
 			case 2: {
 				const props: WinBarResize = {
 					width: this.state.child2.width, height: this.state.child2.height, x: this.state.child2.x, y: this.state.child2.y
 				};
-				if (this._child2 !== null) {
-					this._child2.resize(props);
-				}
+				
+				this._child2.resize(props);
+				
 				break;
 			}
 		}
@@ -57,7 +65,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
 		console.log(e.type);
 		
-		if (e.currentTarget instanceof Element && e.currentTarget.parentElement instanceof Element
+		if (e.currentTarget instanceof Element 
+			&& e.currentTarget.parentElement instanceof Element
 			&& e.currentTarget.parentElement.parentElement instanceof Element) {
 			
 			parentStyles = e.currentTarget.parentElement;
@@ -78,7 +87,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 			const mousePosY = (( e.clientY == 0 ? child.y : e.clientY - child.initY) / cH) * 100;
 
 			switch(e.type) {
-				case "dragstart": 
+				case "dragstart":
 					child.initHeight = (parentStyles.offsetHeight / cH) * 100;
 					child.initWidth = (parentStyles.offsetWidth / cW) * 100;
 
@@ -126,14 +135,27 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 		return (
 			<div>
 				<div className={styles.container} data-tid="container">
+				
 					<div id={"child2"} className={styles.window}>
-						<WindowBar ref={(child) => { this._child2 = child; }} resize={"horizontal"} identity={1} type={"Menu"} title={"Canvas"} />
+
+						<WindowBar ref={(child) => { if (child !== null) this._child2 = child; }} resize={"horizontal"} identity={1} type={"Menu"} title={"Canvas"}>
+							<Menu width={this.state.child2.width} height={this.state.child2.height}/>
+						</WindowBar>
+
 					</div>
+
 					<div id={"child1"} className={styles.window}>
+
 						<div onDragEnd={this.onDragResize} onDragStart={this.onDragResize} onDrag={this.onDragResize} 
 							style={{height: this.state.child1.height.toString() + "vh"}} className={styles.barV} />
-						<WindowBar ref={(child) => { this._child1 = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"} />
+							
+						<WindowBar ref={(child) => { if (child !== null) this._child1 = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"}>
+							<Workspace ref={(child) => { if (child !== null) this._component1 = child; }} 
+								width={this.state.child1.width} height={this.state.child2.height}/>
+						</WindowBar>
+
 					</div>
+
 				</div>
 			</div>
 		);
