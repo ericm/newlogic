@@ -63,15 +63,13 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 			parentStyles = e.currentTarget.parentElement;
 
 			switch(parentStyles.id) {
-				case "child1": {
+				case "child1": 
 					lockV = true;
 					child = this.state.child1;
 					childOther.push(this.state.child2);
 					break;
-				}
-				default: {
-					child = this.state.child1;
-				};
+
+				default: child = this.state.child1;
 			}
 
 			const cH =  window.innerHeight;
@@ -80,7 +78,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 			const mousePosY = (( e.clientY == 0 ? child.y : e.clientY - child.initY) / cH) * 100;
 
 			switch(e.type) {
-				case "dragstart": {
+				case "dragstart": 
 					child.initHeight = (parentStyles.offsetHeight / cH) * 100;
 					child.initWidth = (parentStyles.offsetWidth / cW) * 100;
 
@@ -93,8 +91,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 					child.initY = e.clientY;
 							
 					break;
-				}
-				case "drag": {
+				
+				case "drag": 
 					if (!lockV) child.height = child.initHeight - mousePosY - 0.5;
 					if (!lockH) child.width = child.initWidth - mousePosX - 0.5;
 
@@ -106,19 +104,18 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 					child.x = e.clientX - child.initX;
 					child.y = e.clientY - child.initY;
 					break;
-				}
+				
 			}
 
 			if (child.width >= 100) child.width = 99;
 			console.log(cH, child.height, e.type);
 			switch(parentStyles.id) {
-				case "child1": {
+				case "child1": 
 					this.setState({child1: child});
 					this.resizeChild(1);
 					this.setState({child2: childOther[0]});
 					this.resizeChild(2);
 					break;
-				}
 			}
 			
 		}
@@ -133,7 +130,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 						<WindowBar ref={(child) => { this._child2 = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"} />
 					</div>
 					<div id={"child1"} className={styles.window}>
-						<div onDragEnd={this.onDragResize} onDragStart={this.onDragResize} onDrag={this.onDragResize} style={{height: this.state.child1.height.toString() + "vh"}} className={styles.barV} />
+						<div onDragEnd={this.onDragResize} onDragStart={this.onDragResize} onDrag={this.onDragResize} 
+							style={{height: this.state.child1.height.toString() + "vh"}} className={styles.barV} />
 						<WindowBar ref={(child) => { this._child1 = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"} />
 					</div>
 				</div>
