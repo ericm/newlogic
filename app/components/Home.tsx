@@ -10,10 +10,8 @@ import Workspace from './Workspace';
 let styles = require('./styles/Home.scss');
 
 export default class Home extends React.Component<HomeProps, HomeState> {
-	private _child1: WindowBar;
-	private _child2: WindowBar;
-
-	private _component1: Workspace;
+	private _children: {[key: number]: WindowBar;} = {};
+	private _components: {[key: number]: Workspace;} = {};
 
 	public constructor(props: HomeProps) {
 		super(props);
@@ -33,8 +31,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 					width: props.width, height: props.height
 				}
 
-				this._child1.resize(props);
-				this._component1.resize(n)
+				this._children[i].resize(props);
+			
+				this._components[i].resize(n)
 				
 				break;
 			}
@@ -42,8 +41,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 				const props: WinBarResize = {
 					width: this.state.child2.width, height: this.state.child2.height, x: this.state.child2.x, y: this.state.child2.y
 				};
-				
-				this._child2.resize(props);
+
+				this._children[i].resize(props);
 				
 				break;
 			}
@@ -138,7 +137,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 				
 					<div id={"child2"} className={styles.window}>
 
-						<WindowBar ref={(child) => { if (child !== null) this._child2 = child; }} resize={"horizontal"} identity={1} type={"Menu"} title={"Canvas"}>
+						<WindowBar ref={(child) => { if (child !== null) this._children[2] = child; }} resize={"horizontal"} identity={1} type={"Menu"} title={"Canvas"}>
 							<Menu width={this.state.child2.width} height={this.state.child2.height}/>
 						</WindowBar>
 
@@ -149,8 +148,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 						<div onDragEnd={this.onDragResize} onDragStart={this.onDragResize} onDrag={this.onDragResize} 
 							style={{height: this.state.child1.height.toString() + "vh"}} className={styles.barV} />
 							
-						<WindowBar ref={(child) => { if (child !== null) this._child1 = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"}>
-							<Workspace ref={(child) => { if (child !== null) this._component1 = child; }} 
+						<WindowBar ref={(child) => { if (child !== null) this._children[1] = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"}>
+							<Workspace ref={(child) => { if (child !== null) this._components[1] = child; }} 
 								width={this.state.child1.width} height={this.state.child2.height}/>
 						</WindowBar>
 
