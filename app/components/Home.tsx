@@ -127,7 +127,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 			<div>
 				<div className={styles.container} data-tid="container">
 					<div id={"child2"} className={styles.window}>
-						<WindowBar ref={(child) => { this._child2 = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"} />
+						<WindowBar ref={(child) => { this._child2 = child; }} resize={"horizontal"} identity={1} type={"Menu"} title={"Canvas"} />
 					</div>
 					<div id={"child1"} className={styles.window}>
 						<div onDragEnd={this.onDragResize} onDragStart={this.onDragResize} onDrag={this.onDragResize} 

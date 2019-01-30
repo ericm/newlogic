@@ -10,7 +10,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	public render() {
 		return (
 			<div className={styles.main}>
-				{/* <canvas width="200" height="100"></canvas> */}
+				<canvas className={styles.canvas} width="200" height="100"></canvas>
+				{/* <div className={styles.bar} /> */}
 			</div>
 		)
 	}
