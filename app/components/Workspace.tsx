@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { WorkspaceProps, WorkspaceState, Component } from '../interfaces/components';
+import { GateCoords } from '../interfaces/canvas';
 
 let styles = require('./styles/Workspace.scss');
 
 //import items (gates etc)
-// import AndGate from './items/AND';
+import AndGate from './canvas/AND';
 
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
 
-	canvas: HTMLCanvasElement
-	ctx: CanvasRenderingContext2D
+	private canvas: HTMLCanvasElement
+	public ctx: CanvasRenderingContext2D
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
@@ -44,7 +45,9 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>): void => {
 		const box = e.currentTarget.getBoundingClientRect();
-		this.ctx.fillText("Hello World", e.clientX - box.left, e.clientY - box.top);
+		const and = new AndGate(this.ctx);
+		const coords: GateCoords = {x: e.clientX - box.left, y: e.clientY - box.top}
+		and.add(coords);
 		
 	}
 
