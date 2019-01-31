@@ -55,6 +55,12 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 		this.resizeChild(2);
 	}
 
+	public componentDidUpdate(): void {
+		// TODO: get these vals from settings
+		this.resizeChild(1);
+		this.resizeChild(2);
+	}
+
 	private onDragResize = (e: React.DragEvent<HTMLDivElement>): void => {
 		let parentStyles: HTMLElement;
 		let lockV = false;

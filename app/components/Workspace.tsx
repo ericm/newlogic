@@ -20,6 +20,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	
 	public componentDidMount() {
 		this.updateCanvas();
+		this.setState({
+			width: (this.props.width * window.innerWidth / 100).toString(), 
+			height: (this.props.height * window.innerHeight / 100).toString()
+		});
 	}
 	
 	public componentDidUpdate() {
