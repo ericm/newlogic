@@ -9,6 +9,7 @@ let styles = require('./styles/Workspace.scss');
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
 
 	canvas: HTMLCanvasElement
+	ctx: CanvasRenderingContext2D
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
@@ -19,7 +20,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	}
 	
 	public componentDidMount() {
-		this.updateCanvas();
+		this.setCtx();
 		this.setState({
 			width: (this.props.width * window.innerWidth / 100).toString(), 
 			height: (this.props.height * window.innerHeight / 100).toString()
@@ -30,12 +31,21 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		this.updateCanvas();
 	}
 
-	private updateCanvas = () => {
+	private setCtx = (): void => {
 		const cont = this.canvas.getContext('2d');
 		if (cont !== null) {
-			const ctx: CanvasRenderingContext2D = cont;
-			ctx.fillText("Hello World", 10, 50);
-		}	
+			this.ctx = cont;
+		}
+	}
+
+	private updateCanvas = (): void => {
+		this.ctx.fillText("Hello World", 10, 50);
+	}
+
+	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>): void => {
+		const box = e.currentTarget.getBoundingClientRect();
+		this.ctx.fillText("Hello World", e.clientX - box.left, e.clientY - box.top);
+		
 	}
 
 	public resize = (n: Component): void => {
@@ -48,7 +58,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	public render() {
 		return (
 			<div className={styles.main}>
-				<canvas ref={(canvas) => {if (canvas !== null) this.canvas = canvas}} 
+				<canvas ref={(canvas) => {if (canvas !== null) this.canvas = canvas}} onClick={this.canvasClick}
 					className={styles.canvas} width={this.state.width} height={this.state.height} />
 			</div>
 		)

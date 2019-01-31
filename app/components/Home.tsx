@@ -32,7 +32,6 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 				}
 
 				this._children[i].resize(props);
-			
 				this._components[i].resize(n)
 				
 				break;
@@ -49,16 +48,25 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 		}
 	}
 
+	private resizer = (): void => {
+		for (let i = 1; i <= 2; i++) {
+			this.resizeChild(i);
+		}
+	}
+
 	public componentDidMount(): void {
 		// TODO: get these vals from settings
-		this.resizeChild(1);
-		this.resizeChild(2);
+		this.resizer();
+		window.addEventListener("resize", (): void => this.resizer());
 	}
 
 	public componentDidUpdate(): void {
 		// TODO: get these vals from settings
-		this.resizeChild(1);
-		this.resizeChild(2);
+		this.resizer();
+	}
+
+	public componentWillUnmount() {
+		window.removeEventListener("resize", (): void => this.resizer());
 	}
 
 	private onDragResize = (e: React.DragEvent<HTMLDivElement>): void => {
