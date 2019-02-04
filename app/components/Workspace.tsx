@@ -5,7 +5,7 @@ import { GateCoords, GateSize } from '../interfaces/canvas';
 let styles = require('./styles/Workspace.scss');
 
 //import items (gates etc)
-import { GateClass } from '../gates/Gates';
+import AndGate from '../gates/AND';
 
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
 
@@ -52,7 +52,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		const coords: GateCoords = {x: e.clientX - box.left, y: e.clientY - box.top};
 		const size: GateSize = {width: 40, height: 40}
 
-		this.gates.and.push(new GateClass.and(this.ctx);
+		this.gates.and.push(new AndGate(this.ctx));
 		this.gates.and[this.gates.and.length - 1].add(coords, size);
 		
 	}
