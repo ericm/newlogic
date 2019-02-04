@@ -1,9 +1,9 @@
-interface State {
+export interface State {
 	coords: GateCoords,
 	size: GateSize
 }
 // AND GATE
-export interface AndState extends State {
+export interface AndState {
 	
 }
 

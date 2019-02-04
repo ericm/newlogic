@@ -28,6 +28,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
 		this.gates = {and: []}
+		new AndGate(this.ctx);
 	}
 	
 	public componentDidUpdate() {
@@ -42,14 +43,18 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	}
 
 	private updateCanvas = (): void => {
-		this.gates.and.push(new AndGate(this.ctx));
+		for (let i in this.gates.and) {
+			if (typeof this.gates.and[i].state !== "undefined") this.gates.and[i].render();
+		}
 	}
 
 	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>): void => {
 		const box = e.currentTarget.getBoundingClientRect();
 		const coords: GateCoords = {x: e.clientX - box.left, y: e.clientY - box.top};
 		const size: GateSize = {width: 40, height: 40}
-		this.gates.and[0].add(coords, size);
+
+		this.gates.and.push(new AndGate(this.ctx));
+		this.gates.and[this.gates.and.length - 1].add(coords, size);
 		
 	}
 
