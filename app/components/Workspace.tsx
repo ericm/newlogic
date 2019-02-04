@@ -28,6 +28,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
 		this.gates = {and: []}
+		new AndGate(this.ctx);
 	}
 	
 	public componentDidUpdate() {
