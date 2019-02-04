@@ -1,3 +1,6 @@
+// Gates imports
+import AndGate from "../components/canvas/AND";
+
 // Home
 export interface Child extends WinBarResize {
 	initWidth: number,
@@ -16,7 +19,10 @@ export interface HomeState {
 export interface HomeProps {
 
 }
-
+// Gates
+export interface Gates {
+	and: AndGate
+}
 // WinBar
 export interface WinBarState extends Component {
 	title: string,

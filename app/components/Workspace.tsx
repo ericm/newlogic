@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { WorkspaceProps, WorkspaceState, Component } from '../interfaces/components';
-import { GateCoords } from '../interfaces/canvas';
+import { WorkspaceProps, WorkspaceState, Component, Gates } from '../interfaces/components';
+import { GateCoords, GateSize } from '../interfaces/canvas';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -11,6 +11,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private canvas: HTMLCanvasElement
 	public ctx: CanvasRenderingContext2D
+	public gates: Gates
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
@@ -26,6 +27,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			width: (this.props.width * window.innerWidth / 100).toString(), 
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
+		this.gates = {and: new AndGate(this.ctx)}
 	}
 	
 	public componentDidUpdate() {
@@ -45,9 +47,9 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>): void => {
 		const box = e.currentTarget.getBoundingClientRect();
-		const and = new AndGate(this.ctx);
-		const coords: GateCoords = {x: e.clientX - box.left, y: e.clientY - box.top}
-		and.add(coords);
+		const coords: GateCoords = {x: e.clientX - box.left, y: e.clientY - box.top};
+		const size: GateSize = {width: 50, height: 50}
+		this.gates.and.add(coords, size);
 		
 	}
 
