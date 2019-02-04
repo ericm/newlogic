@@ -2,6 +2,9 @@ export interface State {
 	coords: GateCoords,
 	size: GateSize
 }
+export interface AllGates {
+	and: any
+}
 // AND GATE
 export interface AndState {
 	

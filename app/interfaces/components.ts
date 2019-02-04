@@ -1,5 +1,5 @@
 // Gates imports
-import AndGate from "../components/canvas/AND";
+import AndGate from "../gates/AND";
 
 // Home
 export interface Child extends WinBarResize {

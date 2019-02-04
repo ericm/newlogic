@@ -1,8 +1,8 @@
-import { GateCoords, GateSize } from '../../interfaces/canvas';
+import { GateCoords, GateSize } from '../interfaces/canvas';
 import Gates from './Gates';
 
-// import img from '../../img/and.svg'
-let img = require('../../img/and.svg')
+// import img from '../img/and.svg'
+let img = require('../img/and.svg')
 export default class AndGate extends Gates {
 	// private and: AndState
 	public constructor(ctx: CanvasRenderingContext2D) {
