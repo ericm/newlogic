@@ -21,7 +21,7 @@ export interface HomeProps {
 }
 // Gates
 export interface Gates {
-	and: AndGate
+	and: AndGate[]
 }
 // WinBar
 export interface WinBarState extends Component {

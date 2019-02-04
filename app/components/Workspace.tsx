@@ -27,7 +27,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			width: (this.props.width * window.innerWidth / 100).toString(), 
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
-		this.gates = {and: new AndGate(this.ctx)}
+		this.gates = {and: []}
 	}
 	
 	public componentDidUpdate() {
@@ -42,14 +42,14 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	}
 
 	private updateCanvas = (): void => {
-		this.ctx.fillText("Hello World", 10, 50);
+		this.gates.and.push(new AndGate(this.ctx));
 	}
 
 	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>): void => {
 		const box = e.currentTarget.getBoundingClientRect();
 		const coords: GateCoords = {x: e.clientX - box.left, y: e.clientY - box.top};
-		const size: GateSize = {width: 50, height: 50}
-		this.gates.and.add(coords, size);
+		const size: GateSize = {width: 40, height: 40}
+		this.gates.and[0].add(coords, size);
 		
 	}
 

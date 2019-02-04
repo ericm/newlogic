@@ -15,9 +15,7 @@ export default class AndGate {
 
 	public add = (c: GateCoords, s: GateSize): void => {
 		this.state = {coords: {x: c.x, y: c.y}, size: s}
-		this.svg.width = s.width
-		this.svg.height = s.height
-		this.ctx.drawImage(this.svg, c.x, c.y);
+		this.ctx.drawImage(this.svg, c.x, c.y, s.width, s.height);
 	}
 
 }
