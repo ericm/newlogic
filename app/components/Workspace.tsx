@@ -7,6 +7,7 @@ let styles = require('./styles/Workspace.scss');
 //import items (gates etc)
 import AndGate from '../gates/AND';
 import { drawWire } from '../actions/canvas';
+import Wire from '../gates/Wire';
 
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
 
@@ -32,7 +33,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			width: (this.props.width * window.innerWidth / 100).toString(), 
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
-		this.gates = {and: []}
+		this.gates = {and: [], wire: []}
 		new AndGate(this.ctx);
 	}
 	
@@ -48,6 +49,9 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	}
 
 	private updateCanvas = (): void => {
+		for (let i in this.gates.wire) {
+			if (typeof this.gates.wire[i].state !== "undefined") this.gates.wire[i].render(this.ctx);
+		}
 		for (let i in this.gates.and) {
 			if (typeof this.gates.and[i].state !== "undefined") this.gates.and[i].render();
 		}
@@ -97,6 +101,11 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				break;
 			case "mouseup":
 				this.setState({dragging: false});
+				// save wire
+				const wire = new Wire({start:{x: this.state.dragInit.x, y: this.state.dragInit.y}, 
+					end: {x: this.state.drag.x, y: this.state.drag.y}});
+
+				this.gates.wire.push(wire);
 				break;
 		}
 

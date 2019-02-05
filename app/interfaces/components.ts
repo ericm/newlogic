@@ -1,6 +1,7 @@
 // Gates imports
 import AndGate from "../gates/AND";
 import { GateCoords } from "./canvas";
+import Wire from "../gates/Wire";
 
 // Home
 export interface Child extends WinBarResize {
@@ -22,7 +23,8 @@ export interface HomeProps {
 }
 // Gates
 export interface Gates {
-	and: AndGate[]
+	and: AndGate[],
+	wire: Wire[]
 }
 // WinBar
 export interface WinBarState extends Component {

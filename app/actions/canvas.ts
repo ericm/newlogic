@@ -11,6 +11,6 @@ export function drawWire(ctx: CanvasRenderingContext2D, init: GateCoords, curren
     ctx.lineTo(breakpoint.x, breakpoint.y);
     ctx.lineTo(current.x, current.y);
     ctx.strokeStyle = "black";
-    ctx.lineWidth = 14;
+    ctx.lineWidth = 3;
     ctx.stroke();
 }
