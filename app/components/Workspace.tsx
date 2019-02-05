@@ -20,6 +20,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			width: (this.props.width * window.innerWidth / 100).toString(), 
 			height: (this.props.height * window.innerHeight / 100).toString(),
 			mode: "draw",
+			dragging: false,
 			dragInit: {x: 0, y: 0},
 			drag: {x: 0, y: 0}
 		}
@@ -61,33 +62,44 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		const coords = this.getCoords(e);
 
 		switch(this.state.mode) {
-			case "and":
+			case "and": {
 				const size: GateSize = {width: 40, height: 40}
 				this.gates.and.push(new AndGate(this.ctx));
 				this.gates.and[this.gates.and.length - 1].add(coords, size);
 				break;
+			}
+			case "draw": {
+				this.cavasDrag(e, coords);
+			}
 		}
 		
 	}
 
-	private cavasDrag = (e: React.DragEvent<HTMLCanvasElement>): void => {
-		const coords = this.getCoords(e);
+	private cavasDrag = (e: React.MouseEvent<HTMLCanvasElement>, coords: GateCoords): void => {
+
+		console.log(e.type);
 
 		switch(e.type) {
-			case "dragstart":
+			case "mousedown":
 				this.setState({
 					dragInit: coords,
-					drag: coords
+					drag: coords,
+					dragging: true
 				});
 				break;
-			case "drag":
-				this.setState({
-					drag: coords
-				});
+			case "mousemove":
+				if (this.state.dragging) {
+					this.setState({
+						drag: coords
+					});
+				}
+				break;
+			case "mouseup":
+				this.setState({dragging: false});
 				break;
 		}
 
-		drawWire(this.ctx, this.state.dragInit, this.state.drag);
+		if (this.state.dragging) drawWire(this.ctx, this.state.dragInit, this.state.drag);
 	}
 
 	public resize = (n: Component): void => {
@@ -102,7 +114,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			<div className={styles.main}>
 				<canvas ref={(canvas) => {if (canvas !== null) this.canvas = canvas}} onClick={this.canvasClick}
 					className={styles.canvas} width={this.state.width} height={this.state.height} 
-					onDragStart={this.cavasDrag} onDrag={this.cavasDrag} />
+					onMouseUp={this.canvasClick}  onMouseDown={this.canvasClick} onMouseMove={this.canvasClick} />
 			</div>
 		)
 	}

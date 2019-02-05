@@ -57,7 +57,8 @@ export interface WorkspaceState {
 	height: string,
 	mode: string,
 	dragInit: GateCoords,
-	drag: GateCoords
+	drag: GateCoords,
+	dragging: boolean
 }
 export interface WorkspaceProps extends Component {
 
