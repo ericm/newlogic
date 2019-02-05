@@ -20,7 +20,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		this.state = {
 			width: (this.props.width * window.innerWidth / 100).toString(), 
 			height: (this.props.height * window.innerHeight / 100).toString(),
-			mode: "draw",
+			mode: "and",
 			dragging: false,
 			dragInit: {x: 0, y: 0},
 			drag: {x: 0, y: 0}
@@ -50,10 +50,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private updateCanvas = (): void => {
 		for (let i in this.gates.wire) {
-			if (typeof this.gates.wire[i].state !== "undefined") this.gates.wire[i].render(this.ctx);
+			if (!!this.gates.wire[i].state) this.gates.wire[i].render(this.ctx);
 		}
 		for (let i in this.gates.and) {
-			if (typeof this.gates.and[i].state !== "undefined") this.gates.and[i].render();
+			if (!!this.gates.and[i].state) this.gates.and[i].render();
 		}
 	}
 
@@ -67,9 +67,11 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 		switch(this.state.mode) {
 			case "and": {
-				const size: GateSize = {width: 40, height: 40}
-				this.gates.and.push(new AndGate(this.ctx));
-				this.gates.and[this.gates.and.length - 1].add(coords, size);
+				if (e.type == "click") {
+					const size: GateSize = {width: 40, height: 40}
+					this.gates.and.push(new AndGate(this.ctx));
+					this.gates.and[this.gates.and.length - 1].add(coords, size);
+				}
 				break;
 			}
 			case "draw": {
