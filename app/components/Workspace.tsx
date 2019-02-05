@@ -6,7 +6,7 @@ let styles = require('./styles/Workspace.scss');
 
 //import items (gates etc)
 import AndGate from '../gates/AND';
-import { drawWire } from '../actions/canvas';
+import { Wiring } from '../actions/canvas';
 import Wire from '../gates/Wire';
 
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
@@ -83,8 +83,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private cavasDrag = (e: React.MouseEvent<HTMLCanvasElement>, coords: GateCoords): void => {
 
-		console.log(e.type);
-
 		switch(e.type) {
 			case "mousedown":
 				this.setState({
@@ -114,7 +112,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		if (this.state.dragging) {
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			this.updateCanvas();
-			drawWire(this.ctx, this.state.dragInit, this.state.drag);
+			Wiring.drawWire(this.ctx, this.state.dragInit, this.state.drag);
 		}
 	}
 

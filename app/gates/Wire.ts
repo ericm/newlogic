@@ -1,5 +1,5 @@
 import { WireProps } from "../interfaces/canvas";
-import { drawWire } from "../actions/canvas";
+import { Wiring } from "../actions/canvas";
 
 export default class Wire {
     public state: WireProps
@@ -7,6 +7,6 @@ export default class Wire {
         this.state = props;
     }
     public render = (ctx: CanvasRenderingContext2D): void => {
-        drawWire(ctx, this.state.start, this.state.end);
+        Wiring.drawWire(ctx, this.state.start, this.state.end);
     }
 }
