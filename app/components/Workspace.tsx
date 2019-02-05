@@ -6,6 +6,7 @@ let styles = require('./styles/Workspace.scss');
 
 //import items (gates etc)
 import AndGate from '../gates/AND';
+import { drawWire } from '../actions/canvas';
 
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
 
@@ -17,7 +18,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		super(props);
 		this.state = {
 			width: (this.props.width * window.innerWidth / 100).toString(), 
-			height: (this.props.height * window.innerHeight / 100).toString()
+			height: (this.props.height * window.innerHeight / 100).toString(),
+			mode: "draw",
+			dragInit: {x: 0, y: 0},
+			drag: {x: 0, y: 0}
 		}
 	}
 	
@@ -48,14 +52,42 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		}
 	}
 
-	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>): void => {
+	private getCoords(e: React.DragEvent | React.MouseEvent): GateCoords {
 		const box = e.currentTarget.getBoundingClientRect();
-		const coords: GateCoords = {x: e.clientX - box.left, y: e.clientY - box.top};
-		const size: GateSize = {width: 40, height: 40}
+		return {x: e.clientX - box.left, y: e.clientY - box.top};
+	}
 
-		this.gates.and.push(new AndGate(this.ctx));
-		this.gates.and[this.gates.and.length - 1].add(coords, size);
+	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>): void => {
+		const coords = this.getCoords(e);
+
+		switch(this.state.mode) {
+			case "and":
+				const size: GateSize = {width: 40, height: 40}
+				this.gates.and.push(new AndGate(this.ctx));
+				this.gates.and[this.gates.and.length - 1].add(coords, size);
+				break;
+		}
 		
+	}
+
+	private cavasDrag = (e: React.DragEvent<HTMLCanvasElement>): void => {
+		const coords = this.getCoords(e);
+
+		switch(e.type) {
+			case "dragstart":
+				this.setState({
+					dragInit: coords,
+					drag: coords
+				});
+				break;
+			case "drag":
+				this.setState({
+					drag: coords
+				});
+				break;
+		}
+
+		drawWire(this.ctx, this.state.dragInit, this.state.drag);
 	}
 
 	public resize = (n: Component): void => {
@@ -69,7 +101,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		return (
 			<div className={styles.main}>
 				<canvas ref={(canvas) => {if (canvas !== null) this.canvas = canvas}} onClick={this.canvasClick}
-					className={styles.canvas} width={this.state.width} height={this.state.height} />
+					className={styles.canvas} width={this.state.width} height={this.state.height} 
+					onDragStart={this.cavasDrag} onDrag={this.cavasDrag} />
 			</div>
 		)
 	}

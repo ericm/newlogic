@@ -1,5 +1,6 @@
 // Gates imports
 import AndGate from "../gates/AND";
+import { GateCoords } from "./canvas";
 
 // Home
 export interface Child extends WinBarResize {
@@ -53,7 +54,10 @@ export interface MenuProps extends Component {
 // Workspace
 export interface WorkspaceState {
 	width: string,
-	height: string
+	height: string,
+	mode: string,
+	dragInit: GateCoords,
+	drag: GateCoords
 }
 export interface WorkspaceProps extends Component {
 
