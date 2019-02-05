@@ -20,10 +20,11 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		this.state = {
 			width: (this.props.width * window.innerWidth / 100).toString(), 
 			height: (this.props.height * window.innerHeight / 100).toString(),
-			mode: "and",
+			mode: "draw",
 			dragging: false,
 			dragInit: {x: 0, y: 0},
-			drag: {x: 0, y: 0}
+			drag: {x: 0, y: 0},
+			gridFactor: 20
 		}
 	}
 	
@@ -63,7 +64,9 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	}
 
 	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>): void => {
-		const coords = this.getCoords(e);
+		let coords = this.getCoords(e);
+
+		coords = Wiring.gridLayout(coords, this.state.gridFactor);
 
 		switch(this.state.mode) {
 			case "and": {
@@ -90,6 +93,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					drag: coords,
 					dragging: true
 				});
+				
 				this.ctx.save();
 				break;
 			case "mousemove":
@@ -99,7 +103,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					});
 				}
 				break;
-			case "mouseup":
+			case "mouseup": case "mouseleave":
 				this.setState({dragging: false});
 				// save wire
 				const wire = new Wire({start:{x: this.state.dragInit.x, y: this.state.dragInit.y}, 
@@ -128,7 +132,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			<div className={styles.main}>
 				<canvas ref={(canvas) => {if (canvas !== null) this.canvas = canvas}} onClick={this.canvasClick}
 					className={styles.canvas} width={this.state.width} height={this.state.height} 
-					onMouseUp={this.canvasClick}  onMouseDown={this.canvasClick} onMouseMove={this.canvasClick} />
+					onMouseUp={this.canvasClick} onMouseDown={this.canvasClick} onMouseMove={this.canvasClick} />
 			</div>
 		)
 	}
