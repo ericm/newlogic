@@ -86,6 +86,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					drag: coords,
 					dragging: true
 				});
+				this.ctx.save();
 				break;
 			case "mousemove":
 				if (this.state.dragging) {
@@ -99,7 +100,11 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				break;
 		}
 
-		if (this.state.dragging) drawWire(this.ctx, this.state.dragInit, this.state.drag);
+		if (this.state.dragging) {
+			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			this.updateCanvas();
+			drawWire(this.ctx, this.state.dragInit, this.state.drag);
+		}
 	}
 
 	public resize = (n: Component): void => {
