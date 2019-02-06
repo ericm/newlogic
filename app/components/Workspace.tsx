@@ -79,6 +79,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.nodes.concat(this.gates.and[this.gates.and.length - 1].add(coords, size));
 					this.gates.and.push(new AndGate(this.ctx));
 				}
+
 				break;
 			}
 			case "draw": {
@@ -146,7 +147,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		});
 	
 
-	public render() {
+	public render(): JSX.Element {
 		return (
 			<div className={styles.main}>
 				<canvas ref={(canvas) => {if (canvas !== null) this.canvas = canvas}} onClick={this.canvasClick}
