@@ -2,6 +2,7 @@
 import AndGate from "../gates/AND";
 import { GateCoords } from "./canvas";
 import Wire from "../gates/Wire";
+import Workspace from "../components/Workspace";
 
 // Home
 export interface Child extends WinBarResize {
@@ -47,7 +48,8 @@ export interface WinBarResize extends Component {
 
 // Menu
 export interface MenuState {
-
+	mode: string,
+	loading: boolean
 }
 export interface MenuProps extends Component {
 	
@@ -65,5 +67,5 @@ export interface WorkspaceState {
 	snapFactor: number
 }
 export interface WorkspaceProps extends Component {
-
+	
 }

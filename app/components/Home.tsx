@@ -11,7 +11,8 @@ let styles = require('./styles/Home.scss');
 
 export default class Home extends React.Component<HomeProps, HomeState> {
 	private _children: {[key: number]: WindowBar;} = {};
-	private _components: {[key: number]: Workspace;} = {};
+	private _workspaces: {[key: number]: Workspace;} = {};
+	private _menus: {[key: number]: Menu;} = {};
 
 	public constructor(props: HomeProps) {
 		super(props);
@@ -32,7 +33,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 				}
 
 				this._children[i].resize(props);
-				this._components[i].resize(n)
+				this._workspaces[i].resize(n);
 				
 				break;
 			}
@@ -57,6 +58,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 	public componentDidMount(): void {
 		// TODO: get these vals from settings
 		this.resizer();
+		this._menus[1].addWorkspace(this._workspaces[1]);
 		window.addEventListener("resize", (): void => this.resizer());
 	}
 
@@ -152,7 +154,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 					<div id={"child2"} className={styles.window}>
 
 						<WindowBar ref={(child) => { if (child !== null) this._children[2] = child; }} resize={"horizontal"} identity={1} type={"Menu"} title={"Canvas"}>
-							<Menu width={this.state.child2.width} height={this.state.child2.height}/>
+							<Menu ref={(child) => { if (child !== null) this._menus[1] = child; }} width={this.state.child2.width} height={this.state.child2.height}/>
 						</WindowBar>
 
 					</div>
@@ -163,7 +165,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 							style={{height: this.state.child1.height.toString() + "vh"}} className={styles.barV} />
 							
 						<WindowBar ref={(child) => { if (child !== null) this._children[1] = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"}>
-							<Workspace ref={(child) => { if (child !== null) this._components[1] = child; }} 
+							<Workspace ref={(child) => { if (child !== null) this._workspaces[1] = child; }} 
 								width={this.state.child1.width} height={this.state.child2.height}/>
 						</WindowBar>
 

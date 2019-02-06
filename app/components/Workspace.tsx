@@ -16,7 +16,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	public ctx: CanvasRenderingContext2D
 	private gates: Gates
 
-	private nodes: GateNode<any>[]
+	private nodes: GateNode<any>[] = []
 	private nodeSelect: SelectedNode<any>
 
 	public constructor(props: WorkspaceProps) {
