@@ -117,14 +117,18 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				break;
 			case "mouseup":
 			case "mouseleave":
+			console.log("up")
 				this.setState({dragging: false});
 				// save wire
-				const wire = new Wire({start:{x: this.state.dragInit.x, y: this.state.dragInit.y}, 
-					end: {x: this.state.drag.x, y: this.state.drag.y}});
-
-				this.gates.wire.push(wire);
 				if (this.nodeSelect.selected && this.nodeSelect.node !== null) {
+					const wire = new Wire({start:{x: this.state.dragInit.x, y: this.state.dragInit.y}, 
+						end: {x: this.state.drag.x, y: this.state.drag.y}, endNode: this.nodeSelect.node});
+	
+					this.gates.wire.push(wire);
 					this.nodeSelect.node.setWire(this.gates.wire[this.gates.wire.length - 1]);
+				} else {
+					this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+					this.updateCanvas();
 				}
 
 				break;
