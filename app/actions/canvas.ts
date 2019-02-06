@@ -1,6 +1,17 @@
 import { GateCoords } from "../interfaces/canvas";
+import GateNode from "../gates/Node";
 
 export namespace Wiring {
+
+    export function wireSnap(nodes: GateNode<any>[], coords: GateCoords, snap: number): GateNode<any> | null {
+        for (let i in nodes) {
+            const nodeCoords = nodes[i].getCoords();
+            if (Math.abs(coords.x - nodeCoords.x) <= snap && Math.abs(coords.y - nodeCoords.y) <= snap) {
+                return nodes[i];
+            }
+        }
+        return null;
+    }
 
     export function drawWire(ctx: CanvasRenderingContext2D, init: GateCoords, current: GateCoords): void {
         ctx.beginPath();

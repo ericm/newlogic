@@ -20,6 +20,10 @@ export interface NodeState<T> {
 	wire: Wire | null,
 	coords: GateCoords
 }
+export interface SelectedNode<T> {
+	node: GateNode<T> | null,
+	selected: boolean
+}
 
 export interface GateCoords {
 	x: number,

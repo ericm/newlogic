@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { WorkspaceProps, WorkspaceState, Component, Gates } from '../interfaces/components';
-import { GateCoords, GateSize } from '../interfaces/canvas';
+import { GateCoords, GateSize, SelectedNode } from '../interfaces/canvas';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -15,7 +15,9 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	private canvas: HTMLCanvasElement
 	public ctx: CanvasRenderingContext2D
 	private gates: Gates
+
 	private nodes: GateNode<any>[]
+	private nodeSelect: SelectedNode<any>
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
@@ -26,8 +28,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			dragging: false,
 			dragInit: {x: 0, y: 0},
 			drag: {x: 0, y: 0},
-			gridFactor: 20
+			gridFactor: 20,
+			snapFactor: 5
 		}
+		this.nodeSelect = {node: null, selected: false}
 	}
 	
 	public componentDidMount() {
@@ -105,6 +109,11 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 						drag: coords
 					});
 				}
+				const node = Wiring.wireSnap(this.nodes, coords, this.state.snapFactor);
+				if (node !== null) {
+					coords = node.getCoords();
+					this.nodeSelect = {node, selected: true};
+				}
 				break;
 			case "mouseup":
 			case "mouseleave":
@@ -114,6 +123,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					end: {x: this.state.drag.x, y: this.state.drag.y}});
 
 				this.gates.wire.push(wire);
+				if (this.nodeSelect.selected && this.nodeSelect.node !== null) {
+					this.nodeSelect.node.setWire(this.gates.wire[this.gates.wire.length - 1]);
+				}
+
 				break;
 		}
 

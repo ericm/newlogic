@@ -61,7 +61,8 @@ export interface WorkspaceState {
 	dragInit: GateCoords,
 	drag: GateCoords,
 	dragging: boolean,
-	gridFactor: number
+	gridFactor: number,
+	snapFactor: number
 }
 export interface WorkspaceProps extends Component {
 

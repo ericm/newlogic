@@ -11,4 +11,8 @@ export default class GateNode<T> {
     public setWire = (wire: Wire): void => {
         this.state.wire = wire;
     }
+
+    public getCoords = (): GateCoords => {
+        return this.state.coords;
+    }
 }
