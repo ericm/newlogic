@@ -13,7 +13,7 @@ import GateNode from '../gates/Node';
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
 
 	private canvas: HTMLCanvasElement
-	public ctx: CanvasRenderingContext2D
+	private ctx: CanvasRenderingContext2D
 	private gates: Gates
 
 	private nodes: GateNode<any>[] = []
@@ -43,7 +43,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
 		this.gates = {and: [], wire: []}
-		new AndGate(this.ctx);
+		this.gates.and.push(new AndGate(this.ctx));
 	}
 	
 	public componentDidUpdate() {
@@ -58,12 +58,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	}
 
 	private updateCanvas = (): void => {
-		for (let i in this.gates.wire) {
-			if (!!this.gates.wire[i].state) this.gates.wire[i].render(this.ctx);
-		}
-		for (let i in this.gates.and) {
-			if (!!this.gates.and[i].state) this.gates.and[i].render();
-		}
+		Wiring.rerender(this.gates.wire, this.ctx);
+		Wiring.rerender(this.gates.and, null);
 	}
 
 	private getCoords(e: React.DragEvent | React.MouseEvent): GateCoords {
@@ -80,8 +76,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			case "and": {
 				if (e.type == "click") {
 					const size: GateSize = {width: 40, height: 40}
-					this.gates.and.push(new AndGate(this.ctx));
 					this.nodes.concat(this.gates.and[this.gates.and.length - 1].add(coords, size));
+					this.gates.and.push(new AndGate(this.ctx));
 				}
 				break;
 			}
@@ -143,12 +139,12 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	}
 
-	public resize = (n: Component): void => {
+	public resize = (n: Component): void =>
 		this.setState({
 			width: (n.width * window.innerWidth / 100).toString(), 
 			height: (n.height * window.innerHeight / 100).toString()
 		});
-	}
+	
 
 	public render() {
 		return (

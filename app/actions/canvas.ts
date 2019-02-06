@@ -1,4 +1,4 @@
-import { GateCoords } from "../interfaces/canvas";
+import { GateCoords, GateGeneric } from "../interfaces/canvas";
 import GateNode from "../gates/Node";
 
 export namespace Wiring {
@@ -11,6 +11,13 @@ export namespace Wiring {
             }
         }
         return null;
+    }
+
+    export function rerender<T extends GateGeneric>(obj: T[], ctx: CanvasRenderingContext2D | null): void {
+        for (let i in obj) {
+			if (!!obj[i].state && ctx !== null) obj[i].render(ctx);
+			else if (!!obj[i].state) obj[i].render();
+		}
     }
 
     export function drawWire(ctx: CanvasRenderingContext2D, init: GateCoords, current: GateCoords): void {

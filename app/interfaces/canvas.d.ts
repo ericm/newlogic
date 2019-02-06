@@ -35,3 +35,7 @@ export interface GateSize {
 	width: number,
 	height: number
 }
+export interface GateGeneric {
+	state: any,
+	render: Function
+}

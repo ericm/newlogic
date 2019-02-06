@@ -72,11 +72,11 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 	}
 
 	private onDragResize = (e: React.DragEvent<HTMLDivElement>): void => {
-		let parentStyles: HTMLElement;
-		let lockV = false;
-		let lockH = false;
-		let child: Child;
-		let childOther: Child[] = [];
+		let parentStyles: HTMLElement,
+			lockV = false,
+			lockH = false,
+			child: Child,
+			childOther: Child[] = [];
 
 		console.log(e.type);
 		
