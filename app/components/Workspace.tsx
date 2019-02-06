@@ -33,6 +33,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		}
 		this.nodeSelect = {node: null, selected: false}
 	}
+
+	public changeMode = (mode: string): void => this.setState({mode})
 	
 	public componentDidMount() {
 		this.setCtx();
@@ -90,6 +92,11 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		
 	}
 
+	private clear = (): void => {
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.updateCanvas();
+	}
+
 	private cavasDrag = (e: React.MouseEvent<HTMLCanvasElement>, coords: GateCoords): void => {
 
 		// Drawing wires
@@ -108,16 +115,18 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.setState({
 						drag: coords
 					});
+					this.clear();
+					Wiring.drawWire(this.ctx, this.state.dragInit, this.state.drag);
 				}
 				const node = Wiring.wireSnap(this.nodes, coords, this.state.snapFactor);
 				if (node !== null) {
 					coords = node.getCoords();
 					this.nodeSelect = {node, selected: true};
 				}
+				
 				break;
 			case "mouseup":
 			case "mouseleave":
-			console.log("up")
 				this.setState({dragging: false});
 				// save wire
 				if (this.nodeSelect.selected && this.nodeSelect.node !== null) {
@@ -127,18 +136,11 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.gates.wire.push(wire);
 					this.nodeSelect.node.setWire(this.gates.wire[this.gates.wire.length - 1]);
 				} else {
-					this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-					this.updateCanvas();
+					this.clear();
 				}
-
 				break;
 		}
 
-		if (this.state.dragging) {
-			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-			this.updateCanvas();
-			Wiring.drawWire(this.ctx, this.state.dragInit, this.state.drag);
-		}
 	}
 
 	public resize = (n: Component): void => {
