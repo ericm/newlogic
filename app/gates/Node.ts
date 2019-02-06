@@ -1,8 +1,14 @@
-import { NodeState } from "../interfaces/canvas";
+import { NodeState, GateCoords } from "../interfaces/canvas";
+import Wire from "./Wire";
 
+export default class GateNode<T> {
+    private state: NodeState<T>
 
-export default class GateNode {
-    constructor(props: NodeState) {
-        
+    public constructor(gate: T, coords: GateCoords) {
+        this.state = {gate, wire: null, coords};
+    }
+
+    public setWire = (wire: Wire): void => {
+        this.state.wire = wire;
     }
 }

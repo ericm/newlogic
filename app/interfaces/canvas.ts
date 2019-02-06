@@ -1,4 +1,6 @@
 import Wire from "../gates/Wire";
+import GateNode from "../gates/Node";
+import AndGate from "../gates/AND";
 
 export interface State {
 	coords: GateCoords,
@@ -10,12 +12,13 @@ export interface WireProps {
 }
 // AND GATE
 export interface AndState {
-	
+	nodes: GateNode<AndGate>[]
 }
 // Node
-export interface NodeState {
-	gate: Object,
-	wire: Wire
+export interface NodeState<T> {
+	gate: T,
+	wire: Wire | null,
+	coords: GateCoords
 }
 
 export interface GateCoords {

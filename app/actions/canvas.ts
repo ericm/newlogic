@@ -1,5 +1,7 @@
 import { GateCoords } from "../interfaces/canvas";
+
 export namespace Wiring {
+
     export function drawWire(ctx: CanvasRenderingContext2D, init: GateCoords, current: GateCoords): void {
         ctx.beginPath();
         // Normalise for horizontal/vertical drawing

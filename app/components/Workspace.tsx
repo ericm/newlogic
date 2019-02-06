@@ -8,12 +8,14 @@ let styles = require('./styles/Workspace.scss');
 import AndGate from '../gates/AND';
 import { Wiring } from '../actions/canvas';
 import Wire from '../gates/Wire';
+import GateNode from '../gates/Node';
 
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
 
 	private canvas: HTMLCanvasElement
 	public ctx: CanvasRenderingContext2D
-	public gates: Gates
+	private gates: Gates
+	private nodes: GateNode<any>[]
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
@@ -73,7 +75,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				if (e.type == "click") {
 					const size: GateSize = {width: 40, height: 40}
 					this.gates.and.push(new AndGate(this.ctx));
-					this.gates.and[this.gates.and.length - 1].add(coords, size);
+					this.nodes.concat(this.gates.and[this.gates.and.length - 1].add(coords, size));
 				}
 				break;
 			}
@@ -86,6 +88,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private cavasDrag = (e: React.MouseEvent<HTMLCanvasElement>, coords: GateCoords): void => {
 
+		// Drawing wires
+
 		switch(e.type) {
 			case "mousedown":
 				this.setState({
@@ -94,7 +98,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					dragging: true
 				});
 				
-				this.ctx.save();
 				break;
 			case "mousemove":
 				if (this.state.dragging) {
@@ -103,7 +106,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					});
 				}
 				break;
-			case "mouseup": case "mouseleave":
+			case "mouseup":
+			case "mouseleave":
 				this.setState({dragging: false});
 				// save wire
 				const wire = new Wire({start:{x: this.state.dragInit.x, y: this.state.dragInit.y}, 
@@ -132,7 +136,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			<div className={styles.main}>
 				<canvas ref={(canvas) => {if (canvas !== null) this.canvas = canvas}} onClick={this.canvasClick}
 					className={styles.canvas} width={this.state.width} height={this.state.height} 
-					onMouseUp={this.canvasClick} onMouseDown={this.canvasClick} onMouseMove={this.canvasClick} />
+					onMouseUp={this.canvasClick} onMouseDown={this.canvasClick} onMouseMove={this.canvasClick} 
+					onMouseLeave={this.canvasClick} />
 			</div>
 		)
 	}
