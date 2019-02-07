@@ -16,8 +16,8 @@ export default class AndGate extends Gates {
 
 	public add = (c: GateCoords, s: GateSize): GateNode<AndGate>[] => {
 		this.state = {coords: {x: c.x, y: c.y}, size: s}
-		const c1: GateCoords = {x: c.x-10, y: c.y-10}
-		const c2: GateCoords = {x: c.x+10, y: c.y+10}
+		const c1: GateCoords = {x: c.x-5, y: c.y+10}
+		const c2: GateCoords = {x: c.x-5, y: c.y+30}
 		
 		this.and = {nodes: [new GateNode<AndGate>(this, c1), new GateNode<AndGate>(this, c2)]}
 		this.render();
