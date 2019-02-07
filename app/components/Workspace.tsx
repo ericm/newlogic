@@ -29,7 +29,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			dragInit: {x: 0, y: 0},
 			drag: {x: 0, y: 0},
 			gridFactor: 20,
-			snapFactor: 5
+			snapFactor: 20
 		}
 		this.nodeSelect = {node: null, selected: false}
 	}
@@ -76,7 +76,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			case "and": {
 				if (e.type == "click") {
 					const size: GateSize = {width: 40, height: 40}
-					this.nodes.concat(this.gates.and[this.gates.and.length - 1].add(coords, size));
+					this.nodes.push(...this.gates.and[this.gates.and.length - 1].add(coords, size));
 					this.gates.and.push(new AndGate(this.ctx));
 				}
 
@@ -119,6 +119,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				if (node !== null) {
 					coords = node.getCoords();
 					this.nodeSelect = {node, selected: true};
+					console.log(this.nodeSelect.node);
 				}
 				
 				break;
