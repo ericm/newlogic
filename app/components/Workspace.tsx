@@ -16,7 +16,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	private ctx: CanvasRenderingContext2D
 	private gates: Gates
 
-	private nodes: GateNode<any>[] = []
+	private endNodes: GateNode<any>[] = []
 	private nodeSelect: SelectedNode<any>
 
 	public constructor(props: WorkspaceProps) {
@@ -44,10 +44,26 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		});
 		this.gates = {and: [], wire: []}
 		this.gates.and.push(new AndGate(this.ctx));
+
+		// Draw grid
+		this.drawGrid();
 	}
 	
 	public componentDidUpdate() {
 		this.updateCanvas();
+	}
+
+	private drawGrid = (): void => {
+		this.ctx.fillStyle = "rgba(0,0,0,1)";
+		for (let x = 0; x < this.canvas.width; x++) {
+			if (x % this.state.snapFactor == 0) {
+				for (let y = 0; y < this.canvas.height; y++) {
+					if (y % this.state.snapFactor == 0) {
+						this.ctx.fillRect(x, y, 1, 1);
+					}
+				}
+			}
+		}
 	}
 
 	private setCtx = (): void => {
@@ -58,6 +74,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	}
 
 	private updateCanvas = (): void => {
+		this.drawGrid();
 		Wiring.rerender(this.gates.wire, this.ctx);
 		Wiring.rerender(this.gates.and, null);
 	}
@@ -76,7 +93,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			case "and": {
 				if (e.type == "click") {
 					const size: GateSize = {width: 40, height: 40}
-					this.nodes.push(...this.gates.and[this.gates.and.length - 1].add(coords, size));
+					this.endNodes.push(...this.gates.and[this.gates.and.length - 1].add(coords, size));
 					this.gates.and.push(new AndGate(this.ctx));
 				}
 
@@ -108,7 +125,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				
 				break;
 			case "mousemove":
-				const node = Wiring.wireSnap(this.nodes, coords, this.state.snapFactor);
+				const node = Wiring.wireSnap(this.endNodes, coords, this.state.snapFactor);
 				
 				if (node !== null) {
 					coords = node.getCoords();
