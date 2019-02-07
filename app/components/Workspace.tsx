@@ -108,18 +108,21 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				
 				break;
 			case "mousemove":
+				const node = Wiring.wireSnap(this.nodes, coords, this.state.snapFactor);
+				
+				if (node !== null) {
+					coords = node.getCoords();
+					this.nodeSelect = {node, selected: true};
+					console.log(this.nodeSelect.node);
+				} else {
+					this.nodeSelect = {node: null, selected: false};
+				}
 				if (this.state.dragging) {
 					this.setState({
 						drag: coords
 					});
 					this.clear();
 					Wiring.drawWire(this.ctx, this.state.dragInit, this.state.drag);
-				}
-				const node = Wiring.wireSnap(this.nodes, coords, this.state.snapFactor);
-				if (node !== null) {
-					coords = node.getCoords();
-					this.nodeSelect = {node, selected: true};
-					console.log(this.nodeSelect.node);
 				}
 				
 				break;

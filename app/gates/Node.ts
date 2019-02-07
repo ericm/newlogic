@@ -15,4 +15,9 @@ export default class GateNode<T> {
     public getCoords = (): GateCoords => {
         return this.state.coords;
     }
+
+    public hasWire = (): boolean => {
+        if (this.state.wire === null) return false;
+        else return true;
+    }
 }
