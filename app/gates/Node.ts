@@ -16,6 +16,13 @@ export default class GateNode<T> {
         return this.state.coords;
     }
 
+    public render = (ctx: CanvasRenderingContext2D): void => {
+        ctx.beginPath();
+        ctx.lineWidth = 4;
+        ctx.arc(this.state.coords.x, this.state.coords.y, 2, 0, 2*Math.PI);
+        ctx.stroke();
+    }
+
     public hasWire = (): boolean => {
         if (this.state.wire === null) return false;
         else return true;

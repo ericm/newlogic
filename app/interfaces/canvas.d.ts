@@ -2,9 +2,10 @@ import Wire from "../gates/Wire";
 import GateNode from "../gates/Node";
 import AndGate from "../gates/AND";
 
-export interface State {
+export interface State<T> {
 	coords: GateCoords,
 	size: GateSize
+	nodes: GateNode<T>[]
 }
 export interface WireProps {
 	start: GateCoords,
