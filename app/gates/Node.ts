@@ -18,8 +18,8 @@ export default class GateNode<T> {
 
     public render = (ctx: CanvasRenderingContext2D): void => {
         ctx.beginPath();
-        ctx.lineWidth = 4;
-        ctx.arc(this.state.coords.x, this.state.coords.y, 2, 0, 2*Math.PI);
+        ctx.lineWidth = 3;
+        ctx.arc(this.state.coords.x, this.state.coords.y, 1.5, 0, 2*Math.PI);
         ctx.stroke();
     }
 

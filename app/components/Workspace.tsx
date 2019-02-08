@@ -95,6 +95,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					const size: GateSize = {width: 40, height: 40}
 					const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
 					this.endNodes.push(...newNodes);
+					
 					newNodes.forEach((val: GateNode<any>): void => {
 						val.render(this.ctx);
 					});
