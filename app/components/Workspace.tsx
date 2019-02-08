@@ -17,6 +17,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	private gates: Gates
 
 	private endNodes: GateNode<any>[] = []
+	private startNodes: GateNode<any>[] = []
 	private nodeSelect: SelectedNode<any>
 
 	public constructor(props: WorkspaceProps) {
@@ -94,9 +95,9 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				if (e.type == "click") {
 					const size: GateSize = {width: 40, height: 40}
 					const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
-					this.endNodes.push(...newNodes);
+					this.endNodes.push(...newNodes.end);
 					
-					newNodes.forEach((val: GateNode<any>): void => {
+					newNodes.end.forEach((val: GateNode<any>): void => {
 						val.render(this.ctx);
 					});
 					this.gates.and.push(new AndGate(this.ctx));
@@ -122,11 +123,18 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 		switch(e.type) {
 			case "mousedown":
-				this.setState({
-					dragInit: coords,
-					drag: coords,
-					dragging: true
-				});
+				this.startNodes.forEach((val: GateNode<any>): void => {
+					const valCoords = val.getCoords();
+					// check if the line is coming from a node
+					if (Math.abs(coords.x - valCoords.x) < this.state.snapFactor 
+						&& Math.abs(coords.y - valCoords.y) < this.state.snapFactor ) {
+							this.setState({
+								dragInit: coords,
+								drag: coords,
+								dragging: true
+							});
+					}
+				})
 				
 				break;
 			case "mousemove":
