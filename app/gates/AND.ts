@@ -16,14 +16,14 @@ export default class AndGate extends Gates<AndGate> {
 		const c1: GateCoords = {x: c.x, y: c.y+1.5}
 		const c2: GateCoords = {x: c.x, y: c.y+s.height-1.5}
 
-		const c3: GateCoords = {x: c.x+30, y: c.y+30}
+		const c3: GateCoords = {x: c.x+40, y: c.y+20}
 
 		this.state = {
 			coords: {x: c.x, y: c.y}, 
 			size: s, 
 			nodes: {
-				start: [new GateNode<AndGate>(this, c1), new GateNode<AndGate>(this, c2)],
-				end: [new GateNode<AndGate>(this, c3)]
+				start: [new GateNode<AndGate>(this, c3)],
+				end: [new GateNode<AndGate>(this, c1), new GateNode<AndGate>(this, c2)]
 			}
 		}
 

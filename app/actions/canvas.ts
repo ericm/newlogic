@@ -21,6 +21,12 @@ export namespace Wiring {
 		}
     }
 
+    export function renderNodes(nodes: GateNode<any>[], ctx: CanvasRenderingContext2D): void {
+        for (let i in nodes) {
+            nodes[i].render(ctx);
+        }
+    }
+
     export function drawWire(ctx: CanvasRenderingContext2D, init: GateCoords, current: GateCoords): void {
         ctx.beginPath();
         // Normalise for horizontal/vertical drawing

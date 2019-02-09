@@ -78,6 +78,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		this.drawGrid();
 		Wiring.rerender(this.gates.wire, this.ctx);
 		Wiring.rerender(this.gates.and, null);
+		Wiring.renderNodes(this.startNodes, this.ctx);
+		Wiring.renderNodes(this.endNodes, this.ctx);
 	}
 
 	private getCoords(e: React.DragEvent | React.MouseEvent): GateCoords {
@@ -95,11 +97,12 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				if (e.type == "click") {
 					const size: GateSize = {width: 40, height: 40}
 					const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
+
 					this.endNodes.push(...newNodes.end);
 					
-					newNodes.end.forEach((val: GateNode<any>): void => {
-						val.render(this.ctx);
-					});
+					Wiring.renderNodes(newNodes.end, this.ctx);
+					Wiring.renderNodes(newNodes.start, this.ctx);
+
 					this.gates.and.push(new AndGate(this.ctx));
 				}
 
