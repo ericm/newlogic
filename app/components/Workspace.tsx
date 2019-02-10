@@ -18,7 +18,9 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private endNodes: GateNode<any>[] = []
 	private startNodes: GateNode<any>[] = []
-	private nodeSelect: SelectedNode<any>
+
+	private nodeSelectEnd: SelectedNode<any>
+	private nodeSelectStart: SelectedNode<any>
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
@@ -32,7 +34,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			gridFactor: 20,
 			snapFactor: 20
 		}
-		this.nodeSelect = {node: null, selected: false}
+		this.nodeSelectEnd = {node: null, selected: false}
+		this.nodeSelectStart = {node: null, selected: false}
 	}
 
 	public changeMode = (mode: string): void => this.setState({mode})
@@ -127,14 +130,17 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 		switch(e.type) {
 			case "mousedown":
-				const snap = Wiring.wireSnap(this.startNodes, coords, this.state.snapFactor);
-				if (snap !== null) {
-					const snapCoords = snap.getCoords()
+				const node = Wiring.wireSnap(this.startNodes, coords, this.state.snapFactor);
+				if (node !== null) {
+					const snapCoords = node.getCoords();
 					this.setState({
 						dragInit: snapCoords,
 						drag: snapCoords,
 						dragging: true
 					});
+					this.nodeSelectStart = {node, selected: true}
+				} else {
+					this.nodeSelectStart = {node: null, selected: false};
 				}
 					
 				break;
@@ -144,10 +150,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				
 					if (node !== null) {
 						coords = node.getCoords();
-						this.nodeSelect = {node, selected: true};
-						console.log(this.nodeSelect.node);
+						this.nodeSelectEnd = {node, selected: true};
+						console.log(this.nodeSelectEnd.node);
 					} else {
-						this.nodeSelect = {node: null, selected: false};
+						this.nodeSelectEnd = {node: null, selected: false};
 					}
 					this.setState({
 						drag: coords
@@ -161,12 +167,13 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			case "mouseleave":
 				this.setState({dragging: false});
 				// save wire
-				if (this.nodeSelect.selected && this.nodeSelect.node !== null) {
+				if (this.nodeSelectEnd.selected && this.nodeSelectEnd.node !== null && this.nodeSelectStart.node !== null) {
 					const wire = new Wire({start:{x: this.state.dragInit.x, y: this.state.dragInit.y}, 
-						end: {x: this.state.drag.x, y: this.state.drag.y}, endNode: this.nodeSelect.node});
+						end: {x: this.state.drag.x, y: this.state.drag.y}, endNode: this.nodeSelectEnd.node});
 	
 					this.gates.wire.push(wire);
-					this.nodeSelect.node.setWire(this.gates.wire[this.gates.wire.length - 1]);
+					this.nodeSelectEnd.node.setWire(wire);
+					this.nodeSelectStart.node.setWire(wire)
 				} else {
 					this.clear();
 				}
@@ -180,7 +187,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			width: (n.width * window.innerWidth / 100).toString(), 
 			height: (n.height * window.innerHeight / 100).toString()
 		});
-	
 
 	public render(): JSX.Element {
 		return (
