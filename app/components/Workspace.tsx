@@ -93,12 +93,13 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		coords = Wiring.gridLayout(coords, this.state.gridFactor);
 
 		switch(this.state.mode) {
-			case "and": {
+			case "and":
 				if (e.type == "click") {
 					const size: GateSize = {width: 40, height: 40}
 					const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
 
 					this.endNodes.push(...newNodes.end);
+					this.startNodes.push(...newNodes.start);
 					
 					Wiring.renderNodes(newNodes.end, this.ctx);
 					Wiring.renderNodes(newNodes.start, this.ctx);
@@ -107,10 +108,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				}
 
 				break;
-			}
-			case "draw": {
+			
+			case "draw":
 				this.cavasDrag(e, coords);
-			}
+			
 		}
 		
 	}
@@ -126,31 +127,28 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 		switch(e.type) {
 			case "mousedown":
-				this.startNodes.forEach((val: GateNode<any>): void => {
-					const valCoords = val.getCoords();
-					// check if the line is coming from a node
-					if (Math.abs(coords.x - valCoords.x) < this.state.snapFactor 
-						&& Math.abs(coords.y - valCoords.y) < this.state.snapFactor ) {
-							this.setState({
-								dragInit: coords,
-								drag: coords,
-								dragging: true
-							});
-					}
-				})
-				
+				const snap = Wiring.wireSnap(this.startNodes, coords, this.state.snapFactor);
+				if (snap !== null) {
+					const snapCoords = snap.getCoords()
+					this.setState({
+						dragInit: snapCoords,
+						drag: snapCoords,
+						dragging: true
+					});
+				}
+					
 				break;
 			case "mousemove":
-				const node = Wiring.wireSnap(this.endNodes, coords, this.state.snapFactor);
-				
-				if (node !== null) {
-					coords = node.getCoords();
-					this.nodeSelect = {node, selected: true};
-					console.log(this.nodeSelect.node);
-				} else {
-					this.nodeSelect = {node: null, selected: false};
-				}
 				if (this.state.dragging) {
+					const node = Wiring.wireSnap(this.endNodes, coords, this.state.snapFactor);
+				
+					if (node !== null) {
+						coords = node.getCoords();
+						this.nodeSelect = {node, selected: true};
+						console.log(this.nodeSelect.node);
+					} else {
+						this.nodeSelect = {node: null, selected: false};
+					}
 					this.setState({
 						drag: coords
 					});
