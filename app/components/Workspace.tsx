@@ -98,7 +98,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		switch(this.state.mode) {
 			case "and":
 				if (e.type == "click") {
-					const size: GateSize = {width: 40, height: 40}
+					const size: GateSize = {width: 2*this.state.gridFactor+1, height: 2*this.state.gridFactor+1}
 					const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
 
 					this.endNodes.push(...newNodes.end);

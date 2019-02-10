@@ -27,4 +27,8 @@ export default class GateNode<T> {
         if (this.state.wire === null) return false;
         else return true;
     }
+
+    public removeWire = (): void => {
+        this.state.wire = null;
+    }
 }

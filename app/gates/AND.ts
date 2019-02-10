@@ -16,7 +16,7 @@ export default class AndGate extends Gates<AndGate> {
 		const c1: GateCoords = {x: c.x, y: c.y+1.5}
 		const c2: GateCoords = {x: c.x, y: c.y+s.height-1.5}
 
-		const c3: GateCoords = {x: c.x+40, y: c.y+20}
+		const c3: GateCoords = {x: c.x+40, y: c.y+20.5}
 
 		this.state = {
 			coords: {x: c.x, y: c.y}, 
