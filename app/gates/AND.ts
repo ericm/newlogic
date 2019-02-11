@@ -22,8 +22,8 @@ export default class AndGate extends Gates<AndGate> {
 			coords: {x: c.x, y: c.y}, 
 			size: s, 
 			nodes: {
-				start: [new GateNode<AndGate>(this, c3)],
-				end: [new GateNode<AndGate>(this, c1), new GateNode<AndGate>(this, c2)]
+				start: [new GateNode<AndGate>(this, c3, "start")],
+				end: [new GateNode<AndGate>(this, c1, "end"), new GateNode<AndGate>(this, c2, "end")]
 			}
 		}
 

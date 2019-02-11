@@ -4,8 +4,8 @@ import Wire from "./Wire";
 export default class GateNode<T> {
     private state: NodeState<T>
 
-    public constructor(gate: T, coords: GateCoords) {
-        this.state = {gate, wire: null, coords};
+    public constructor(gate: T, coords: GateCoords, type: string) {
+        this.state = {gate, wire: null, coords, type};
     }
 
     public setWire = (wire: Wire): void => {
@@ -30,5 +30,8 @@ export default class GateNode<T> {
 
     public removeWire = (): void => {
         this.state.wire = null;
+    }
+    public type = (): string => {
+        return this.state.type;
     }
 }

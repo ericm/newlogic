@@ -5,9 +5,10 @@ export namespace Wiring {
 
     export function wireSnap(nodes: GateNode<any>[], coords: GateCoords, snap: number): GateNode<any> | null {
         for (let i in nodes) {
+            const noWire: boolean = nodes[i].type() == "end" ? !nodes[i].hasWire() : true;
             const nodeCoords = nodes[i].getCoords();
-            if (Math.abs(coords.x - nodeCoords.x) <= snap && Math.abs(coords.y - nodeCoords.y) <= snap
-                && !nodes[i].hasWire()) {
+            
+            if (Math.abs(coords.x - nodeCoords.x) <= snap && Math.abs(coords.y - nodeCoords.y) <= snap && noWire) {
                 return nodes[i];
             }
         }

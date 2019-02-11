@@ -15,7 +15,7 @@ export interface Nodes<T> {
 export interface WireProps {
 	start: GateCoords,
 	end: GateCoords,
-	// startNode: GateNode<any>,
+	startNode: GateNode<any>,
 	endNode: GateNode<any>
 }
 // AND GATE
@@ -26,7 +26,8 @@ export interface AndState {
 export interface NodeState<T> {
 	gate: T,
 	wire: Wire | null,
-	coords: GateCoords
+	coords: GateCoords,
+	type: string
 }
 export interface SelectedNode<T> {
 	node: GateNode<T> | null,

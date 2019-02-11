@@ -6,7 +6,7 @@ export default class Wire {
     constructor(props: WireProps) {
         this.state = props;
     }
-    public render = (ctx: CanvasRenderingContext2D): void => {
+    public render = (ctx: CanvasRenderingContext2D): void =>
         Wiring.drawWire(ctx, this.state.start, this.state.end);
-    }
+    
 }
