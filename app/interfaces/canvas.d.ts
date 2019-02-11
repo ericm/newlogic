@@ -6,7 +6,6 @@ export interface State<T> {
 	coords: GateCoords,
 	size: GateSize
 	nodes: Nodes<T>
-	
 }
 export interface Nodes<T> {
 	start: GateNode<T>[],

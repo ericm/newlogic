@@ -16,15 +16,28 @@ export namespace Wiring {
     }
 
     export function rerender<T extends GateGeneric>(obj: T[], ctx: CanvasRenderingContext2D | null): void {
-        for (let i in obj) {
-			if (!!obj[i].state && ctx !== null) obj[i].render(ctx);
-			else if (!!obj[i].state) obj[i].render();
+        for (let i of obj) {
+			if (!!i.state && ctx !== null) i.render(ctx);
+			else if (!!i.state) i.render();
 		}
     }
 
+    export function isClicked<T extends GateGeneric>(obj: T[], coords: GateCoords): T | null {
+        for (let gate of obj.slice(0, obj.length-1)) {
+            const size = gate.state.size;
+            const gatecoords = gate.state.coords;
+
+            if (coords.x >= gatecoords.x && coords.x <= gatecoords.x + size.width &&
+                coords.y >= gatecoords.y && coords.y <= gatecoords.y + size.height) {
+                    return gate;
+                }
+        }
+        return null;
+    }
+
     export function renderNodes(nodes: GateNode<any>[], ctx: CanvasRenderingContext2D): void {
-        for (let i in nodes) {
-            nodes[i].render(ctx);
+        for (let i of nodes) {
+            i.render(ctx);
         }
     }
 

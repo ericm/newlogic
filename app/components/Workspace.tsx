@@ -96,6 +96,12 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		coords = Wiring.gridLayout(coords, this.state.gridFactor);
 
 		switch(this.state.mode) {
+			case "click":
+				if (e.type == "click") {
+					const and = Wiring.isClicked(this.gates.and, coords);
+					if (and !== null) console.log(and);
+				}
+				break;
 			case "and":
 				if (e.type == "click") {
 					const size: GateSize = {width: 2*this.state.gridFactor+1, height: 2*this.state.gridFactor+1}

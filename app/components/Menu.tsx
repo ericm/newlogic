@@ -24,22 +24,14 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         }
     }
 
-    public toggleMode = (e: React.MouseEvent<HTMLAnchorElement>): void => {
-        switch(e.currentTarget.id) {
-            case "and":
-                this.sendMode("and");
-                break;
-            case "draw":
-                this.sendMode("draw");
-                break;
-        }
-    }
+    public toggleMode = (e: React.MouseEvent<HTMLAnchorElement>): void => this.sendMode(e.currentTarget.id);
 
     public render(): JSX.Element {
 
         if (!this.state.loading) {
             return (
                 <div className={styles.main}>
+                    <a className={styles.tool} id={"click"} onClick={this.toggleMode}>Click</a>
                     <a className={styles.tool} id={"and"} onClick={this.toggleMode}>And</a>
                     <a className={styles.tool} id={"draw"} onClick={this.toggleMode}>Draw</a>
                 </div>
