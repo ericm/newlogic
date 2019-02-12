@@ -9,4 +9,10 @@ export default class Gates<T> {
         this.ctx.drawImage(this.svg, this.state.coords.x, this.state.coords.y, 
             this.state.size.width, this.state.size.height);
     }
+
+    public click = (): void => {
+        this.ctx.rect(this.state.coords.x, this.state.coords.y, 
+            this.state.coords.x + this.state.size.width, this.state.coords.y + this.state.size.height);
+            this.ctx.stroke();
+    }
 }

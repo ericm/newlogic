@@ -99,7 +99,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			case "click":
 				if (e.type == "click") {
 					const and = Wiring.isClicked(this.gates.and, coords);
-					if (and !== null) console.log(and);
+					if (and !== null) and.click();
 				}
 				break;
 			case "and":
