@@ -42,7 +42,9 @@
     },
     "testMatch": [
       "**/?(*.)(spec|test).ts?(x)"
-    ]
+    ],
+    "verbose": true,
+    "testURL": "http://localhost/"
   },
   "build": {
     "productName": "ElectronReactTypescript",
