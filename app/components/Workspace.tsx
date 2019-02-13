@@ -58,12 +58,14 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	}
 
 	private drawGrid = (): void => {
-		this.ctx.fillStyle = "rgba(0,0,0,1)";
-		for (let x = 0; x < this.canvas.width; x++) {
-			if (x % this.state.snapFactor == 0) {
-				for (let y = 0; y < this.canvas.height; y++) {
-					if (y % this.state.snapFactor == 0) {
-						this.ctx.fillRect(x, y, 1, 1);
+		if(!!this.ctx) {
+			this.ctx.fillStyle = "rgba(0,0,0,1)";
+			for (let x = 0; x < this.canvas.width; x++) {
+				if (x % this.state.snapFactor == 0) {
+					for (let y = 0; y < this.canvas.height; y++) {
+						if (y % this.state.snapFactor == 0) {
+							this.ctx.fillRect(x, y, 1, 1);
+						}
 					}
 				}
 			}

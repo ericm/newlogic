@@ -42,7 +42,6 @@ script:
 - node --version
 - yarn package
 - yarn test
-- yarn test-e2e
 
 after_script: greenkeeper-lockfile-upload
 
