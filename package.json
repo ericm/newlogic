@@ -45,7 +45,9 @@
     ],
     "verbose": true,
     "testURL": "http://localhost/",
-    "setupFiles": ["jest-canvas-mock"]
+    "setupFiles": [
+      "jest-canvas-mock"
+    ]
   },
   "build": {
     "productName": "ElectronReactTypescript",
