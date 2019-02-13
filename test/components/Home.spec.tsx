@@ -5,6 +5,8 @@ import * as React from 'react';
 import Home from '../../app/components/Home';
 import sinon = require('sinon');
 import Menu from '../../app/components/Menu';
+import Workspace from '../../app/components/Workspace';
+import WindowBar from '../../app/components/WindowBar';
 
 describe("<Home />", () => {
     it("calls componentDidMount", () => {
@@ -20,4 +22,16 @@ describe("<Home />", () => {
         expect(wrapper.find(Menu)).toHaveLength(1);
     });
     
+    it("renders Workspaces", () => {
+        const wrapper = mount(<Home />);
+        
+        expect(wrapper.find(Workspace).length).toBeGreaterThanOrEqual(1);
+    });
+    
+    it("renders WindowBars", () => {
+        const wrapper = mount(<Home />);
+        
+        expect(wrapper.find(WindowBar).length).toBeGreaterThanOrEqual(1);
+    });
+
 });
