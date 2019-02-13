@@ -3,7 +3,7 @@ import '../utils/enzymeConfig';
 import { mount } from 'enzyme';
 import * as React from 'react';
 import Home from '../../app/components/Home';
-import sinon = require('sinon');
+import * as sinon from 'sinon';
 import Menu from '../../app/components/Menu';
 import Workspace from '../../app/components/Workspace';
 import WindowBar from '../../app/components/WindowBar';
