@@ -87,7 +87,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		Wiring.renderNodes(this.endNodes, this.ctx);
 	}
 
-	private getCoords(e: React.DragEvent | React.MouseEvent): GateCoords {
+	private getCoords(e: any): GateCoords {
 		const box = e.currentTarget.getBoundingClientRect();
 		return {x: e.clientX - box.left, y: e.clientY - box.top};
 	}
