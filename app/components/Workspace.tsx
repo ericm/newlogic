@@ -23,6 +23,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	private nodeSelectStart: SelectedNode<any>
 
 	private clicked: AnyGate[] = [];
+	private clickedDrag: AnyGate[] =[];
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
@@ -101,18 +102,46 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 		switch (this.state.mode) {
 			case "click":
-				if (e.type == "click") {
-					const and = Wiring.isClicked(this.gates.and, coords);
-					if (and !== null) { 
-						this.clicked = []
-						this.clear(); 
-						this.updateCanvas(); 
-						and.click();
-						this.clicked.push(and);
-					}
-				} else if (e.type == "drag") {
-					this.clear();
-					this.updateCanvas();
+				const and = Wiring.isClicked(this.gates.and, coords)
+				switch (e.type) {
+					case "click": 
+						if (and !== null) { 
+							this.clicked = []
+							this.clear(); 
+							this.updateCanvas(); 
+							and.click();
+							this.clicked.push(and);
+						}
+						break;
+					
+					case "mousedown": 
+						if (and !== null) {
+							if (and == this.clicked[0]) {
+								this.setState({
+									dragging: true,
+									dragInit: coords
+								});
+								this.clickedDrag.push(and);
+								this.clear();
+								this.updateCanvas();
+							}
+						}
+						break;
+					
+					case "mousemove":
+						if (this.state.dragging) {
+							// const move: GateCoords = {x: coords.x - this.state.dragInit.x, y: coords.y - this.state.dragInit.y}
+							for (let gate of this.clickedDrag) {
+								gate.drag(coords);
+							}
+							this.clear();
+							this.updateCanvas();
+						}
+						break;
+					case "mouseup":
+						if (this.state.dragging) this.setState({dragging: false});
+						break;
+
 				}
 				break;
 			case "and":

@@ -1,4 +1,4 @@
-import { State } from "../interfaces/canvas";
+import { State, GateCoords } from "../interfaces/canvas";
 
 export default class Gates<T> {
     public ctx: CanvasRenderingContext2D
@@ -19,5 +19,9 @@ export default class Gates<T> {
 
         this.ctx.lineWidth = 3;
         this.ctx.setLineDash([0]);
+    }
+    
+    public drag = (coords: GateCoords): void => {
+        this.state.coords = coords;
     }
 }
