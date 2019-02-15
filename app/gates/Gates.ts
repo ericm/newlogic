@@ -14,7 +14,7 @@ export default class Gates<T> {
         this.ctx.setLineDash([6]);
         this.ctx.lineWidth = 1;
         this.ctx.rect(this.state.coords.x-6, this.state.coords.y-6, 
-        this.state.size.width+12, this.state.size.height+12);
+            this.state.size.width+12, this.state.size.height+12);
         this.ctx.stroke();
 
         this.ctx.lineWidth = 3;

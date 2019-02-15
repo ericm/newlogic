@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { WorkspaceProps, WorkspaceState, Component, Gates } from '../interfaces/components';
-import { GateCoords, GateSize, SelectedNode } from '../interfaces/canvas';
+import { GateCoords, GateSize, SelectedNode, AnyGate } from '../interfaces/canvas';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -21,6 +21,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private nodeSelectEnd: SelectedNode<any>
 	private nodeSelectStart: SelectedNode<any>
+
+	private clicked: AnyGate[] = [];
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
@@ -97,11 +99,20 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 		coords = Wiring.gridLayout(coords, this.state.gridFactor);
 
-		switch(this.state.mode) {
+		switch (this.state.mode) {
 			case "click":
 				if (e.type == "click") {
 					const and = Wiring.isClicked(this.gates.and, coords);
-					if (and !== null) and.click();
+					if (and !== null) { 
+						this.clicked = []
+						this.clear(); 
+						this.updateCanvas(); 
+						and.click();
+						this.clicked.push(and);
+					}
+				} else if (e.type == "drag") {
+					this.clear();
+					this.updateCanvas();
 				}
 				break;
 			case "and":
