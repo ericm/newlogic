@@ -3,6 +3,7 @@ import AndGate from "../gates/AND";
 import { GateCoords } from "./canvas";
 import Wire from "../gates/Wire";
 import Workspace from "../components/Workspace";
+import OrGate from "../gates/OR";
 
 // Home
 export interface Child extends WinBarResize {
@@ -25,6 +26,7 @@ export interface HomeProps {
 // Gates
 export interface Gates {
 	and: AndGate[],
+	or: OrGate[],
 	wire: Wire[]
 }
 // WinBar

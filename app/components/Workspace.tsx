@@ -9,6 +9,7 @@ import AndGate from '../gates/AND';
 import { Wiring } from '../actions/canvas';
 import Wire from '../gates/Wire';
 import GateNode from '../gates/Node';
+import OrGate from '../gates/OR';
 
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
 
@@ -49,8 +50,11 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			width: (this.props.width * window.innerWidth / 100).toString(), 
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
-		this.gates = {and: [], wire: []}
+		this.gates = {and: [], wire: [], or: []}
+
+		// Buffer Gates
 		this.gates.and.push(new AndGate(this.ctx));
+		this.gates.or.push(new OrGate(this.ctx));
 
 		// Draw grid
 		this.drawGrid();
@@ -86,6 +90,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		this.drawGrid();
 		Wiring.rerender(this.gates.wire, this.ctx);
 		Wiring.rerender(this.gates.and, null);
+		Wiring.rerender(this.gates.or, null);
 		Wiring.renderNodes(this.startNodes, this.ctx);
 		Wiring.renderNodes(this.endNodes, this.ctx);
 	}
@@ -126,6 +131,22 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				}
 
 				break;
+
+			case "or":
+				if (e.type == "click") {
+					const size: GateSize = {width: 2*this.state.gridFactor+1, height: 2*this.state.gridFactor+1}
+					const newNodes = this.gates.or[this.gates.or.length - 1].add(coords, size);
+
+					this.endNodes.push(...newNodes.end);
+					this.startNodes.push(...newNodes.start);
+					
+					Wiring.renderNodes(newNodes.end, this.ctx);
+					Wiring.renderNodes(newNodes.start, this.ctx);
+
+					this.gates.or.push(new OrGate(this.ctx));
+				}
+
+				break;
 		}
 		
 	}
@@ -140,6 +161,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		// Find if a gate was clicked
 		let gate: AnyGate | null = null;
 		if (gate === null) gate = Wiring.isClicked(this.gates.and, coords);
+		if (gate === null) gate = Wiring.isClicked(this.gates.or, coords);
 
 		switch (e.type) {
 			case "click": 
@@ -188,7 +210,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				break;
 
 			case "mouseup":
-				console.log(this.gates.and);
 				if (this.state.dragging){
 					this.setState({dragging: false});
 				}
