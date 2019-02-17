@@ -23,5 +23,8 @@ export default class Gates<T> {
     
     public drag = (coords: GateCoords): void => {
         this.state.coords = coords;
+        this.dragNodes(coords);
     }
+
+    public dragNodes = (_: GateCoords): void => {};
 }

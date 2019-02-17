@@ -31,7 +31,12 @@ export default class GateNode<T> {
     public removeWire = (): void => {
         this.state.wire = null;
     }
+
     public type = (): string => {
         return this.state.type;
+    }
+
+    public setCoords = (coords: GateCoords): void => {
+        this.state.coords = coords;
     }
 }

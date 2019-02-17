@@ -23,7 +23,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	private nodeSelectStart: SelectedNode<any>
 
 	private clicked: AnyGate[] = [];
-	private clickedDrag: AnyGate[] =[];
+	private clickedDrag: AnyGate[] = [];
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
@@ -119,7 +119,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 							if (and == this.clicked[0]) {
 								this.setState({
 									dragging: true,
-									dragInit: coords
+									dragInit: coords,
+									drag: and.state.coords
 								});
 								this.clickedDrag.push(and);
 								this.clear();
@@ -130,9 +131,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					
 					case "mousemove":
 						if (this.state.dragging) {
-							// const move: GateCoords = {x: coords.x - this.state.dragInit.x, y: coords.y - this.state.dragInit.y}
+							const move: GateCoords = {x: coords.x - (this.state.dragInit.x - this.state.drag.x), 
+								y: coords.y - (this.state.dragInit.y - this.state.drag.y)}
 							for (let gate of this.clickedDrag) {
-								gate.drag(coords);
+								gate.drag(move);
 							}
 							this.clear();
 							this.updateCanvas();
