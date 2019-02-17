@@ -18,7 +18,7 @@
 First, clone the repo via git:
 
 ```bash
-git clone https://github.com/TooFiveFive/newlogic.git your-project-name
+git clone https://github.com/TooFiveFive/newlogic.git
 ```
 
 And then install dependencies.
@@ -53,9 +53,6 @@ $ npm run package
 
 To package apps for all platforms:
 
-First, refer to [Multi Platform Build](https://github.com/electron-userland/electron-builder/wiki/Multi-Platform-Build) for dependencies.
-
-Then,
 ```bash
 $ npm run package-all
 ```

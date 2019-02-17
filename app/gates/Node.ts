@@ -1,11 +1,11 @@
-import { NodeState, GateCoords } from "../interfaces/canvas";
+import { GateCoords, NodeState } from "../interfaces/canvas";
 import Wire from "./Wire";
 
 export default class GateNode<T> {
     private state: NodeState<T>
 
     public constructor(gate: T, coords: GateCoords, type: string) {
-        this.state = {gate, wire: null, coords, type};
+        this.state = { gate, wire: null, coords, type };
     }
 
     public setWire = (wire: Wire): void => {
@@ -19,7 +19,7 @@ export default class GateNode<T> {
     public render = (ctx: CanvasRenderingContext2D): void => {
         ctx.beginPath();
         ctx.lineWidth = 3;
-        ctx.arc(this.state.coords.x, this.state.coords.y, 1.5, 0, 2*Math.PI);
+        ctx.arc(this.state.coords.x, this.state.coords.y, 1.5, 0, 2 * Math.PI);
         ctx.stroke();
     }
 

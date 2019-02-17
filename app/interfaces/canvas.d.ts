@@ -1,8 +1,7 @@
-import Wire from "../gates/Wire";
-import GateNode from "../gates/Node";
 import AndGate from "../gates/AND";
-import Gates from "../gates/Gates";
+import GateNode from "../gates/Node";
 import OrGate from "../gates/OR";
+import Wire from "../gates/Wire";
 
 // set any type of gate
 export type AnyGate = AndGate | OrGate;

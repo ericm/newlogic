@@ -1,5 +1,5 @@
-import { WireProps } from "../interfaces/canvas";
 import { Wiring } from "../actions/canvas";
+import { WireProps } from "../interfaces/canvas";
 
 export default class Wire {
     public state: WireProps
@@ -8,5 +8,5 @@ export default class Wire {
     }
     public render = (ctx: CanvasRenderingContext2D): void =>
         Wiring.drawWire(ctx, this.state.startNode.getCoords(), this.state.endNode.getCoords());
-    
+
 }

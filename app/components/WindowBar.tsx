@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { WinBarState, WinBarProps, WinBarResize } from '../interfaces/components';
+import { WinBarProps, WinBarResize, WinBarState } from '../interfaces/components';
 
 // import Workspace from './Workspace';
 // import Menu from './Menu';
@@ -22,7 +22,7 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 
 	public resize = (n: WinBarResize): void => {
 		this.setState(
-			{width: n.width, height: n.height, offsetX: n.x, offsetY:n.y}
+			{ width: n.width, height: n.height, offsetX: n.x, offsetY: n.y }
 		);
 		// switch(this.props.type) {
 
@@ -40,7 +40,7 @@ export default class WindowBar extends React.Component<WinBarProps, WinBarState>
 	public render(): JSX.Element {
 		return (
 			<div className={styles.main} style={
-				{width: this.state.width.toString()+'vw', height: this.state.height.toString()+'vh'}
+				{ width: this.state.width.toString() + 'vw', height: this.state.height.toString() + 'vh' }
 			}>
 				{this.props.children}
 			</div>

@@ -1,4 +1,4 @@
-import { State, GateCoords } from "../interfaces/canvas";
+import { GateCoords, State } from "../interfaces/canvas";
 
 export default class Gates<T> {
     public ctx: CanvasRenderingContext2D
@@ -6,25 +6,25 @@ export default class Gates<T> {
     public state: State<T>
 
     public render = (): void => {
-        this.ctx.drawImage(this.svg, this.state.coords.x, this.state.coords.y, 
+        this.ctx.drawImage(this.svg, this.state.coords.x, this.state.coords.y,
             this.state.size.width, this.state.size.height);
     }
 
     public click = (): void => {
         this.ctx.setLineDash([6]);
         this.ctx.lineWidth = 1;
-        this.ctx.rect(this.state.coords.x-6, this.state.coords.y-6, 
-            this.state.size.width+12, this.state.size.height+12);
+        this.ctx.rect(this.state.coords.x - 6, this.state.coords.y - 6,
+            this.state.size.width + 12, this.state.size.height + 12);
         this.ctx.stroke();
 
         this.ctx.lineWidth = 3;
         this.ctx.setLineDash([0]);
     }
-    
+
     public drag = (coords: GateCoords): void => {
         this.state.coords = coords;
         this.dragNodes(coords);
     }
 
-    public dragNodes = (_: GateCoords): void => {};
+    public dragNodes = (_: GateCoords): void => { };
 }

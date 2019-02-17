@@ -1,9 +1,8 @@
 // Gates imports
 import AndGate from "../gates/AND";
-import { GateCoords } from "./canvas";
-import Wire from "../gates/Wire";
-import Workspace from "../components/Workspace";
 import OrGate from "../gates/OR";
+import Wire from "../gates/Wire";
+import { GateCoords } from "./canvas";
 
 // Home
 export interface Child extends WinBarResize {
@@ -54,7 +53,7 @@ export interface MenuState {
 	loading: boolean
 }
 export interface MenuProps extends Component {
-	
+
 }
 
 // Workspace
@@ -69,5 +68,5 @@ export interface WorkspaceState {
 	snapFactor: number
 }
 export interface WorkspaceProps extends Component {
-	
+
 }

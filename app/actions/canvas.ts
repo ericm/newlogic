@@ -1,5 +1,5 @@
-import { GateCoords, GateGeneric } from "../interfaces/canvas";
 import GateNode from "../gates/Node";
+import { GateCoords, GateGeneric } from "../interfaces/canvas";
 
 export namespace Wiring {
 
@@ -7,7 +7,7 @@ export namespace Wiring {
         for (let i in nodes) {
             const noWire: boolean = nodes[i].type() == "end" ? !nodes[i].hasWire() : true;
             const nodeCoords = nodes[i].getCoords();
-            
+
             if (Math.abs(coords.x - nodeCoords.x) <= snap && Math.abs(coords.y - nodeCoords.y) <= snap && noWire) {
                 return nodes[i];
             }
@@ -17,20 +17,20 @@ export namespace Wiring {
 
     export function rerender<T extends GateGeneric>(obj: T[], ctx: CanvasRenderingContext2D | null): void {
         for (let i of obj) {
-			if (!!i.state && ctx !== null) i.render(ctx);
+            if (!!i.state && ctx !== null) i.render(ctx);
             else if (!!i.state) i.render();
-		}
+        }
     }
 
     export function isClicked<T extends GateGeneric>(obj: T[], coords: GateCoords): T | null {
-        for (let gate of obj.slice(0, obj.length-1)) {
+        for (let gate of obj.slice(0, obj.length - 1)) {
             const size = gate.state.size;
             const gatecoords = gate.state.coords;
 
             if (coords.x >= gatecoords.x && coords.x <= gatecoords.x + size.width &&
                 coords.y >= gatecoords.y && coords.y <= gatecoords.y + size.height) {
-                    return gate;
-                }
+                return gate;
+            }
         }
         return null;
     }
@@ -57,10 +57,10 @@ export namespace Wiring {
         ctx.stroke();
     }
 
-    export function gridLayout(coords: GateCoords, factor: number): GateCoords  {
+    export function gridLayout(coords: GateCoords, factor: number): GateCoords {
         let x: number, y: number;
-        x = Math.ceil(coords.x/factor)*factor;
-        y = Math.ceil(coords.y/factor)*factor;
-        return {x, y}
+        x = Math.ceil(coords.x / factor) * factor;
+        y = Math.ceil(coords.y / factor) * factor;
+        return { x, y }
     }
 }

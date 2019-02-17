@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { WorkspaceProps, WorkspaceState, Component, Gates } from '../interfaces/components';
-import { GateCoords, GateSize, SelectedNode, AnyGate } from '../interfaces/canvas';
+import { Wiring } from '../actions/canvas';
+//import items (gates etc)
+import AndGate from '../gates/AND';
+import GateNode from '../gates/Node';
+import OrGate from '../gates/OR';
+import Wire from '../gates/Wire';
+import { AnyGate, GateCoords, GateSize, SelectedNode } from '../interfaces/canvas';
+import { Component, Gates, WorkspaceProps, WorkspaceState } from '../interfaces/components';
 
 let styles = require('./styles/Workspace.scss');
 
-//import items (gates etc)
-import AndGate from '../gates/AND';
-import { Wiring } from '../actions/canvas';
-import Wire from '../gates/Wire';
-import GateNode from '../gates/Node';
-import OrGate from '../gates/OR';
 
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
 
@@ -29,28 +29,28 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	public constructor(props: WorkspaceProps) {
 		super(props);
 		this.state = {
-			width: (this.props.width * window.innerWidth / 100).toString(), 
+			width: (this.props.width * window.innerWidth / 100).toString(),
 			height: (this.props.height * window.innerHeight / 100).toString(),
 			mode: "draw",
 			dragging: false,
-			dragInit: {x: 0, y: 0},
-			drag: {x: 0, y: 0},
+			dragInit: { x: 0, y: 0 },
+			drag: { x: 0, y: 0 },
 			gridFactor: 20,
 			snapFactor: 20
 		}
-		this.nodeSelectEnd = {node: null, selected: false}
-		this.nodeSelectStart = {node: null, selected: false}
+		this.nodeSelectEnd = { node: null, selected: false }
+		this.nodeSelectStart = { node: null, selected: false }
 	}
 
-	public changeMode = (mode: string): void => this.setState({mode})
-	
+	public changeMode = (mode: string): void => this.setState({ mode })
+
 	public componentDidMount() {
 		this.setCtx();
 		this.setState({
-			width: (this.props.width * window.innerWidth / 100).toString(), 
+			width: (this.props.width * window.innerWidth / 100).toString(),
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
-		this.gates = {and: [], wire: [], or: []}
+		this.gates = { and: [], wire: [], or: [] }
 
 		// Buffer Gates
 		this.gates.and.push(new AndGate(this.ctx));
@@ -59,13 +59,13 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		// Draw grid
 		this.drawGrid();
 	}
-	
+
 	public componentDidUpdate() {
 		this.updateCanvas();
 	}
 
 	private drawGrid = (): void => {
-		if(!!this.ctx) {
+		if (!!this.ctx) {
 			this.ctx.fillStyle = "rgba(0,0,0,1)";
 			for (let x = 0; x < this.canvas.width; x++) {
 				if (x % this.state.snapFactor == 0) {
@@ -97,7 +97,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private getCoords(e: any): GateCoords {
 		const box = e.currentTarget.getBoundingClientRect();
-		return {x: e.clientX - box.left, y: e.clientY - box.top};
+		return { x: e.clientX - box.left, y: e.clientY - box.top };
 	}
 
 	private canvasEvent = (e: React.MouseEvent<HTMLCanvasElement>): void => {
@@ -109,7 +109,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			case "click":
 				this.canvasClick(e, coords);
 				break;
-			
+
 			case "draw":
 				this.cavasDrag(e, coords);
 				break;
@@ -118,12 +118,12 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 			case "and":
 				if (e.type == "click") {
-					const size: GateSize = {width: 2*this.state.gridFactor+1, height: 2*this.state.gridFactor+1}
+					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
 
 					this.endNodes.push(...newNodes.end);
 					this.startNodes.push(...newNodes.start);
-					
+
 					Wiring.renderNodes(newNodes.end, this.ctx);
 					Wiring.renderNodes(newNodes.start, this.ctx);
 
@@ -134,12 +134,12 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 			case "or":
 				if (e.type == "click") {
-					const size: GateSize = {width: 2*this.state.gridFactor+1, height: 2*this.state.gridFactor+1}
+					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.or[this.gates.or.length - 1].add(coords, size);
 
 					this.endNodes.push(...newNodes.end);
 					this.startNodes.push(...newNodes.start);
-					
+
 					Wiring.renderNodes(newNodes.end, this.ctx);
 					Wiring.renderNodes(newNodes.start, this.ctx);
 
@@ -148,7 +148,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 				break;
 		}
-		
+
 	}
 
 	private clear = (): void => {
@@ -164,23 +164,23 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		if (gate === null) gate = Wiring.isClicked(this.gates.or, coords);
 
 		switch (e.type) {
-			case "click": 
-				if (gate !== null) { 
+			case "click":
+				if (gate !== null) {
 
 					this.clicked = []
-					this.clear(); 
-					this.updateCanvas(); 
+					this.clear();
+					this.updateCanvas();
 					gate.click();
 					this.clicked.push(gate);
 
 				} else {
 					this.clicked = []
-					this.clear(); 
+					this.clear();
 					this.updateCanvas();
 				}
 				break;
-			
-			case "mousedown": 
+
+			case "mousedown":
 				if (gate !== null) {
 					if (gate == this.clicked[0]) {
 						console.log(this.gates.and);
@@ -196,11 +196,13 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					}
 				}
 				break;
-			
+
 			case "mousemove":
 				if (this.state.dragging) {
-					const move: GateCoords = {x: coords.x - (this.state.dragInit.x - this.state.drag.x), 
-						y: coords.y - (this.state.dragInit.y - this.state.drag.y)}
+					const move: GateCoords = {
+						x: coords.x - (this.state.dragInit.x - this.state.drag.x),
+						y: coords.y - (this.state.dragInit.y - this.state.drag.y)
+					}
 					for (let g of this.clickedDrag) {
 						g.drag(move);
 					}
@@ -210,8 +212,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				break;
 
 			case "mouseup":
-				if (this.state.dragging){
-					this.setState({dragging: false});
+				if (this.state.dragging) {
+					this.setState({ dragging: false });
 				}
 
 				break;
@@ -223,7 +225,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 		// Drawing wires
 
-		switch(e.type) {
+		switch (e.type) {
 			case "mousedown":
 				const node = Wiring.wireSnap(this.startNodes, coords, this.state.snapFactor);
 				if (node !== null) {
@@ -233,22 +235,22 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 						drag: snapCoords,
 						dragging: true
 					});
-					this.nodeSelectStart = {node, selected: true}
+					this.nodeSelectStart = { node, selected: true }
 				} else {
-					this.nodeSelectStart = {node: null, selected: false};
+					this.nodeSelectStart = { node: null, selected: false };
 				}
-					
+
 				break;
 			case "mousemove":
 				if (this.state.dragging) {
 					const node = Wiring.wireSnap(this.endNodes, coords, this.state.snapFactor);
-				
+
 					if (node !== null) {
 						coords = node.getCoords();
-						this.nodeSelectEnd = {node, selected: true};
+						this.nodeSelectEnd = { node, selected: true };
 						console.log(this.nodeSelectEnd.node);
 					} else {
-						this.nodeSelectEnd = {node: null, selected: false};
+						this.nodeSelectEnd = { node: null, selected: false };
 					}
 					this.setState({
 						drag: coords
@@ -256,17 +258,17 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.clear();
 					Wiring.drawWire(this.ctx, this.state.dragInit, this.state.drag);
 				}
-				
+
 				break;
 			case "mouseup":
 			case "mouseleave":
-				this.setState({dragging: false});
+				this.setState({ dragging: false });
 				// save wire
 				if (this.nodeSelectEnd.selected && this.nodeSelectEnd.node !== null && this.nodeSelectStart.node !== null) {
 					const wire = new Wire({
 						startNode: this.nodeSelectStart.node, endNode: this.nodeSelectEnd.node
 					});
-	
+
 					this.gates.wire.push(wire);
 					this.nodeSelectEnd.node.setWire(wire);
 					this.nodeSelectStart.node.setWire(wire)
@@ -280,16 +282,16 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	public resize = (n: Component): void =>
 		this.setState({
-			width: (n.width * window.innerWidth / 100).toString(), 
+			width: (n.width * window.innerWidth / 100).toString(),
 			height: (n.height * window.innerHeight / 100).toString()
 		});
 
 	public render(): JSX.Element {
 		return (
 			<div className={styles.main}>
-				<canvas ref={(canvas) => {if (canvas !== null) this.canvas = canvas}} onClick={this.canvasEvent}
-					className={styles.canvas} width={this.state.width} height={this.state.height} 
-					onMouseUp={this.canvasEvent} onMouseDown={this.canvasEvent} onMouseMove={this.canvasEvent} 
+				<canvas ref={(canvas) => { if (canvas !== null) this.canvas = canvas }} onClick={this.canvasEvent}
+					className={styles.canvas} width={this.state.width} height={this.state.height}
+					onMouseUp={this.canvasEvent} onMouseDown={this.canvasEvent} onMouseMove={this.canvasEvent}
 					onMouseLeave={this.canvasEvent} />
 			</div>
 		)

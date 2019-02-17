@@ -9,13 +9,13 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
     public constructor(props: MenuProps) {
         super(props);
-        this.state = {mode: "and", loading: true};
+        this.state = { mode: "and", loading: true };
     }
 
     public addWorkspace = (component: Workspace): void => {
         this._workspaces.push(component);
         component.changeMode(this.state.mode);
-        this.setState({loading: false});
+        this.setState({ loading: false });
     }
 
     private sendMode = (mode: string): void => {
@@ -44,7 +44,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                 </div>
             );
         }
-        
+
 
     }
 
