@@ -31,7 +31,7 @@ $ cd newlogic && npm i
 
 ## Run
 
-Run these two commands __simultaneously__ in different console tabs.
+Run these two commands **simultaneously** in different console tabs.
 
 ```bash
 $ npm run hot-server
@@ -71,6 +71,11 @@ To run the application without packaging run
 ```bash
 $ npm run build
 $ npm start
+```
+
+To run unit tests:
+```bash
+npm test
 ```
 
 To run End-to-End Test
