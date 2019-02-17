@@ -95,57 +95,22 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		return {x: e.clientX - box.left, y: e.clientY - box.top};
 	}
 
-	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>): void => {
+	private canvasEvent = (e: React.MouseEvent<HTMLCanvasElement>): void => {
 		let coords = this.getCoords(e);
 
 		coords = Wiring.gridLayout(coords, this.state.gridFactor);
 
 		switch (this.state.mode) {
 			case "click":
-				const and = Wiring.isClicked(this.gates.and, coords)
-				switch (e.type) {
-					case "click": 
-						if (and !== null) { 
-							this.clicked = []
-							this.clear(); 
-							this.updateCanvas(); 
-							and.click();
-							this.clicked.push(and);
-						}
-						break;
-					
-					case "mousedown": 
-						if (and !== null) {
-							if (and == this.clicked[0]) {
-								this.setState({
-									dragging: true,
-									dragInit: coords,
-									drag: and.state.coords
-								});
-								this.clickedDrag.push(and);
-								this.clear();
-								this.updateCanvas();
-							}
-						}
-						break;
-					
-					case "mousemove":
-						if (this.state.dragging) {
-							const move: GateCoords = {x: coords.x - (this.state.dragInit.x - this.state.drag.x), 
-								y: coords.y - (this.state.dragInit.y - this.state.drag.y)}
-							for (let gate of this.clickedDrag) {
-								gate.drag(move);
-							}
-							this.clear();
-							this.updateCanvas();
-						}
-						break;
-					case "mouseup":
-						if (this.state.dragging) this.setState({dragging: false});
-						break;
-
-				}
+				this.canvasClick(e, coords);
 				break;
+			
+			case "draw":
+				this.cavasDrag(e, coords);
+				break;
+
+			// Gate cases
+
 			case "and":
 				if (e.type == "click") {
 					const size: GateSize = {width: 2*this.state.gridFactor+1, height: 2*this.state.gridFactor+1}
@@ -161,10 +126,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				}
 
 				break;
-			
-			case "draw":
-				this.cavasDrag(e, coords);
-			
 		}
 		
 	}
@@ -172,6 +133,69 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	private clear = (): void => {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.updateCanvas();
+	}
+
+	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>, coords: GateCoords): void => {
+
+		// Find if a gate was clicked
+		let gate: AnyGate | null = null;
+		if (gate === null) gate = Wiring.isClicked(this.gates.and, coords);
+
+		switch (e.type) {
+			case "click": 
+				if (gate !== null) { 
+
+					this.clicked = []
+					this.clear(); 
+					this.updateCanvas(); 
+					gate.click();
+					this.clicked.push(gate);
+
+				} else {
+					this.clicked = []
+					this.clear(); 
+					this.updateCanvas();
+				}
+				break;
+			
+			case "mousedown": 
+				if (gate !== null) {
+					if (gate == this.clicked[0]) {
+						console.log(this.gates.and);
+						this.setState({
+							dragging: true,
+							dragInit: coords,
+							drag: gate.state.coords
+						});
+						this.clickedDrag = [];
+						this.clickedDrag.push(gate);
+						this.clear();
+						this.updateCanvas();
+					}
+				}
+				break;
+			
+			case "mousemove":
+				if (this.state.dragging) {
+					const move: GateCoords = {x: coords.x - (this.state.dragInit.x - this.state.drag.x), 
+						y: coords.y - (this.state.dragInit.y - this.state.drag.y)}
+					for (let g of this.clickedDrag) {
+						g.drag(move);
+					}
+					this.clear();
+					this.updateCanvas();
+				}
+				break;
+
+			case "mouseup":
+				console.log(this.gates.and);
+				if (this.state.dragging){
+					this.setState({dragging: false});
+				}
+
+				break;
+
+		}
 	}
 
 	private cavasDrag = (e: React.MouseEvent<HTMLCanvasElement>, coords: GateCoords): void => {
@@ -242,10 +266,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	public render(): JSX.Element {
 		return (
 			<div className={styles.main}>
-				<canvas ref={(canvas) => {if (canvas !== null) this.canvas = canvas}} onClick={this.canvasClick}
+				<canvas ref={(canvas) => {if (canvas !== null) this.canvas = canvas}} onClick={this.canvasEvent}
 					className={styles.canvas} width={this.state.width} height={this.state.height} 
-					onMouseUp={this.canvasClick} onMouseDown={this.canvasClick} onMouseMove={this.canvasClick} 
-					onMouseLeave={this.canvasClick} />
+					onMouseUp={this.canvasEvent} onMouseDown={this.canvasEvent} onMouseMove={this.canvasEvent} 
+					onMouseLeave={this.canvasEvent} />
 			</div>
 		)
 	}

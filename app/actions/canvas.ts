@@ -18,7 +18,7 @@ export namespace Wiring {
     export function rerender<T extends GateGeneric>(obj: T[], ctx: CanvasRenderingContext2D | null): void {
         for (let i of obj) {
 			if (!!i.state && ctx !== null) i.render(ctx);
-			else if (!!i.state) i.render();
+            else if (!!i.state) i.render();
 		}
     }
 
