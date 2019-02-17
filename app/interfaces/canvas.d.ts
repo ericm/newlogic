@@ -17,8 +17,6 @@ export interface Nodes<T> {
 	end: GateNode<T>[]
 }
 export interface WireProps {
-	start: GateCoords,
-	end: GateCoords,
 	startNode: GateNode<any>,
 	endNode: GateNode<any>
 }

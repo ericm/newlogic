@@ -31,10 +31,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         if (!this.state.loading) {
             return (
                 <div className={styles.main}>
-                    <a className={styles.tool} id={"click"} onClick={this.toggleMode}>Click</a>
-                    <a className={styles.tool} id={"and"} onClick={this.toggleMode}>And</a>
-                    <a className={styles.tool} id={"or"} onClick={this.toggleMode}>Or</a>
-                    <a className={styles.tool} id={"draw"} onClick={this.toggleMode}>Draw</a>
+                    <a className={styles.tool} id={"click"} onClick={this.toggleMode}>Click</a><br></br>
+                    <a className={styles.tool} id={"and"} onClick={this.toggleMode}>And</a><br></br>
+                    <a className={styles.tool} id={"or"} onClick={this.toggleMode}>Or</a><br></br>
+                    <a className={styles.tool} id={"draw"} onClick={this.toggleMode}>Draw</a><br></br>
                 </div>
             );
         } else {

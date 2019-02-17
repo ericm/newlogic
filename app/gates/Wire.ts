@@ -7,6 +7,6 @@ export default class Wire {
         this.state = props;
     }
     public render = (ctx: CanvasRenderingContext2D): void =>
-        Wiring.drawWire(ctx, this.state.start, this.state.end);
+        Wiring.drawWire(ctx, this.state.startNode.getCoords(), this.state.endNode.getCoords());
     
 }
