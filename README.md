@@ -1,6 +1,6 @@
 # ![newlogic](assets/logo.png?raw=true)
 
-[![Build Status](https://travis-ci.com/TooFiveFive/newlogic.svg?token=jyRxn4zkYKsnfs8jmdDd&branch=master)](https://travis-ci.com/TooFiveFive/newlogic)
+[![Build Status](https://travis-ci.org/TooFiveFive/newlogic.svg?branch=master)](https://travis-ci.org/TooFiveFive/newlogic)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a0f924120c6c46979c43fa0089a71dbf)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TooFiveFive/newlogic&amp;utm_campaign=Badge_Grade)
 
 
