@@ -106,4 +106,6 @@ app.on("ready", () =>
 		ipcMain.on("settings", () => {
 			settings("");
 		});
+	}).catch((reason) => {
+		console.log(reason);
 	}));
