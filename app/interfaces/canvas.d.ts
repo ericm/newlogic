@@ -2,9 +2,10 @@ import AndGate from "../gates/AND";
 import GateNode from "../gates/Node";
 import OrGate from "../gates/OR";
 import Wire from "../gates/Wire";
+import NotGate from "../gates/NOT";
 
 // set any type of gate
-export type AnyGate = AndGate | OrGate;
+export type AnyGate = AndGate | OrGate | NotGate;
 
 export interface State<T> {
 	coords: GateCoords,

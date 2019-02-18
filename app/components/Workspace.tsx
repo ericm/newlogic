@@ -7,6 +7,7 @@ import OrGate from '../gates/OR';
 import Wire from '../gates/Wire';
 import { AnyGate, GateCoords, GateSize, SelectedNode } from '../interfaces/canvas';
 import { Component, Gates, WorkspaceProps, WorkspaceState } from '../interfaces/components';
+import NotGate from '../gates/NOT';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -50,11 +51,12 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			width: (this.props.width * window.innerWidth / 100).toString(),
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
-		this.gates = { and: [], wire: [], or: [] }
+		this.gates = { and: [], wire: [], or: [], not: [] }
 
 		// Buffer Gates
 		this.gates.and.push(new AndGate(this.ctx));
 		this.gates.or.push(new OrGate(this.ctx));
+		this.gates.not.push(new NotGate(this.ctx));
 
 		// Draw grid
 		this.drawGrid();
@@ -91,6 +93,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		Wiring.rerender(this.gates.wire, this.ctx);
 		Wiring.rerender(this.gates.and, null);
 		Wiring.rerender(this.gates.or, null);
+		Wiring.rerender(this.gates.not, null);
 		Wiring.renderNodes(this.startNodes, this.ctx);
 		Wiring.renderNodes(this.endNodes, this.ctx);
 	}
@@ -132,6 +135,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 				break;
 
+
 			case "or":
 				if (e.type == "click") {
 					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
@@ -144,6 +148,22 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					Wiring.renderNodes(newNodes.start, this.ctx);
 
 					this.gates.or.push(new OrGate(this.ctx));
+				}
+
+				break;
+
+			case "not":
+				if (e.type == "click") {
+					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+					const newNodes = this.gates.not[this.gates.not.length - 1].add(coords, size);
+
+					this.endNodes.push(...newNodes.end);
+					this.startNodes.push(...newNodes.start);
+
+					Wiring.renderNodes(newNodes.end, this.ctx);
+					Wiring.renderNodes(newNodes.start, this.ctx);
+
+					this.gates.not.push(new NotGate(this.ctx));
 				}
 
 				break;
