@@ -4,14 +4,15 @@ import GateNode from './Node';
 
 let img = require('../img/or.svg')
 export default class OrGate extends Gates<OrGate> {
-	private nodeOffsetStart: GateCoords[] = [{ x: 40, y: 20.5 }]
-	private nodeOffsetEnd: GateCoords[] = [{ x: 0, y: 1.5 }, { x: 0, y: 39.5 }]
 
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();
 		this.ctx = ctx;
 		this.svg = new Image();
 		this.svg.src = img;
+
+		this.nodeOffsetStart = [{ x: 40, y: 20.5 }]
+		this.nodeOffsetEnd = [{ x: 0, y: 1.5 }, { x: 0, y: 39.5 }]
 	}
 
 	public add = (c: GateCoords, s: GateSize): Nodes<OrGate> => {
@@ -32,17 +33,6 @@ export default class OrGate extends Gates<OrGate> {
 		this.render();
 
 		return this.state.nodes;
-	}
-
-	public dragNodes = (c: GateCoords): void => {
-		for (let i in this.state.nodes.start) {
-			const move: GateCoords = { x: c.x + this.nodeOffsetStart[i].x, y: c.y + this.nodeOffsetStart[i].y }
-			this.state.nodes.start[i].setCoords(move);
-		}
-		for (let i in this.state.nodes.end) {
-			const move: GateCoords = { x: c.x + this.nodeOffsetEnd[i].x, y: c.y + this.nodeOffsetEnd[i].y }
-			this.state.nodes.end[i].setCoords(move);
-		}
 	}
 
 }

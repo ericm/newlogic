@@ -5,6 +5,9 @@ export default class Gates<T> {
     public svg: HTMLImageElement
     public state: State<T>
 
+    public nodeOffsetStart: GateCoords[]
+	public nodeOffsetEnd: GateCoords[]
+
     public render = (): void => {
         this.ctx.drawImage(this.svg, this.state.coords.x, this.state.coords.y,
             this.state.size.width, this.state.size.height);
@@ -26,5 +29,14 @@ export default class Gates<T> {
         this.dragNodes(coords);
     }
 
-    public dragNodes = (_: GateCoords): void => { };
+    public dragNodes = (c: GateCoords): void => {
+		for (let i in this.state.nodes.start) {
+			const move: GateCoords = { x: c.x + this.nodeOffsetStart[i].x, y: c.y + this.nodeOffsetStart[i].y }
+			this.state.nodes.start[i].setCoords(move);
+		}
+		for (let i in this.state.nodes.end) {
+			const move: GateCoords = { x: c.x + this.nodeOffsetEnd[i].x, y: c.y + this.nodeOffsetEnd[i].y }
+			this.state.nodes.end[i].setCoords(move);
+		}
+	}
 }

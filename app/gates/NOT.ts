@@ -5,14 +5,15 @@ import GateNode from './Node';
 // import img from '../img/and.svg'
 let img = require('../img/not.svg');
 export default class NotGate extends Gates<NotGate> {
-	private nodeOffsetStart: GateCoords[] = [{ x: 40, y: 20.5 }]
-	private nodeOffsetEnd: GateCoords[] = [{ x: 0, y: 20.5 }]
 
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();
 		this.ctx = ctx;
 		this.svg = new Image();
-		this.svg.src = img;
+        this.svg.src = img;
+        
+        this.nodeOffsetStart = [{ x: 40, y: 20.5 }];
+        this.nodeOffsetEnd =  [{ x: 0, y: 20.5 }];
 	}
 
 	public add = (c: GateCoords, s: GateSize): Nodes<NotGate> => {
@@ -32,17 +33,6 @@ export default class NotGate extends Gates<NotGate> {
 		this.render();
 
 		return this.state.nodes;
-	}
-
-	public dragNodes = (c: GateCoords): void => {
-		for (let i in this.state.nodes.start) {
-			const move: GateCoords = { x: c.x + this.nodeOffsetStart[i].x, y: c.y + this.nodeOffsetStart[i].y }
-			this.state.nodes.start[i].setCoords(move);
-		}
-		for (let i in this.state.nodes.end) {
-			const move: GateCoords = { x: c.x + this.nodeOffsetEnd[i].x, y: c.y + this.nodeOffsetEnd[i].y }
-			this.state.nodes.end[i].setCoords(move);
-		}
 	}
 
 }
