@@ -5,9 +5,10 @@ import AndGate from '../gates/AND';
 import GateNode from '../gates/Node';
 import OrGate from '../gates/OR';
 import Wire from '../gates/Wire';
-import { AnyGate, GateCoords, GateSize, SelectedNode } from '../interfaces/canvas';
+import { AnyGate, GateCoords, GateSize, SelectedNode, Nodes } from '../interfaces/canvas';
 import { Component, Gates, WorkspaceProps, WorkspaceState } from '../interfaces/components';
 import NotGate from '../gates/NOT';
+import Switch from '../gates/Switch';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -51,12 +52,13 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			width: (this.props.width * window.innerWidth / 100).toString(),
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
-		this.gates = { and: [], wire: [], or: [], not: [] }
+		this.gates = { and: [], wire: [], or: [], not: [], switch: [] }
 
 		// Buffer Gates
 		this.gates.and.push(new AndGate(this.ctx));
 		this.gates.or.push(new OrGate(this.ctx));
 		this.gates.not.push(new NotGate(this.ctx));
+		this.gates.switch.push(new Switch(this.ctx));
 
 		// Draw grid
 		this.drawGrid();
@@ -94,6 +96,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		Wiring.rerender(this.gates.and, null);
 		Wiring.rerender(this.gates.or, null);
 		Wiring.rerender(this.gates.not, null);
+		Wiring.rerender(this.gates.switch, null);
 		Wiring.renderNodes(this.startNodes, this.ctx);
 		Wiring.renderNodes(this.endNodes, this.ctx);
 	}
@@ -124,11 +127,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
 
-					this.endNodes.push(...newNodes.end);
-					this.startNodes.push(...newNodes.start);
-
-					Wiring.renderNodes(newNodes.end, this.ctx);
-					Wiring.renderNodes(newNodes.start, this.ctx);
+					this.addNodes(newNodes);
 
 					this.gates.and.push(new AndGate(this.ctx));
 				}
@@ -141,11 +140,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.or[this.gates.or.length - 1].add(coords, size);
 
-					this.endNodes.push(...newNodes.end);
-					this.startNodes.push(...newNodes.start);
-
-					Wiring.renderNodes(newNodes.end, this.ctx);
-					Wiring.renderNodes(newNodes.start, this.ctx);
+					this.addNodes(newNodes);
 
 					this.gates.or.push(new OrGate(this.ctx));
 				}
@@ -157,18 +152,33 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.not[this.gates.not.length - 1].add(coords, size);
 
-					this.endNodes.push(...newNodes.end);
-					this.startNodes.push(...newNodes.start);
-
-					Wiring.renderNodes(newNodes.end, this.ctx);
-					Wiring.renderNodes(newNodes.start, this.ctx);
+					this.addNodes(newNodes);
 
 					this.gates.not.push(new NotGate(this.ctx));
 				}
 
 				break;
+			case "switch":
+				if (e.type == "click") {
+					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+					const newNodes = this.gates.switch[this.gates.switch.length - 1].add(coords, size);
+
+					this.addNodes(newNodes);
+
+					this.gates.switch.push(new Switch(this.ctx));
+				}
+
+				break;
 		}
 
+	}
+
+	private addNodes<T>(newNodes: Nodes<T>): void {
+		this.endNodes.push(...newNodes.end);
+		this.startNodes.push(...newNodes.start);
+
+		Wiring.renderNodes(newNodes.end, this.ctx);
+		Wiring.renderNodes(newNodes.start, this.ctx);
 	}
 
 	private clear = (): void => {
@@ -182,6 +192,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		let gate: AnyGate | null = null;
 		if (gate === null) gate = Wiring.isClicked(this.gates.and, coords);
 		if (gate === null) gate = Wiring.isClicked(this.gates.or, coords);
+		if (gate === null) gate = Wiring.isClicked(this.gates.not, coords);
+		if (gate === null) gate = Wiring.isClicked(this.gates.switch, coords);
 
 		switch (e.type) {
 			case "click":

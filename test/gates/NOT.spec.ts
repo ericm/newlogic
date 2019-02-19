@@ -4,7 +4,7 @@ import NotGate from '../../app/gates/NOT';
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 
-describe("Gates", () => {
+describe("NotGate", () => {
     it("initiates", () => {
         if (ctx !== null) {
             const gate = new NotGate(ctx);

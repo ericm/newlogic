@@ -35,6 +35,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                     <a className={styles.tool} id={"and"} onClick={this.toggleMode}>And</a><br></br>
                     <a className={styles.tool} id={"or"} onClick={this.toggleMode}>Or</a><br></br>
                     <a className={styles.tool} id={"not"} onClick={this.toggleMode}>Not</a><br></br>
+                    <a className={styles.tool} id={"switch"} onClick={this.toggleMode}>Switch</a><br></br>
                     <a className={styles.tool} id={"draw"} onClick={this.toggleMode}>Draw</a><br></br>
                 </div>
             );

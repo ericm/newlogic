@@ -4,7 +4,7 @@ import AndGate from "../../app/gates/AND";
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 
-describe("Gates", () => {
+describe("AndGate", () => {
     it("initiates", () => {
         if (ctx !== null) {
             const gate = new AndGate(ctx);

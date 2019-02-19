@@ -4,7 +4,7 @@ import OrGate from '../../app/gates/OR';
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 
-describe("Gates", () => {
+describe("OrGate", () => {
     it("initiates", () => {
         if (ctx !== null) {
             const gate = new OrGate(ctx);
