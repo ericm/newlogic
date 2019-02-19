@@ -22,6 +22,8 @@ export default class Gates<T> {
 
         this.ctx.lineWidth = 3;
         this.ctx.setLineDash([0]);
+
+        this.clickSpecific();
     }
 
     public drag = (coords: GateCoords): void => {
@@ -38,5 +40,7 @@ export default class Gates<T> {
 			const move: GateCoords = { x: c.x + this.nodeOffsetEnd[i].x, y: c.y + this.nodeOffsetEnd[i].y }
 			this.state.nodes.end[i].setCoords(move);
 		}
-	}
+    }
+    
+    public clickSpecific = (): void => {}
 }

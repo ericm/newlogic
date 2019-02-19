@@ -32,4 +32,8 @@ export default class Switch extends Gates<Switch> {
 		return this.state.nodes;
 	}
 
+	public clickSpecific = (): void => {
+		
+	}
+
 }

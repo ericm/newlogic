@@ -50,3 +50,7 @@ export interface GateGeneric {
 	state: any,
 	render: Function
 }
+
+export interface SwitchState extends State<Switch> {
+	
+}
