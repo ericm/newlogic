@@ -9,6 +9,7 @@ import { AnyGate, GateCoords, GateSize, SelectedNode, Nodes } from '../interface
 import { Component, Gates, WorkspaceProps, WorkspaceState } from '../interfaces/components';
 import NotGate from '../gates/NOT';
 import Switch from '../gates/Switch';
+import LED from '../gates/LED';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -52,13 +53,14 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			width: (this.props.width * window.innerWidth / 100).toString(),
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
-		this.gates = { and: [], wire: [], or: [], not: [], switch: [] }
+		this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
 
 		// Buffer Gates
 		this.gates.and.push(new AndGate(this.ctx));
 		this.gates.or.push(new OrGate(this.ctx));
 		this.gates.not.push(new NotGate(this.ctx));
 		this.gates.switch.push(new Switch(this.ctx));
+		this.gates.led.push(new LED(this.ctx));
 
 		// Draw grid
 		this.drawGrid();
@@ -97,6 +99,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		Wiring.rerender(this.gates.or, null);
 		Wiring.rerender(this.gates.not, null);
 		Wiring.rerender(this.gates.switch, null);
+		Wiring.rerender(this.gates.led, null);
+
 		Wiring.renderNodes(this.startNodes, this.ctx);
 		Wiring.renderNodes(this.endNodes, this.ctx);
 	}
@@ -120,8 +124,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				this.cavasDrag(e, coords);
 				break;
 
-			// Gate cases
 
+			// Gate cases
 			case "and":
 				if (e.type == "click") {
 					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
@@ -155,6 +159,17 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.addNodes(newNodes);
 
 					this.gates.not.push(new NotGate(this.ctx));
+				}
+
+				break;
+			case "led":
+				if (e.type == "click") {
+					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+					const newNodes = this.gates.led[this.gates.led.length - 1].add(coords, size);
+
+					this.addNodes(newNodes);
+
+					this.gates.led.push(new LED(this.ctx));
 				}
 
 				break;

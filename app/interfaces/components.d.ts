@@ -5,6 +5,7 @@ import Wire from "../gates/Wire";
 import { GateCoords } from "./canvas";
 import NotGate from "../gates/NOT";
 import Switch from "../gates/Switch";
+import LED from "../gates/LED";
 
 // Home
 export interface Child extends WinBarResize {
@@ -30,7 +31,8 @@ export interface Gates {
 	or: OrGate[],
 	wire: Wire[],
 	not: NotGate[],
-	switch: Switch[]
+	switch: Switch[],
+	led: LED[]
 }
 // WinBar
 export interface WinBarState extends Component {

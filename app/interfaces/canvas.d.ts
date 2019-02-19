@@ -4,9 +4,10 @@ import OrGate from "../gates/OR";
 import Wire from "../gates/Wire";
 import NotGate from "../gates/NOT";
 import Switch from "../gates/Switch";
+import LED from "../gates/LED";
 
 // set any type of gate
-export type AnyGate = AndGate | OrGate | NotGate | Switch;
+export type AnyGate = AndGate | OrGate | NotGate | Switch | LED;
 
 export interface State<T> {
 	coords: GateCoords,
