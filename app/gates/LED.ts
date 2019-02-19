@@ -1,10 +1,12 @@
-import { GateCoords, GateSize, Nodes } from '../interfaces/canvas';
+import { GateCoords, GateSize, Nodes, InState } from '../interfaces/canvas';
 import Gates from './Gates';
 import GateNode from './Node';
 
 // import img from '../img/and.svg'
 let img = require('../img/switch.svg')
 export default class LED extends Gates<LED> {
+
+	public state: InState<LED>
 
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();
@@ -24,7 +26,9 @@ export default class LED extends Gates<LED> {
 			nodes: {
 				start: [],
 				end: [new GateNode<LED>(this, c1, "end")]
-			}
+			},
+			connected: false,
+			input: false
 		}
 
 		this.render();

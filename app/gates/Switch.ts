@@ -7,7 +7,7 @@ import GateNode from './Node';
 let img = require('../img/switch.svg')
 export default class Switch extends Gates<Switch> {
 
-	public state: OutState
+	public state: OutState<Switch>
 
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();

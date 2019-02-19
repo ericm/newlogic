@@ -51,7 +51,11 @@ export interface GateGeneric {
 	render: Function
 }
 
-export interface OutState extends State<Switch> {
+export interface OutState<T> extends State<T> {
 	clicked: boolean,
+	connected: boolean
+}
+export interface InState<T> extends State<T> {
+	input: boolean,
 	connected: boolean
 }
