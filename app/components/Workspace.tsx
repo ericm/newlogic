@@ -209,6 +209,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		if (gate === null) gate = Wiring.isClicked(this.gates.or, coords);
 		if (gate === null) gate = Wiring.isClicked(this.gates.not, coords);
 		if (gate === null) gate = Wiring.isClicked(this.gates.switch, coords);
+		if (gate === null) gate = Wiring.isClicked(this.gates.led, coords);
 
 		switch (e.type) {
 			case "click":
