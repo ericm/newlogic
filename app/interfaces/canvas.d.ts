@@ -9,6 +9,8 @@ import LED from "../gates/LED";
 // set any type of gate
 export type AnyGate = AndGate | OrGate | NotGate | Switch | LED;
 
+export type Assoc = Array<Array<boolean>>
+
 export interface State<T> {
 	coords: GateCoords,
 	size: GateSize

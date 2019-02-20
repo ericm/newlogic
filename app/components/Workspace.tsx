@@ -5,11 +5,12 @@ import AndGate from '../gates/AND';
 import GateNode from '../gates/Node';
 import OrGate from '../gates/OR';
 import Wire from '../gates/Wire';
-import { AnyGate, GateCoords, GateSize, SelectedNode, Nodes } from '../interfaces/canvas';
+import { AnyGate, GateCoords, GateSize, SelectedNode, Nodes, Assoc } from '../interfaces/canvas';
 import { Component, Gates, WorkspaceProps, WorkspaceState } from '../interfaces/components';
 import NotGate from '../gates/NOT';
 import Switch from '../gates/Switch';
 import LED from '../gates/LED';
+import { Logic } from '../actions/logic';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -28,6 +29,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private clicked: AnyGate[] = [];
 	private clickedDrag: AnyGate[] = [];
+
+	private graph: Assoc = [];
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
@@ -48,7 +51,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	public changeMode = (mode: string): void => this.setState({ mode });
 
 	public onChange = (): void => {
-		console.log("change");
+		this.graph = Logic.graphCreate(this.endNodes, this.startNodes);
+		console.log(this.graph);
 	}
 
 	public componentDidMount() {
@@ -65,6 +69,9 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		this.gates.not.push(new NotGate(this.ctx));
 		this.gates.switch.push(new Switch(this.ctx));
 		this.gates.led.push(new LED(this.ctx));
+
+		// Create graph
+		this.onChange();
 
 		// Draw grid
 		this.drawGrid();
@@ -319,9 +326,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				break;
 			case "mouseup":
 			case "mouseleave":
-				this.setState({ dragging: false });
 				// save wire
-				if (this.nodeSelectEnd.selected && this.nodeSelectEnd.node !== null && this.nodeSelectStart.node !== null) {
+				if (this.nodeSelectEnd.selected && this.nodeSelectEnd.node !== null && this.nodeSelectStart.node !== null 
+					&& this.state.dragging) {
+					this.setState({ dragging: false });
 					const wire = new Wire({
 						startNode: this.nodeSelectStart.node, endNode: this.nodeSelectEnd.node
 					});

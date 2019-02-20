@@ -39,4 +39,12 @@ export default class GateNode<T> {
     public setCoords = (coords: GateCoords): void => {
         this.state.coords = coords;
     }
+
+    public hasSameGate = (other: GateNode<T>): boolean => {
+        return other.state.gate === this.state.gate;
+    }
+
+    public getGate = (): T => {
+        return this.state.gate;
+    }
 }
