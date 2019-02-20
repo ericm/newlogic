@@ -45,7 +45,11 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		this.nodeSelectStart = { node: null, selected: false }
 	}
 
-	public changeMode = (mode: string): void => this.setState({ mode })
+	public changeMode = (mode: string): void => this.setState({ mode });
+
+	public onChange = (): void => {
+		console.log("change");
+	}
 
 	public componentDidMount() {
 		this.setCtx();
@@ -134,6 +138,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.addNodes(newNodes);
 
 					this.gates.and.push(new AndGate(this.ctx));
+					this.onChange();
 				}
 
 				break;
@@ -147,6 +152,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.addNodes(newNodes);
 
 					this.gates.or.push(new OrGate(this.ctx));
+					this.onChange();
 				}
 
 				break;
@@ -170,6 +176,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.addNodes(newNodes);
 
 					this.gates.led.push(new LED(this.ctx));
+					this.onChange();
 				}
 
 				break;
@@ -181,6 +188,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.addNodes(newNodes);
 
 					this.gates.switch.push(new Switch(this.ctx));
+					this.onChange();
 				}
 
 				break;
@@ -262,6 +270,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			case "mouseup":
 				if (this.state.dragging) {
 					this.setState({ dragging: false });
+					this.onChange();
 				}
 
 				break;
@@ -320,6 +329,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.gates.wire.push(wire);
 					this.nodeSelectEnd.node.setWire(wire);
 					this.nodeSelectStart.node.setWire(wire)
+					this.onChange();
 				} else {
 					this.clear();
 				}
