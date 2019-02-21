@@ -48,11 +48,25 @@ export default class Gates<T extends Gates<any>>  {
     public connect = (type: string, gate: AnyGate): void => {
         switch (type) {
             case "in":
-                this.state.gateIn = gate;
+                this.state.gateIn.add(gate);
                 break;
             case "out":
-                this.state.gateOut = gate;
+                this.state.gateOut.add(gate);
                 break;
         }
     }
+
+    public upEval = (): void => {
+        this.state.gateIn.forEach((val) => {
+            val.evaluate();
+        });
+    }
+
+    public downEval = (): void => {
+        this.state.gateOut.forEach((val) => {
+            val.evaluate();
+        });
+    }
+
+    public evaluate = (): void => {}
 }

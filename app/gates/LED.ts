@@ -29,8 +29,8 @@ export default class LED extends Gates<LED> {
 			},
 			connected: false,
 			input: false,
-			gateIn: null,
-			gateOut: null
+			gateIn: new Set(),
+			gateOut: new Set()
 		}
 
 		this.render();

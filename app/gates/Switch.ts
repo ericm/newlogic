@@ -30,8 +30,8 @@ export default class Switch extends Gates<Switch> {
 			},
 			clicked: false,
 			connected: false,
-			gateIn: null,
-			gateOut: null
+			gateIn: new Set(),
+			gateOut: new Set()
 		}
 
 		this.render();
