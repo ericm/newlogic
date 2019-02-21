@@ -6,11 +6,11 @@ export default class GateNode<T extends Gates<any>> {
     private state: NodeState<T>
 
     public constructor(gate: T, coords: GateCoords, type: string) {
-        this.state = { gate, wire: null, coords, type, value: false };
+        this.state = { gate, wire: [], coords, type, value: false };
     }
 
     public setWire = (wire: Wire, type: string): void => {
-        this.state.wire = wire;
+        this.state.wire.push(wire);
         switch (type) {
             case "start":
                 this.state.gate.connect("out", wire.state.endNode.state.gate);
@@ -32,13 +32,9 @@ export default class GateNode<T extends Gates<any>> {
         ctx.stroke();
     }
 
-    public hasWire = (): boolean => {
-        if (this.state.wire === null) return false;
-        else return true;
-    }
-
     public removeWire = (): void => {
-        this.state.wire = null;
+        // Cop Out
+        this.state.wire.pop();
     }
 
     public type = (): string => {
@@ -51,6 +47,7 @@ export default class GateNode<T extends Gates<any>> {
 
     public setVal = (val: boolean): void => {
         this.state.value = val;
+        if (this.state.type === "start") this.state.wire.forEach(element => element.state.endNode.setVal(val));
     }
 
     public getVal = (): boolean => {

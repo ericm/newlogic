@@ -11,6 +11,7 @@ import NotGate from '../gates/NOT';
 import Switch from '../gates/Switch';
 import LED from '../gates/LED';
 import Gates from '../gates/Gates';
+import { Logic } from '../actions/logic';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -49,8 +50,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	public changeMode = (mode: string): void => this.setState({ mode });
 
 	public onChange = (): void => {
-		// this.graph = Logic.graphCreate(this.endNodes, this.startNodes);
-		// console.log(this.graph);
+		Logic.evalAll(this.gates);
 	}
 
 	public componentDidMount() {
@@ -310,7 +310,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					if (node !== null) {
 						coords = node.getCoords();
 						this.nodeSelectEnd = { node, selected: true };
-						console.log(this.nodeSelectEnd.node);
 					} else {
 						this.nodeSelectEnd = { node: null, selected: false };
 					}

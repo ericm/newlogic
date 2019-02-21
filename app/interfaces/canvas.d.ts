@@ -34,7 +34,7 @@ export interface AndState {
 // Node
 export interface NodeState<T> {
 	gate: T,
-	wire: Wire | null,
+	wire: Wire[],
 	coords: GateCoords,
 	type: string,
 	value: boolean
