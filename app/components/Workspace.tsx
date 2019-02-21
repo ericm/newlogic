@@ -5,12 +5,11 @@ import AndGate from '../gates/AND';
 import GateNode from '../gates/Node';
 import OrGate from '../gates/OR';
 import Wire from '../gates/Wire';
-import { AnyGate, GateCoords, GateSize, SelectedNode, Nodes, Assoc } from '../interfaces/canvas';
+import { AnyGate, GateCoords, GateSize, SelectedNode, Nodes } from '../interfaces/canvas';
 import { Component, AllGates, WorkspaceProps, WorkspaceState } from '../interfaces/components';
 import NotGate from '../gates/NOT';
 import Switch from '../gates/Switch';
 import LED from '../gates/LED';
-import { Logic } from '../actions/logic';
 import Gates from '../gates/Gates';
 
 let styles = require('./styles/Workspace.scss');
@@ -31,8 +30,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	private clicked: AnyGate[] = [];
 	private clickedDrag: AnyGate[] = [];
 
-	private graph: Assoc = [];
-
 	public constructor(props: WorkspaceProps) {
 		super(props);
 		this.state = {
@@ -52,8 +49,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	public changeMode = (mode: string): void => this.setState({ mode });
 
 	public onChange = (): void => {
-		this.graph = Logic.graphCreate(this.endNodes, this.startNodes);
-		console.log(this.graph);
+		// this.graph = Logic.graphCreate(this.endNodes, this.startNodes);
+		// console.log(this.graph);
 	}
 
 	public componentDidMount() {
