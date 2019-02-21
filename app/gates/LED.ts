@@ -29,13 +29,21 @@ export default class LED extends Gates<LED> {
 			},
 			connected: false,
 			input: false,
-			gateIn: new Set(),
-			gateOut: new Set()
+			gateIn: new Array(),
+			gateOut: new Array()
 		}
 
 		this.render();
 
 		return this.state.nodes;
+	}
+
+	public evaluate = (): void => {
+		this.upEval();
+		
+		// Set Val
+		this.state.input = this.state.nodes.end[0].getVal();
+		console.log(this.state.input);
 	}
 
 }

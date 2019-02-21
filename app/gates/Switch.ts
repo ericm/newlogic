@@ -30,8 +30,8 @@ export default class Switch extends Gates<Switch> {
 			},
 			clicked: false,
 			connected: false,
-			gateIn: new Set(),
-			gateOut: new Set()
+			gateIn: new Array(),
+			gateOut: new Array()
 		}
 
 		this.render();
@@ -41,6 +41,10 @@ export default class Switch extends Gates<Switch> {
 
 	public clickSpecific = (): void => {
 		this.state.clicked = true;
+	}
+
+	public evaluate = (): void => {
+		this.state.nodes.start[0].setVal(true);
 	}
 
 }

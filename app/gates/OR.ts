@@ -28,13 +28,23 @@ export default class OrGate extends Gates<OrGate> {
 				start: [new GateNode<OrGate>(this, c3, "start")],
 				end: [new GateNode<OrGate>(this, c1, "end"), new GateNode<OrGate>(this, c2, "end")]
 			},
-			gateIn: new Set(),
-			gateOut: new Set()
+			gateIn: new Array(),
+			gateOut: new Array()
 		}
 
 		this.render();
 
 		return this.state.nodes;
+	}
+
+	public evaluate = (): void => {
+		this.upEval();
+		
+		// Bitwise OR
+		this.state.nodes.start[0].setVal(
+			this.state.nodes.end[0].getVal() || this.state.nodes.end[1].getVal()
+		);
+
 	}
 
 }

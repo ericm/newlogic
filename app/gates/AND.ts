@@ -29,8 +29,8 @@ export default class AndGate extends Gates<AndGate> {
 				start: [new GateNode<AndGate>(this, c3, "start")],
 				end: [new GateNode<AndGate>(this, c1, "end"), new GateNode<AndGate>(this, c2, "end")]
 			},
-			gateIn: new Set(),
-			gateOut: new Set()
+			gateIn: new Array(),
+			gateOut: new Array()
 		}
 
 		this.render();
@@ -41,6 +41,10 @@ export default class AndGate extends Gates<AndGate> {
 	public evaluate = (): void => {
 		this.upEval();
 		
+		// Bitwise AND
+		this.state.nodes.start[0].setVal(
+			this.state.nodes.end[0].getVal() && this.state.nodes.end[1].getVal()
+		);
 	}
 
 }

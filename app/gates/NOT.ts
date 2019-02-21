@@ -28,13 +28,22 @@ export default class NotGate extends Gates<NotGate> {
 				start: [new GateNode<NotGate>(this, c3, "start")],
 				end: [new GateNode<NotGate>(this, c1, "end")]
 			},
-			gateIn: new Set(),
-			gateOut: new Set()
+			gateIn: new Array(),
+			gateOut: new Array()
 		}
 
 		this.render();
 
 		return this.state.nodes;
+	}
+
+	public evaluate = (): void => {
+		this.upEval();
+		
+		// Bitwise NOT
+		this.state.nodes.start[0].setVal(
+			!this.state.nodes.end[0].getVal()
+		);
 	}
 
 }

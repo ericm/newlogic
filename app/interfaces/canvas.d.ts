@@ -16,8 +16,8 @@ export interface State<T extends Gates<any>>  {
 	coords: GateCoords,
 	size: GateSize,
 	nodes: Nodes<T>,
-	gateIn: Set<AnyGate>,
-	gateOut: Set<AnyGate>
+	gateIn: Array<AnyGate>,
+	gateOut: Array<AnyGate>
 }
 export interface Nodes<T extends Gates<any>>  {
 	start: GateNode<T>[],
@@ -36,7 +36,8 @@ export interface NodeState<T> {
 	gate: T,
 	wire: Wire | null,
 	coords: GateCoords,
-	type: string
+	type: string,
+	value: boolean
 }
 export interface SelectedNode<T extends Gates<any>> {
 	node: GateNode<T> | null,

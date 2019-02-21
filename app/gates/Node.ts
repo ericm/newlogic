@@ -6,7 +6,7 @@ export default class GateNode<T extends Gates<any>> {
     private state: NodeState<T>
 
     public constructor(gate: T, coords: GateCoords, type: string) {
-        this.state = { gate, wire: null, coords, type };
+        this.state = { gate, wire: null, coords, type, value: false };
     }
 
     public setWire = (wire: Wire, type: string): void => {
@@ -47,5 +47,13 @@ export default class GateNode<T extends Gates<any>> {
 
     public setCoords = (coords: GateCoords): void => {
         this.state.coords = coords;
+    }
+
+    public setVal = (val: boolean): void => {
+        this.state.value = val;
+    }
+
+    public getVal = (): boolean => {
+        return this.state.value;
     }
 }
