@@ -28,7 +28,9 @@ export default class LED extends Gates<LED> {
 				end: [new GateNode<LED>(this, c1, "end")]
 			},
 			connected: false,
-			input: false
+			input: false,
+			gateIn: null,
+			gateOut: null
 		}
 
 		this.render();

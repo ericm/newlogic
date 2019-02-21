@@ -26,7 +26,7 @@ export interface HomeProps {
 
 }
 // Gates
-export interface Gates {
+export interface AllGates {
 	and: AndGate[],
 	or: OrGate[],
 	wire: Wire[],

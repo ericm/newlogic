@@ -5,18 +5,21 @@ import Wire from "../gates/Wire";
 import NotGate from "../gates/NOT";
 import Switch from "../gates/Switch";
 import LED from "../gates/LED";
+import Gates from "../gates/Gates";
 
 // set any type of gate
 export type AnyGate = AndGate | OrGate | NotGate | Switch | LED;
 
 export type Assoc = Array<Array<boolean>>
 
-export interface State<T> {
+export interface State<T extends Gates<any>>  {
 	coords: GateCoords,
-	size: GateSize
-	nodes: Nodes<T>
+	size: GateSize,
+	nodes: Nodes<T>,
+	gateIn: AnyGate | null,
+	gateOut: AnyGate | null
 }
-export interface Nodes<T> {
+export interface Nodes<T extends Gates<any>>  {
 	start: GateNode<T>[],
 	end: GateNode<T>[]
 }
@@ -35,7 +38,7 @@ export interface NodeState<T> {
 	coords: GateCoords,
 	type: string
 }
-export interface SelectedNode<T> {
+export interface SelectedNode<T extends Gates<any>> {
 	node: GateNode<T> | null,
 	selected: boolean
 }
@@ -53,11 +56,11 @@ export interface GateGeneric {
 	render: Function
 }
 
-export interface OutState<T> extends State<T> {
+export interface OutState<T extends Gates<any>>  extends State<T> {
 	clicked: boolean,
 	connected: boolean
 }
-export interface InState<T> extends State<T> {
+export interface InState<T extends Gates<any>>  extends State<T> {
 	input: boolean,
 	connected: boolean
 }

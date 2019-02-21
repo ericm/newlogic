@@ -1,15 +1,24 @@
 import { GateCoords, NodeState } from "../interfaces/canvas";
 import Wire from "./Wire";
+import Gates from "./Gates";
 
-export default class GateNode<T> {
+export default class GateNode<T extends Gates<any>> {
     private state: NodeState<T>
 
     public constructor(gate: T, coords: GateCoords, type: string) {
         this.state = { gate, wire: null, coords, type };
     }
 
-    public setWire = (wire: Wire): void => {
+    public setWire = (wire: Wire, type: string): void => {
         this.state.wire = wire;
+        switch (type) {
+            case "start":
+                this.state.gate.connect("out", wire.state.endNode.state.gate);
+                break;
+            case "end":
+                this.state.gate.connect("in", wire.state.startNode.state.gate);
+                break;
+        }
     }
 
     public getCoords = (): GateCoords => {
@@ -38,13 +47,5 @@ export default class GateNode<T> {
 
     public setCoords = (coords: GateCoords): void => {
         this.state.coords = coords;
-    }
-
-    public hasSameGate = (other: GateNode<T>): boolean => {
-        return other.state.gate === this.state.gate;
-    }
-
-    public getGate = (): T => {
-        return this.state.gate;
     }
 }

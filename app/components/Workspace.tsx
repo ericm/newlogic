@@ -6,11 +6,12 @@ import GateNode from '../gates/Node';
 import OrGate from '../gates/OR';
 import Wire from '../gates/Wire';
 import { AnyGate, GateCoords, GateSize, SelectedNode, Nodes, Assoc } from '../interfaces/canvas';
-import { Component, Gates, WorkspaceProps, WorkspaceState } from '../interfaces/components';
+import { Component, AllGates, WorkspaceProps, WorkspaceState } from '../interfaces/components';
 import NotGate from '../gates/NOT';
 import Switch from '../gates/Switch';
 import LED from '../gates/LED';
 import { Logic } from '../actions/logic';
+import Gates from '../gates/Gates';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -19,7 +20,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	private canvas: HTMLCanvasElement
 	private ctx: CanvasRenderingContext2D
-	private gates: Gates
+	private gates: AllGates
 
 	private endNodes: GateNode<any>[] = []
 	private startNodes: GateNode<any>[] = []
@@ -203,7 +204,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	}
 
-	private addNodes<T>(newNodes: Nodes<T>): void {
+	private addNodes<T extends Gates<any>>(newNodes: Nodes<T>): void {
 		this.endNodes.push(...newNodes.end);
 		this.startNodes.push(...newNodes.start);
 
@@ -335,8 +336,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					});
 
 					this.gates.wire.push(wire);
-					this.nodeSelectEnd.node.setWire(wire);
-					this.nodeSelectStart.node.setWire(wire)
+					this.nodeSelectEnd.node.setWire(wire, "end");
+					this.nodeSelectStart.node.setWire(wire, "start");
 					this.onChange();
 				} else {
 					this.clear();

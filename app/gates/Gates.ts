@@ -1,6 +1,7 @@
+import { AnyGate } from './../interfaces/canvas.d';
 import { GateCoords, State } from "../interfaces/canvas";
 
-export default class Gates<T> {
+export default class Gates<T extends Gates<any>>  {
     public ctx: CanvasRenderingContext2D
     public svg: HTMLImageElement
     public state: State<T>
@@ -43,4 +44,15 @@ export default class Gates<T> {
     }
     
     public clickSpecific = (): void => {}
+
+    public connect = (type: string, gate: AnyGate): void => {
+        switch (type) {
+            case "in":
+                this.state.gateIn = gate;
+                break;
+            case "out":
+                this.state.gateOut = gate;
+                break;
+        }
+    }
 }

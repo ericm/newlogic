@@ -27,7 +27,9 @@ export default class OrGate extends Gates<OrGate> {
 			nodes: {
 				start: [new GateNode<OrGate>(this, c3, "start")],
 				end: [new GateNode<OrGate>(this, c1, "end"), new GateNode<OrGate>(this, c2, "end")]
-			}
+			},
+			gateIn: null,
+			gateOut: null
 		}
 
 		this.render();

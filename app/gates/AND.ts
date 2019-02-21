@@ -28,7 +28,9 @@ export default class AndGate extends Gates<AndGate> {
 			nodes: {
 				start: [new GateNode<AndGate>(this, c3, "start")],
 				end: [new GateNode<AndGate>(this, c1, "end"), new GateNode<AndGate>(this, c2, "end")]
-			}
+			},
+			gateIn: null,
+			gateOut: null
 		}
 
 		this.render();
