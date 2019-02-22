@@ -24,7 +24,6 @@ export default class Gates<T extends Gates<any>>  {
         this.ctx.lineWidth = 3;
         this.ctx.setLineDash([0]);
 
-        this.clickSpecific();
     }
 
     public drag = (coords: GateCoords): void => {

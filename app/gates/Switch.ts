@@ -40,11 +40,11 @@ export default class Switch extends Gates<Switch> {
 	}
 
 	public clickSpecific = (): void => {
-		this.state.clicked = true;
+		this.state.clicked = !this.state.clicked;
 	}
 
 	public evaluate = (): void => {
-		this.state.nodes.start[0].setVal(true);
+		this.state.nodes.start[0].setVal(this.state.clicked);
 	}
 
 }

@@ -232,19 +232,21 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.clear();
 					this.updateCanvas();
 					gate.click();
+					gate.clickSpecific();
 					this.clicked.push(gate);
 
 				} else {
 					this.clicked = []
 					this.clear();
 					this.updateCanvas();
+					this.clicked[this.clicked.length - 1].clickSpecific();
 				}
+				this.onChange();
 				break;
 
 			case "mousedown":
 				if (gate !== null) {
 					if (gate == this.clicked[0]) {
-						console.log(this.gates.and);
 						this.setState({
 							dragging: true,
 							dragInit: coords,
@@ -275,7 +277,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			case "mouseup":
 				if (this.state.dragging) {
 					this.setState({ dragging: false });
-					this.onChange();
 				}
 
 				break;
