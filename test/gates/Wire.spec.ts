@@ -1,4 +1,4 @@
-import { GateCoords, GateSize, WireProps } from './../../app/interfaces/canvas.d';
+import { GateCoords, WireProps } from './../../app/interfaces/canvas.d';
 import Wire from '../../app/gates/Wire';
 import GateNode from '../../app/gates/Node';
 import AndGate from '../../app/gates/AND';
