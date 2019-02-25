@@ -239,7 +239,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.clicked = []
 					this.clear();
 					this.updateCanvas();
-					this.clicked[this.clicked.length - 1].clickSpecific();
 				}
 				this.onChange();
 				break;
