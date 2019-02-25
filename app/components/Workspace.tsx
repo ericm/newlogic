@@ -336,13 +336,21 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				// save wire
 				if (this.nodeSelectEnd.selected && this.nodeSelectEnd.node !== null && this.nodeSelectStart.node !== null 
 					&& this.state.dragging) {
+
+					let startNode = this.nodeSelectStart.node;
+					let endNode = this.nodeSelectEnd.node;
+					if (this.nodeSelectStart.node.type() === "end") {
+						startNode = this.nodeSelectEnd.node;
+						endNode = this.nodeSelectStart.node;
+					} 
+
 					const wire = new Wire({
-						startNode: this.nodeSelectStart.node, endNode: this.nodeSelectEnd.node
+						startNode, endNode
 					});
 
 					this.gates.wire.push(wire);
-					this.nodeSelectEnd.node.setWire(wire, "end");
-					this.nodeSelectStart.node.setWire(wire, "start");
+					endNode.setWire(wire, "end");
+					startNode.setWire(wire, "start");
 					this.onChange();
 				} else {
 					this.clear();
