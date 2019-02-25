@@ -4,11 +4,11 @@ import { GateCoords, GateGeneric } from "../interfaces/canvas";
 export namespace Wiring {
 
     export function wireSnap(nodes: GateNode<any>[], coords: GateCoords, snap: number): GateNode<any> | null {
-        for (let i in nodes) {
-            const nodeCoords = nodes[i].getCoords();
+        for (let node of nodes) {
+            const nodeCoords = node.getCoords();
 
             if (Math.abs(coords.x - nodeCoords.x) <= snap && Math.abs(coords.y - nodeCoords.y) <= snap) {
-                return nodes[i];
+                return node;
             }
         }
         return null;

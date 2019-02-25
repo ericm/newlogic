@@ -290,7 +290,9 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 		switch (e.type) {
 			case "mousedown":
-				const node = Wiring.wireSnap(this.startNodes, coords, this.state.snapFactor);
+				let node = Wiring.wireSnap(this.startNodes, coords, this.state.snapFactor);
+				if (node === null) node = Wiring.wireSnap(this.endNodes, coords, this.state.snapFactor);
+
 				if (node !== null) {
 					const snapCoords = node.getCoords();
 					this.setState({
@@ -306,7 +308,14 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				break;
 			case "mousemove":
 				if (this.state.dragging) {
-					const node = Wiring.wireSnap(this.endNodes, coords, this.state.snapFactor);
+					let node: GateNode<any> | null = null;
+
+					if (this.nodeSelectStart.node !== null && this.nodeSelectStart.node.type() === "start") {
+						node = Wiring.wireSnap(this.endNodes, coords, this.state.snapFactor);
+					} else {
+						node = Wiring.wireSnap(this.startNodes, coords, this.state.snapFactor);
+					}
+					
 
 					if (node !== null) {
 						coords = node.getCoords();
@@ -327,7 +336,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				// save wire
 				if (this.nodeSelectEnd.selected && this.nodeSelectEnd.node !== null && this.nodeSelectStart.node !== null 
 					&& this.state.dragging) {
-					this.setState({ dragging: false });
 					const wire = new Wire({
 						startNode: this.nodeSelectStart.node, endNode: this.nodeSelectEnd.node
 					});
@@ -339,6 +347,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				} else {
 					this.clear();
 				}
+				this.setState({ dragging: false });
 				break;
 		}
 
