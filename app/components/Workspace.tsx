@@ -217,29 +217,33 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>, coords: GateCoords): void => {
 
 		// Find if a gate was clicked
-		let gate: AnyGate | null = null;
-		if (gate === null) gate = Wiring.isClicked(this.gates.and, coords);
-		if (gate === null) gate = Wiring.isClicked(this.gates.or, coords);
-		if (gate === null) gate = Wiring.isClicked(this.gates.not, coords);
-		if (gate === null) gate = Wiring.isClicked(this.gates.switch, coords);
-		if (gate === null) gate = Wiring.isClicked(this.gates.led, coords);
+		let gate: AnyGate | null = Wiring.isClicked(this.gates.and, coords) 
+								|| Wiring.isClicked(this.gates.or, coords)
+								|| Wiring.isClicked(this.gates.not, coords)
+								|| Wiring.isClicked(this.gates.switch, coords)
+								|| Wiring.isClicked(this.gates.led, coords);
 
 		switch (e.type) {
 			case "click":
-				if (gate !== null) {
+				if (gate === null){
+					this.clicked = [];
+					this.clear();
+					this.updateCanvas();
+				} else if (!!this.clicked.indexOf(gate)) {
+					this.clicked = [];
+					this.clear();
+					this.updateCanvas();
+				}
 
+				if (this.clicked.length === 0 && gate !== null) {
 					this.clicked = []
 					this.clear();
 					this.updateCanvas();
 					gate.click();
-					gate.clickSpecific();
 					this.clicked.push(gate);
-
-				} else {
-					this.clicked = []
-					this.clear();
-					this.updateCanvas();
 				}
+
+				if (gate !== null) gate.clickSpecific();
 				this.onChange();
 				break;
 
@@ -275,6 +279,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 			case "mouseup":
 				if (this.state.dragging) {
+					this.clear();
+					this.updateCanvas();
 					this.setState({ dragging: false });
 				}
 
