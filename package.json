@@ -169,6 +169,7 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
+    "@types/electron-settings": "^3.1.1",
     "electron-debug": "^1.1.0",
     "electron-settings": "^3.2.0",
     "font-awesome": "^4.7.0",
