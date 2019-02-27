@@ -1,8 +1,8 @@
 {
-  "name": "electron-react-typescript-boilerplate",
-  "productName": "ElectronReactTypescript",
+  "name": "newlogic",
+  "productName": "newlogic",
   "version": "0.10.0",
-  "description": "Electron application boilerplate based on TypeScript, React, React Router, Webpack, React Hot Loader for rapid application development",
+  "description": "Circuit Builder Desktop Application (like mmlogic) made with Electron + React Typescript. Compatible with Windows, Mac and Linux.",
   "main": "main.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test node --trace-warnings ./test/runTests.js",
@@ -170,6 +170,7 @@
   },
   "dependencies": {
     "electron-debug": "^1.1.0",
+    "electron-settings": "^3.2.0",
     "font-awesome": "^4.7.0",
     "history": "^4.6.1",
     "konva": "^2.6.0",
