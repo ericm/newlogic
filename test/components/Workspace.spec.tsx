@@ -6,7 +6,7 @@ import { WorkspaceState } from '../../app/interfaces/components';
 import '../utils/enzymeConfig';
 
 
-const el = (<Workspace width={100} height={100} />);
+const el = (<Workspace testing={true} width={100} height={100} />);
 
 describe("<Workspace />", () => {
     it("calls componentDidMount", () => {

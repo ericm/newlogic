@@ -6,12 +6,14 @@ import GateNode from '../gates/Node';
 import OrGate from '../gates/OR';
 import Wire from '../gates/Wire';
 import { AnyGate, GateCoords, GateSize, SelectedNode, Nodes } from '../interfaces/canvas';
-import { Component, AllGates, WorkspaceProps, WorkspaceState } from '../interfaces/components';
+import { Component, AllGates, WorkspaceProps, WorkspaceState, WorkspaceSaveState } from '../interfaces/components';
 import NotGate from '../gates/NOT';
 import Switch from '../gates/Switch';
 import LED from '../gates/LED';
 import Gates from '../gates/Gates';
 import { Logic } from '../actions/logic';
+
+import * as settings from 'electron-settings';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -33,16 +35,35 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	public constructor(props: WorkspaceProps) {
 		super(props);
-		this.state = {
-			width: (this.props.width * window.innerWidth / 100).toString(),
-			height: (this.props.height * window.innerHeight / 100).toString(),
-			mode: "draw",
-			dragging: false,
-			dragInit: { x: 0, y: 0 },
-			drag: { x: 0, y: 0 },
-			gridFactor: 20,
-			snapFactor: 20
+		if (!!this.props.testing && this.props.testing) {
+			this.state = {
+				width: (this.props.width * window.innerWidth / 100).toString(),
+				height: (this.props.height * window.innerHeight / 100).toString(),
+				mode: "draw",
+				dragging: false,
+				dragInit: { x: 0, y: 0 },
+				drag: { x: 0, y: 0 },
+				gridFactor: 20,
+				snapFactor: 20
+			}
+		} else {
+			let state: WorkspaceSaveState = !!this.props.name ? settings.get(this.props.name) : settings.get("default") as any;
+			console.log(state);
+			this.state = {
+				width: (this.props.width * window.innerWidth / 100).toString(),
+				height: (this.props.height * window.innerHeight / 100).toString(),
+				mode: "draw",
+				dragging: false,
+				dragInit: { x: 0, y: 0 },
+				drag: { x: 0, y: 0 },
+				gridFactor: state.gridFactor,
+				snapFactor: state.snapFactor	
+			}
+			this.gates = state.gates;
+			this.endNodes = state.endNodes;
+			this.startNodes = state.startNodes;
 		}
+		
 		this.nodeSelectEnd = { node: null, selected: false }
 		this.nodeSelectStart = { node: null, selected: false }
 	}

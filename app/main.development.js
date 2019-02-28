@@ -6,10 +6,23 @@ const {
 	ipcMain
 } = require("electron");
 
+const esettings = require("electron-settings");
+
 let menu;
 let template;
 let mainWindow = null;
 let settingsWindow = null;
+
+// set defaults
+esettings.set("default", {
+	gates: { and: [], wire: [], or: [], not: [], switch: [], led: [] },
+	endNodes: [],
+	startNodes: [],
+	gridFactor: 20,
+	snapFactor: 20
+});
+
+console.log(esettings.getAll());
 
 if (process.env.NODE_ENV === "production") {
 	const sourceMapSupport = require("source-map-support"); // eslint-disable-line

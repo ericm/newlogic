@@ -6,6 +6,7 @@ import { GateCoords } from "./canvas";
 import NotGate from "../gates/NOT";
 import Switch from "../gates/Switch";
 import LED from "../gates/LED";
+import GateNode from "../gates/Node";
 
 // Home
 export interface Child extends WinBarResize {
@@ -23,7 +24,7 @@ export interface HomeState {
 	child2: Child
 }
 export interface HomeProps {
-
+	testing?: boolean
 }
 // Gates
 export interface AllGates {
@@ -74,5 +75,14 @@ export interface WorkspaceState {
 	snapFactor: number
 }
 export interface WorkspaceProps extends Component {
+	name?: string,
+	testing?: boolean
+}
 
+export interface WorkspaceSaveState {
+	gates: { and: AndGate[], wire: Wire[], or: OrGate[], not: NotGate[], switch: Switch[], led: LED[] },
+	endNodes:  GateNode<any>[],
+	startNodes:  GateNode<any>[],
+	gridFactor: number,
+	snapFactor: number
 }
