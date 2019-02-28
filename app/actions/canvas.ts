@@ -56,6 +56,10 @@ export namespace Wiring {
         ctx.stroke();
     }
 
+    export function selection(ctx: CanvasRenderingContext2D, init: GateCoords, curent: GateCoords): void {
+        // ctx.beginPath();
+    }
+
     export function gridLayout(coords: GateCoords, factor: number): GateCoords {
         let x: number, y: number;
         x = Math.ceil(coords.x / factor) * factor;

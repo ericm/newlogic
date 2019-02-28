@@ -44,7 +44,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				dragInit: { x: 0, y: 0 },
 				drag: { x: 0, y: 0 },
 				gridFactor: 20,
-				snapFactor: 20
+				snapFactor: 20,
+				canvasDrag: false
 			}
 		} else {
 			let state: WorkspaceSaveState = !!this.props.name ? settings.get(this.props.name) : settings.get("default") as any;
@@ -57,7 +58,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				dragInit: { x: 0, y: 0 },
 				drag: { x: 0, y: 0 },
 				gridFactor: state.gridFactor,
-				snapFactor: state.snapFactor	
+				snapFactor: state.snapFactor,
+				canvasDrag: false
 			}
 			this.gates = state.gates;
 			this.endNodes = state.endNodes;
@@ -250,21 +252,14 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.clicked = [];
 					this.clear();
 					this.updateCanvas();
-				} else if (!!this.clicked.indexOf(gate)) {
-					this.clicked = [];
-					this.clear();
-					this.updateCanvas();
-				}
-
-				if (this.clicked.length === 0 && gate !== null) {
+				} else {
 					this.clicked = []
 					this.clear();
 					this.updateCanvas();
-					gate.click();
 					this.clicked.push(gate);
 				}
 
-				if (gate !== null) gate.clickSpecific();
+				if (gate !== null) { gate.click(); gate.clickSpecific(); }
 				this.onChange();
 				break;
 
@@ -281,6 +276,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 						this.clear();
 						this.updateCanvas();
 					}
+				} else {
+					this.setState({canvasDrag: true});
 				}
 				break;
 
@@ -295,6 +292,13 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					}
 					this.clear();
 					this.updateCanvas();
+				} else if (this.state.canvasDrag) {
+					console.log("dragging");
+					const move: GateCoords = {
+						x: coords.x - (this.state.dragInit.x - this.state.drag.x),
+						y: coords.y - (this.state.dragInit.y - this.state.drag.y)
+					}
+					Wiring.selection(this.ctx, move, {x: this.state.dragInit.x - this.state.drag.x, y: this.state.dragInit.x - this.state.drag.x});
 				}
 				break;
 
@@ -303,6 +307,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.clear();
 					this.updateCanvas();
 					this.setState({ dragging: false });
+				} else if (this.state.canvasDrag) {
+					this.setState({canvasDrag: false});
 				}
 
 				break;
