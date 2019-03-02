@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Wiring } from '../actions/canvas';
 import { Logic } from '../actions/logic';
 //import items (gates etc)
-import { AndGate, GateNode, Gates, LED, NotGate, OrGate, Switch, Wire } from '../gates/all';
+import * as LogicGates from '../gates/all';
 import { AnyGate, GateCoords, GateSize, Nodes, SelectedNode } from '../interfaces/canvas';
 import { AllGates, Component, WorkspaceProps, WorkspaceSaveState, WorkspaceState } from '../interfaces/components';
 
@@ -17,8 +17,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 	private ctx: CanvasRenderingContext2D
 	private gates: AllGates
 
-	private endNodes: GateNode<any>[] = []
-	private startNodes: GateNode<any>[] = []
+	private endNodes: LogicGates.GateNode<any>[] = []
+	private startNodes: LogicGates.GateNode<any>[] = []
 
 	private nodeSelectEnd: SelectedNode<any>
 	private nodeSelectStart: SelectedNode<any>
@@ -77,11 +77,11 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		});
 
 		// Buffer Gates
-		this.gates.and.push(new AndGate(this.ctx));
-		this.gates.or.push(new OrGate(this.ctx));
-		this.gates.not.push(new NotGate(this.ctx));
-		this.gates.switch.push(new Switch(this.ctx));
-		this.gates.led.push(new LED(this.ctx));
+		this.gates.and.push(new LogicGates.AndGate(this.ctx));
+		this.gates.or.push(new LogicGates.OrGate(this.ctx));
+		this.gates.not.push(new LogicGates.NotGate(this.ctx));
+		this.gates.switch.push(new LogicGates.Switch(this.ctx));
+		this.gates.led.push(new LogicGates.LED(this.ctx));
 
 		// Create graph
 		this.onChange();
@@ -157,7 +157,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 					this.addNodes(newNodes);
 
-					this.gates.and.push(new AndGate(this.ctx));
+					this.gates.and.push(new LogicGates.AndGate(this.ctx));
 					this.onChange();
 				}
 
@@ -171,7 +171,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 					this.addNodes(newNodes);
 
-					this.gates.or.push(new OrGate(this.ctx));
+					this.gates.or.push(new LogicGates.OrGate(this.ctx));
 					this.onChange();
 				}
 
@@ -184,7 +184,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 					this.addNodes(newNodes);
 
-					this.gates.not.push(new NotGate(this.ctx));
+					this.gates.not.push(new LogicGates.NotGate(this.ctx));
 				}
 
 				break;
@@ -195,7 +195,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 					this.addNodes(newNodes);
 
-					this.gates.led.push(new LED(this.ctx));
+					this.gates.led.push(new LogicGates.LED(this.ctx));
 					this.onChange();
 				}
 
@@ -207,7 +207,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 					this.addNodes(newNodes);
 
-					this.gates.switch.push(new Switch(this.ctx));
+					this.gates.switch.push(new LogicGates.Switch(this.ctx));
 					this.onChange();
 				}
 
@@ -216,7 +216,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	}
 
-	private addNodes<T extends Gates<any>>(newNodes: Nodes<T>): void {
+	private addNodes<T extends LogicGates.Gates<any>>(newNodes: Nodes<T>): void {
 		this.endNodes.push(...newNodes.end);
 		this.startNodes.push(...newNodes.start);
 
@@ -332,7 +332,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				break;
 			case "mousemove":
 				if (this.state.dragging) {
-					let node: GateNode<any> | null = null;
+					let node: LogicGates.GateNode<any> | null = null;
 
 					if (this.nodeSelectStart.node !== null && this.nodeSelectStart.node.type() === "start") {
 						node = Wiring.wireSnap(this.endNodes, coords, this.state.snapFactor);
@@ -368,7 +368,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 						endNode = this.nodeSelectStart.node;
 					} 
 
-					const wire = new Wire({
+					const wire = new LogicGates.Wire({
 						startNode, endNode
 					});
 
