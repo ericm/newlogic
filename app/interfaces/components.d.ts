@@ -1,12 +1,6 @@
 // Gates imports
-import AndGate from "../gates/AND";
-import OrGate from "../gates/OR";
-import Wire from "../gates/Wire";
+import { AndGate, GateNode, LED, NotGate, OrGate, Switch, Wire } from '../gates/all';
 import { GateCoords } from "./canvas";
-import NotGate from "../gates/NOT";
-import Switch from "../gates/Switch";
-import LED from "../gates/LED";
-import GateNode from "../gates/Node";
 
 // Home
 export interface Child extends WinBarResize {

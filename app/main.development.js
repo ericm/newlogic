@@ -14,13 +14,16 @@ let mainWindow = null;
 let settingsWindow = null;
 
 // set defaults
-esettings.set("default", {
-	gates: { and: [], wire: [], or: [], not: [], switch: [], led: [] },
-	endNodes: [],
-	startNodes: [],
-	gridFactor: 20,
-	snapFactor: 20
-});
+if (!esettings.has("default")) {
+	console.log("set default save");
+	esettings.set("default", {
+		gates: { and: [], wire: [], or: [], not: [], switch: [], led: [] },
+		endNodes: [],
+		startNodes: [],
+		gridFactor: 20,
+		snapFactor: 20
+	});
+}
 
 console.log(esettings.getAll());
 

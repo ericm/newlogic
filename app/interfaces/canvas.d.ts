@@ -1,11 +1,4 @@
-import AndGate from "../gates/AND";
-import GateNode from "../gates/Node";
-import OrGate from "../gates/OR";
-import Wire from "../gates/Wire";
-import NotGate from "../gates/NOT";
-import Switch from "../gates/Switch";
-import LED from "../gates/LED";
-import Gates from "../gates/Gates";
+import {AndGate, OrGate, LED, Gates, GateNode, NotGate, Switch, Wire} from '../gates/all';
 
 // set any type of gate
 export type AnyGate = AndGate | OrGate | NotGate | Switch | LED;

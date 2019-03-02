@@ -1,19 +1,12 @@
+import * as settings from 'electron-settings';
 import * as React from 'react';
 import { Wiring } from '../actions/canvas';
-//import items (gates etc)
-import AndGate from '../gates/AND';
-import GateNode from '../gates/Node';
-import OrGate from '../gates/OR';
-import Wire from '../gates/Wire';
-import { AnyGate, GateCoords, GateSize, SelectedNode, Nodes } from '../interfaces/canvas';
-import { Component, AllGates, WorkspaceProps, WorkspaceState, WorkspaceSaveState } from '../interfaces/components';
-import NotGate from '../gates/NOT';
-import Switch from '../gates/Switch';
-import LED from '../gates/LED';
-import Gates from '../gates/Gates';
 import { Logic } from '../actions/logic';
+//import items (gates etc)
+import { AndGate, GateNode, Gates, LED, NotGate, OrGate, Switch, Wire } from '../gates/all';
+import { AnyGate, GateCoords, GateSize, Nodes, SelectedNode } from '../interfaces/canvas';
+import { AllGates, Component, WorkspaceProps, WorkspaceSaveState, WorkspaceState } from '../interfaces/components';
 
-import * as settings from 'electron-settings';
 
 let styles = require('./styles/Workspace.scss');
 
@@ -47,6 +40,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				snapFactor: 20,
 				canvasDrag: false
 			}
+			this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
 		} else {
 			let state: WorkspaceSaveState = !!this.props.name ? settings.get(this.props.name) : settings.get("default") as any;
 			console.log(state);
@@ -72,9 +66,8 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	public changeMode = (mode: string): void => this.setState({ mode });
 
-	public onChange = (): void => {
-		Logic.evalAll(this.gates);
-	}
+	public onChange = (): void => Logic.evalAll(this.gates);
+	
 
 	public componentDidMount() {
 		this.setCtx();
@@ -82,7 +75,6 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			width: (this.props.width * window.innerWidth / 100).toString(),
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
-		this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
 
 		// Buffer Gates
 		this.gates.and.push(new AndGate(this.ctx));
