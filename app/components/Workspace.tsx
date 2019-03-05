@@ -6,6 +6,7 @@ import { Logic } from '../actions/logic';
 import * as LogicGates from '../gates/all';
 import * as ICanvas from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
+import * as Flatted from 'flatted';
 
 
 let styles = require('./styles/Workspace.scss');
@@ -42,7 +43,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			}
 			this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
 		} else {
-			let state: IComponent.WorkspaceSaveState = !!this.props.name ? settings.get(this.props.name) : settings.get("default") as any;
+			let state: IComponent.WorkspaceSaveState = !!this.props.name ? settings.get(`saves.${this.props.name}`) : settings.get("default") as any;
 			console.log(state);
 			this.state = {
 				width: (this.props.width * window.innerWidth / 100).toString(),
@@ -62,6 +63,17 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		
 		this.nodeSelectEnd = { node: null, selected: false }
 		this.nodeSelectStart = { node: null, selected: false }
+	}
+
+	public save = (name?: string): void => {
+		let saveName = !!name ? name : this.props.name;
+		settings.set(`saves.${saveName}`, Flatted.stringify({
+			gates: this.gates,
+			endNodes: this.endNodes,
+			startNodes: this.startNodes,
+			gridFactor: this.state.gridFactor,
+			snapFactor: this.state.snapFactor
+		}));
 	}
 
 	public changeMode = (mode: string): void => this.setState({ mode });
@@ -185,6 +197,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 					this.addNodes(newNodes);
 
 					this.gates.not.push(new LogicGates.NotGate(this.ctx));
+					this.onChange();
 				}
 
 				break;
@@ -233,10 +246,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 		// Find if a gate was clicked
 		let gate: ICanvas.AnyGate | null = Wiring.isClicked(this.gates.and, coords) 
-								|| Wiring.isClicked(this.gates.or, coords)
-								|| Wiring.isClicked(this.gates.not, coords)
-								|| Wiring.isClicked(this.gates.switch, coords)
-								|| Wiring.isClicked(this.gates.led, coords);
+										|| Wiring.isClicked(this.gates.or, coords)
+										|| Wiring.isClicked(this.gates.not, coords)
+										|| Wiring.isClicked(this.gates.switch, coords)
+										|| Wiring.isClicked(this.gates.led, coords);
 
 		switch (e.type) {
 			case "click":

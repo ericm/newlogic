@@ -24,6 +24,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         }
     }
 
+    private saveW = (): void => {
+        this._workspaces[0].save("test");
+    }
+
     public toggleMode = (e: React.MouseEvent<HTMLAnchorElement>): void => this.sendMode(e.currentTarget.id);
 
     public render(): JSX.Element {
@@ -38,6 +42,8 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                     <a className={styles.tool} id={"switch"} onClick={this.toggleMode}>Switch</a><br></br>
                     <a className={styles.tool} id={"led"} onClick={this.toggleMode}>LED</a><br></br>
                     <a className={styles.tool} id={"draw"} onClick={this.toggleMode}>Draw</a><br></br>
+                    <br></br>
+                    <a className={styles.tool} onClick={this.saveW}>Save</a><br></br>
                 </div>
             );
         } else {
