@@ -4,29 +4,29 @@ import { Wiring } from '../actions/canvas';
 import { Logic } from '../actions/logic';
 //import items (gates etc)
 import * as LogicGates from '../gates/all';
-import { AnyGate, GateCoords, GateSize, Nodes, SelectedNode } from '../interfaces/canvas';
-import { AllGates, Component, WorkspaceProps, WorkspaceSaveState, WorkspaceState } from '../interfaces/components';
+import * as ICanvas from '../interfaces/canvas';
+import * as IComponent from '../interfaces/components';
 
 
 let styles = require('./styles/Workspace.scss');
 
 
-export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
+export default class Workspace extends React.Component<IComponent.WorkspaceProps, IComponent.WorkspaceState> {
 
 	private canvas: HTMLCanvasElement
 	private ctx: CanvasRenderingContext2D
-	private gates: AllGates
+	private gates: IComponent.AllGates
 
 	private endNodes: LogicGates.GateNode<any>[] = []
 	private startNodes: LogicGates.GateNode<any>[] = []
 
-	private nodeSelectEnd: SelectedNode<any>
-	private nodeSelectStart: SelectedNode<any>
+	private nodeSelectEnd: ICanvas.SelectedNode<any>
+	private nodeSelectStart: ICanvas.SelectedNode<any>
 
-	private clicked: AnyGate[] = [];
-	private clickedDrag: AnyGate[] = [];
+	private clicked: ICanvas.AnyGate[] = [];
+	private clickedDrag: ICanvas.AnyGate[] = [];
 
-	public constructor(props: WorkspaceProps) {
+	public constructor(props: IComponent.WorkspaceProps) {
 		super(props);
 		if (!!this.props.testing && this.props.testing) {
 			this.state = {
@@ -42,7 +42,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			}
 			this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
 		} else {
-			let state: WorkspaceSaveState = !!this.props.name ? settings.get(this.props.name) : settings.get("default") as any;
+			let state: IComponent.WorkspaceSaveState = !!this.props.name ? settings.get(this.props.name) : settings.get("default") as any;
 			console.log(state);
 			this.state = {
 				width: (this.props.width * window.innerWidth / 100).toString(),
@@ -129,7 +129,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		Wiring.renderNodes(this.endNodes, this.ctx);
 	}
 
-	private getCoords(e: any): GateCoords {
+	private getCoords(e: any): ICanvas.GateCoords {
 		const box = e.currentTarget.getBoundingClientRect();
 		return { x: e.clientX - box.left, y: e.clientY - box.top };
 	}
@@ -152,7 +152,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 			// Gate cases
 			case "and":
 				if (e.type == "click") {
-					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
 
 					this.addNodes(newNodes);
@@ -166,7 +166,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 			case "or":
 				if (e.type == "click") {
-					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.or[this.gates.or.length - 1].add(coords, size);
 
 					this.addNodes(newNodes);
@@ -179,7 +179,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 			case "not":
 				if (e.type == "click") {
-					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.not[this.gates.not.length - 1].add(coords, size);
 
 					this.addNodes(newNodes);
@@ -190,7 +190,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				break;
 			case "led":
 				if (e.type == "click") {
-					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.led[this.gates.led.length - 1].add(coords, size);
 
 					this.addNodes(newNodes);
@@ -202,7 +202,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 				break;
 			case "switch":
 				if (e.type == "click") {
-					const size: GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.switch[this.gates.switch.length - 1].add(coords, size);
 
 					this.addNodes(newNodes);
@@ -216,7 +216,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	}
 
-	private addNodes<T extends LogicGates.Gates<any>>(newNodes: Nodes<T>): void {
+	private addNodes<T extends LogicGates.Gates<any>>(newNodes: ICanvas.Nodes<T>): void {
 		this.endNodes.push(...newNodes.end);
 		this.startNodes.push(...newNodes.start);
 
@@ -229,10 +229,10 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		this.updateCanvas();
 	}
 
-	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>, coords: GateCoords): void => {
+	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords): void => {
 
 		// Find if a gate was clicked
-		let gate: AnyGate | null = Wiring.isClicked(this.gates.and, coords) 
+		let gate: ICanvas.AnyGate | null = Wiring.isClicked(this.gates.and, coords) 
 								|| Wiring.isClicked(this.gates.or, coords)
 								|| Wiring.isClicked(this.gates.not, coords)
 								|| Wiring.isClicked(this.gates.switch, coords)
@@ -275,7 +275,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 			case "mousemove":
 				if (this.state.dragging) {
-					const move: GateCoords = {
+					const move: ICanvas.GateCoords = {
 						x: coords.x - (this.state.dragInit.x - this.state.drag.x),
 						y: coords.y - (this.state.dragInit.y - this.state.drag.y)
 					}
@@ -286,7 +286,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 					this.updateCanvas();
 				} else if (this.state.canvasDrag) {
 					console.log("dragging");
-					const move: GateCoords = {
+					const move: ICanvas.GateCoords = {
 						x: coords.x - (this.state.dragInit.x - this.state.drag.x),
 						y: coords.y - (this.state.dragInit.y - this.state.drag.y)
 					}
@@ -308,7 +308,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 		}
 	}
 
-	private cavasDrag = (e: React.MouseEvent<HTMLCanvasElement>, coords: GateCoords): void => {
+	private cavasDrag = (e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords): void => {
 
 		// Drawing wires
 
@@ -385,7 +385,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
 	}
 
-	public resize = (n: Component): void =>
+	public resize = (n: IComponent.Component): void =>
 		this.setState({
 			width: (n.width * window.innerWidth / 100).toString(),
 			height: (n.height * window.innerHeight / 100).toString()
