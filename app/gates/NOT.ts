@@ -29,7 +29,8 @@ export default class NotGate extends Gates<NotGate> {
 				end: [new GateNode<NotGate>(this, c1, "end")]
 			},
 			gateIn: new Array(),
-			gateOut: new Array()
+			gateOut: new Array(),
+			id: Gates.INCID()
 		}
 
 		this.render();

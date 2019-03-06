@@ -30,7 +30,8 @@ export default class LED extends Gates<LED> {
 			connected: false,
 			input: false,
 			gateIn: new Array(),
-			gateOut: new Array()
+			gateOut: new Array(),
+			id: Gates.INCID()
 		}
 
 		this.render();

@@ -2,6 +2,8 @@ import { AnyGate } from './../interfaces/canvas.d';
 import { GateCoords, State } from "../interfaces/canvas";
 
 export default class Gates<T extends Gates<any>>  {
+    public static IDS: number[] = []
+
     public ctx: CanvasRenderingContext2D
     public svg: HTMLImageElement
     public state: State<T>
@@ -62,4 +64,10 @@ export default class Gates<T extends Gates<any>>  {
     
 
     public evaluate = (): void => {}
+
+    public static INCID = (): number => {
+        let id = Gates.IDS.length > 0 ? Gates.IDS[-1]+1 : 0;
+        Gates.IDS.push(id);
+        return id;
+    }
 }

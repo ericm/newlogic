@@ -29,7 +29,8 @@ export default class OrGate extends Gates<OrGate> {
 				end: [new GateNode<OrGate>(this, c1, "end"), new GateNode<OrGate>(this, c2, "end")]
 			},
 			gateIn: new Array(),
-			gateOut: new Array()
+			gateOut: new Array(),
+			id: Gates.INCID()
 		}
 
 		this.render();
