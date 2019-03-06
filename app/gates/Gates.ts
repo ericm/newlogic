@@ -55,10 +55,7 @@ export default class Gates<T extends Gates<any>>  {
         }
     }
 
-    public upEval = (): void => 
-        this.state.gateIn.forEach((val) => {
-            val.evaluate();
-        });
+    public upEval = (): void => this.state.gateIn.forEach(val => val.evaluate());
     
 
     public evaluate = (): void => {}

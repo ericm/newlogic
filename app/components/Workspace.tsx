@@ -7,6 +7,7 @@ import * as LogicGates from '../gates/all';
 import * as ICanvas from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
 import * as Flatted from 'flatted';
+import { Loader } from '../actions/loader';
 
 
 let styles = require('./styles/Workspace.scss');
@@ -14,12 +15,14 @@ let styles = require('./styles/Workspace.scss');
 
 export default class Workspace extends React.Component<IComponent.WorkspaceProps, IComponent.WorkspaceState> {
 
+	// States for non-react components
+
 	private canvas: HTMLCanvasElement
 	private ctx: CanvasRenderingContext2D
-	private gates: IComponent.AllGates
 
-	private endNodes: LogicGates.GateNode<any>[] = []
-	private startNodes: LogicGates.GateNode<any>[] = []
+	public gates: IComponent.AllGates
+	public endNodes: LogicGates.GateNode<any>[] = []
+	public startNodes: LogicGates.GateNode<any>[] = []
 
 	private nodeSelectEnd: ICanvas.SelectedNode<any>
 	private nodeSelectStart: ICanvas.SelectedNode<any>
@@ -43,8 +46,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			}
 			this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
 		} else {
-			let state: IComponent.WorkspaceSaveState = !!this.props.name ? settings.get(`saves.${this.props.name}`) : settings.get("default") as any;
-			console.log(state);
+			const state = !!this.props.name ? Flatted.parse(settings.get(`saves.${this.props.name}`) as any) : settings.get("default") as any;
+			// loader.ts
+			Loader.workspace(state, this);
 			this.state = {
 				width: (this.props.width * window.innerWidth / 100).toString(),
 				height: (this.props.height * window.innerHeight / 100).toString(),
@@ -241,6 +245,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.updateCanvas();
 	}
+
+	public getCtx = (): CanvasRenderingContext2D => { return this.ctx}
 
 	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords): void => {
 
