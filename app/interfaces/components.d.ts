@@ -1,6 +1,6 @@
 // Gates imports
 import { AndGate, GateNode, LED, NotGate, OrGate, Switch, Wire } from '../gates/all';
-import { GateCoords } from "./canvas";
+import { GateCoords, GateSize } from "./canvas";
 
 // Home
 export interface Child extends WinBarResize {
@@ -73,11 +73,20 @@ export interface WorkspaceProps extends Component {
 	name?: string,
 	testing?: boolean
 }
-
+interface GateStatePlecibo {
+	coords: GateCoords,
+	size: GateSize,
+	id: number,
+	inputs: number[],
+	outputs: number[],
+	type: string
+}
 export interface WorkspaceSaveState {
-	gates: { and: AndGate[], wire: Wire[], or: OrGate[], not: NotGate[], switch: Switch[], led: LED[] },
-	endNodes:  GateNode<any>[],
-	startNodes:  GateNode<any>[],
+	gates: { and: GateStatePlecibo[], 
+		or: GateStatePlecibo[], 
+		not: GateStatePlecibo[], 
+		switch: GateStatePlecibo[], 
+		led: GateStatePlecibo[] },
 	gridFactor: number,
 	snapFactor: number
 }

@@ -8,6 +8,7 @@ export type Assoc = Array<Array<boolean>>
 export interface State<T extends Gates<any>>  {
 	coords: GateCoords,
 	size: GateSize,
+	id: number,
 	nodes: Nodes<T>,
 	gateIn: Array<AnyGate>,
 	gateOut: Array<AnyGate>

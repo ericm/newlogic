@@ -14,12 +14,14 @@ let styles = require('./styles/Workspace.scss');
 
 export default class Workspace extends React.Component<IComponent.WorkspaceProps, IComponent.WorkspaceState> {
 
-	private canvas: HTMLCanvasElement
-	private ctx: CanvasRenderingContext2D
-	private gates: IComponent.AllGates
+	// private states for non-react components
 
-	private endNodes: LogicGates.GateNode<any>[] = []
-	private startNodes: LogicGates.GateNode<any>[] = []
+	private canvas: HTMLCanvasElement
+
+	public ctx: CanvasRenderingContext2D
+	public gates: IComponent.AllGates
+	public endNodes: LogicGates.GateNode<any>[] = []
+	public startNodes: LogicGates.GateNode<any>[] = []
 
 	private nodeSelectEnd: ICanvas.SelectedNode<any>
 	private nodeSelectStart: ICanvas.SelectedNode<any>
