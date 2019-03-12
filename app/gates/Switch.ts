@@ -18,7 +18,7 @@ export default class Switch extends Gates<Switch> {
 		this.nodeOffsetStart = [{ x: 40, y: 20.5 }]
 	}
 
-	public add = (c: GateCoords, s: GateSize): Nodes<Switch> => {
+	public add = (c: GateCoords, s: GateSize, id?: number): Nodes<any> => {
 		const c1: GateCoords = { x: c.x + this.nodeOffsetStart[0].x, y: c.y + this.nodeOffsetStart[0].y }
 
 		this.state = {
@@ -32,7 +32,7 @@ export default class Switch extends Gates<Switch> {
 			connected: false,
 			gateIn: new Array(),
 			gateOut: new Array(),
-			id: Gates.INCID()
+			id: !!id ? id : Gates.INCID()
 		}
 
 		this.render();

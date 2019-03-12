@@ -1,4 +1,4 @@
-import { AnyGate } from './../interfaces/canvas.d';
+import { AnyGate, Nodes, GateSize } from './../interfaces/canvas.d';
 import { GateCoords, State } from "../interfaces/canvas";
 
 export default class Gates<T extends Gates<any>>  {
@@ -70,4 +70,6 @@ export default class Gates<T extends Gates<any>>  {
         Gates.IDS.push(id);
         return id;
     }
+
+    public add = (c: GateCoords, s: GateSize, id?: number): Nodes<any> => { return this.state.nodes }
 }

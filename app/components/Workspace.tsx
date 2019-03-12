@@ -1,12 +1,11 @@
-import * as settings from 'electron-settings';
 import * as React from 'react';
 import { Wiring } from '../actions/canvas';
 import { Logic } from '../actions/logic';
+import { Saving } from '../actions/saving';
 //import items (gates etc)
 import * as LogicGates from '../gates/all';
 import * as ICanvas from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
-import * as Flatted from 'flatted';
 
 
 let styles = require('./styles/Workspace.scss');
@@ -31,6 +30,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 	public constructor(props: IComponent.WorkspaceProps) {
 		super(props);
+		this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
 		if (!!this.props.testing && this.props.testing) {
 			this.state = {
 				width: (this.props.width * window.innerWidth / 100).toString(),
@@ -43,24 +43,13 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				snapFactor: 20,
 				canvasDrag: false
 			}
-			this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
 		} else {
-			let state: IComponent.WorkspaceSaveState = !!this.props.name ? settings.get(`saves.${this.props.name}`) : settings.get("default") as any;
-			console.log(state);
-			this.state = {
-				width: (this.props.width * window.innerWidth / 100).toString(),
-				height: (this.props.height * window.innerHeight / 100).toString(),
-				mode: "draw",
-				dragging: false,
-				dragInit: { x: 0, y: 0 },
-				drag: { x: 0, y: 0 },
-				gridFactor: state.gridFactor,
-				snapFactor: state.snapFactor,
-				canvasDrag: false
+			if (!!this.props.name) {
+				Saving.loadState(this, this.props.name);
 			}
-			this.gates = state.gates;
-			this.endNodes = state.endNodes;
-			this.startNodes = state.startNodes;
+			else {
+				Saving.loadState(this)
+			}
 		}
 		
 		this.nodeSelectEnd = { node: null, selected: false }
@@ -68,14 +57,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 	}
 
 	public save = (name?: string): void => {
-		let saveName = !!name ? name : this.props.name;
-		settings.set(`saves.${saveName}`, Flatted.stringify({
-			gates: this.gates,
-			endNodes: this.endNodes,
-			startNodes: this.startNodes,
-			gridFactor: this.state.gridFactor,
-			snapFactor: this.state.snapFactor
-		}));
+		let saveName = !!name ? name : (!!this.props.name ? this.props.name : "");
+		Saving.saveState(this, saveName);
 	}
 
 	public changeMode = (mode: string): void => this.setState({ mode });

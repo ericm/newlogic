@@ -15,7 +15,7 @@ export default class OrGate extends Gates<OrGate> {
 		this.nodeOffsetEnd = [{ x: 0, y: 1.5 }, { x: 0, y: 39.5 }]
 	}
 
-	public add = (c: GateCoords, s: GateSize): Nodes<OrGate> => {
+	public add = (c: GateCoords, s: GateSize, id?: number): Nodes<any> => {
 		const c1: GateCoords = { x: c.x + this.nodeOffsetEnd[0].x, y: c.y + this.nodeOffsetEnd[0].y }
 		const c2: GateCoords = { x: c.x + this.nodeOffsetEnd[1].x, y: c.y + this.nodeOffsetEnd[1].y }
 
@@ -30,7 +30,7 @@ export default class OrGate extends Gates<OrGate> {
 			},
 			gateIn: new Array(),
 			gateOut: new Array(),
-			id: Gates.INCID()
+			id: !!id ? id : Gates.INCID()
 		}
 
 		this.render();

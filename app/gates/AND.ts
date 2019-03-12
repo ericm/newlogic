@@ -5,18 +5,18 @@ import GateNode from './Node';
 // import img from '../img/and.svg'
 let img = require('../img/and.svg')
 export default class AndGate extends Gates<AndGate> {
+	svg = new Image();
+	nodeOffsetStart = [{ x: 40, y: 20.5 }]
+	nodeOffsetEnd = [{ x: 0, y: 1.5 }, { x: 0, y: 39.5 }]
 
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();
 		this.ctx = ctx;
-		this.svg = new Image();
 		this.svg.src = img;
-
-		this.nodeOffsetStart = [{ x: 40, y: 20.5 }]
-		this.nodeOffsetEnd = [{ x: 0, y: 1.5 }, { x: 0, y: 39.5 }]
 	}
 
-	public add = (c: GateCoords, s: GateSize): Nodes<AndGate> => {
+	public add = (c: GateCoords, s: GateSize, id?: number): Nodes<any> => {
+		this.svg.src = img;
 		const c1: GateCoords = { x: c.x + this.nodeOffsetEnd[0].x, y: c.y + this.nodeOffsetEnd[0].y }
 		const c2: GateCoords = { x: c.x + this.nodeOffsetEnd[1].x, y: c.y + this.nodeOffsetEnd[1].y }
 
@@ -31,7 +31,7 @@ export default class AndGate extends Gates<AndGate> {
 			},
 			gateIn: new Array(),
 			gateOut: new Array(),
-			id: Gates.INCID()
+			id: !!id ? id : Gates.INCID()
 		}
 
 		this.render();

@@ -16,7 +16,7 @@ export default class NotGate extends Gates<NotGate> {
         this.nodeOffsetEnd =  [{ x: 0, y: 20.5 }];
 	}
 
-	public add = (c: GateCoords, s: GateSize): Nodes<NotGate> => {
+	public add = (c: GateCoords, s: GateSize, id?: number): Nodes<any> => {
 		const c1: GateCoords = { x: c.x + this.nodeOffsetEnd[0].x, y: c.y + this.nodeOffsetEnd[0].y }
 
 		const c3: GateCoords = { x: c.x + this.nodeOffsetStart[0].x, y: c.y + this.nodeOffsetStart[0].y }
@@ -30,7 +30,7 @@ export default class NotGate extends Gates<NotGate> {
 			},
 			gateIn: new Array(),
 			gateOut: new Array(),
-			id: Gates.INCID()
+			id: !!id ? id : Gates.INCID()
 		}
 
 		this.render();

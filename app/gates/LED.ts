@@ -17,7 +17,7 @@ export default class LED extends Gates<LED> {
 		this.nodeOffsetEnd = [{ x: 0, y: 20.5 }]
 	}
 
-	public add = (c: GateCoords, s: GateSize): Nodes<LED> => {
+	public add = (c: GateCoords, s: GateSize, id?: number): Nodes<any> => {
 		const c1: GateCoords = { x: c.x + this.nodeOffsetEnd[0].x, y: c.y + this.nodeOffsetEnd[0].y }
 
 		this.state = {
@@ -31,7 +31,7 @@ export default class LED extends Gates<LED> {
 			input: false,
 			gateIn: new Array(),
 			gateOut: new Array(),
-			id: Gates.INCID()
+			id: !!id ? id : Gates.INCID()
 		}
 
 		this.render();

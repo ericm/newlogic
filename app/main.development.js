@@ -14,9 +14,9 @@ let mainWindow = null;
 let settingsWindow = null;
 
 // set defaults
-if (!esettings.has("default")) {
+if (!esettings.has("saves.default")) {
 	console.log("set default save");
-	esettings.set("default", {
+	esettings.set("saves.default", {
 		gates: { and: [], wire: [], or: [], not: [], switch: [], led: [] },
 		endNodes: [],
 		startNodes: [],

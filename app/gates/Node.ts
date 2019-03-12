@@ -3,7 +3,7 @@ import Wire from "./Wire";
 import Gates from "./Gates";
 
 export default class GateNode<T extends Gates<any>> {
-    private state: NodeState<T>
+    public state: NodeState<T>
 
     public constructor(gate: T, coords: GateCoords, type: string) {
         this.state = { gate, wire: [], coords, type, value: false };
