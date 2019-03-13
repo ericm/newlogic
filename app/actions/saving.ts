@@ -4,22 +4,6 @@ import { GateNode, Gates, Wire, AndGate, LED, NotGate, Switch, OrGate } from '..
 import { AnyGate } from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
 export namespace Saving {
-	function construct(ctx: CanvasRenderingContext2D, type: string): AnyGate {
-		switch (type) {
-			case "and":
-				return new AndGate(ctx);
-			case "or":
-				return new OrGate(ctx);
-			case "not":
-				return new NotGate(ctx);
-			case "switch":
-				return new Switch(ctx);
-			case "led":
-				return new LED(ctx);
-			default:
-				return new AndGate(ctx);
-		}
-	}
 	function addWires(output: AnyGate[], wires: Wire[],): void {
 		const checkId = (id: number): AnyGate => {
 			for (let ob of output) if (ob.state.id === id) return ob;
@@ -45,11 +29,27 @@ export namespace Saving {
 	}
 	function deserialize<T extends Gates<T>>(gates: IComponent.GateStatePlecibo[], 
 		endNodes: GateNode<any>[], startNodes: GateNode<any>[], ctx: CanvasRenderingContext2D, type: string): T[] {
+			const construct = (): AnyGate => {
+				switch (type) {
+					case "and":
+						return new AndGate(ctx);
+					case "or":
+						return new OrGate(ctx);
+					case "not":
+						return new NotGate(ctx);
+					case "switch":
+						return new Switch(ctx);
+					case "led":
+						return new LED(ctx);
+					default:
+						return new AndGate(ctx);
+				}
+			} 
 			let output: T[] = [];
 			// Get gates and nodes
 			for (let gate of gates) {
 				let constructed: T = {} as T;
-				constructed = construct(ctx, type) as T;
+				constructed = construct() as T;
 				constructed.ctx = ctx;
 				let nodes = constructed.add(gate.coords, gate.size, gate.id);
 				output.push(constructed);
@@ -98,7 +98,9 @@ export namespace Saving {
 	}
 	export function loadState(workspace: Workspace, name?: string): void {
 		let saveName = !!name ? name : "default";
-		const save = settings.get(`saves.${saveName}`) as any as IComponent.WorkspaceSaveState;
+		let save = settings.get(`saves.${saveName}`) as any as IComponent.WorkspaceSaveState;
+		if (typeof save === "undefined") save = settings.get(`saves.default`) as any as IComponent.WorkspaceSaveState;
+
 		let wires: Wire[] = [];
 		let startNodes: GateNode<any>[] = [];
 		let endNodes: GateNode<any>[] = [];
