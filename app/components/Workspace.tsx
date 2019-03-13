@@ -58,7 +58,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 	public onChange = (): void => Logic.evalAll(this.gates);
 	
 
-	public componentDidMount() {
+	public async componentDidMount() {
 		this.setCtx();
 		this.setState({
 			width: (this.props.width * window.innerWidth / 100).toString(),
@@ -66,23 +66,22 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		});
 
 		// Preload gates
-		LogicGates.AndGate.LOAD(this.ctx).then(() => 
-		LogicGates.OrGate.LOAD(this.ctx).then(() => 
-		LogicGates.NotGate.LOAD(this.ctx).then(() => 
-		LogicGates.Switch.LOAD(this.ctx).then(() => 
-		LogicGates.LED.LOAD(this.ctx).then(() => {
-			if (!!this.props.name) {
-				Saving.loadState(this, this.props.name);
-			}
-			else {
-				Saving.loadState(this)
-			}
-			// Create graph
-			this.onChange();
+		await LogicGates.AndGate.LOAD(this.ctx);
+		await LogicGates.OrGate.LOAD(this.ctx);
+		await LogicGates.NotGate.LOAD(this.ctx);
+		await LogicGates.Switch.LOAD(this.ctx);
+		await LogicGates.LED.LOAD(this.ctx);
+		if (!!this.props.name) {
+			Saving.loadState(this, this.props.name);
+		}
+		else {
+			Saving.loadState(this)
+		}
+		// Create graph
+		this.onChange();
 
-			// Draw grid
-			this.updateCanvas();
-		})))));
+		// Draw grid
+		this.updateCanvas();
 		
 	}
 
