@@ -31,25 +31,17 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 	public constructor(props: IComponent.WorkspaceProps) {
 		super(props);
 		this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
-		if (!!this.props.testing && this.props.testing) {
-			this.state = {
-				width: (this.props.width * window.innerWidth / 100).toString(),
-				height: (this.props.height * window.innerHeight / 100).toString(),
-				mode: "draw",
-				dragging: false,
-				dragInit: { x: 0, y: 0 },
-				drag: { x: 0, y: 0 },
-				gridFactor: 20,
-				snapFactor: 20,
-				canvasDrag: false
-			}
-		} else {
-			if (!!this.props.name) {
-				Saving.loadState(this, this.props.name);
-			}
-			else {
-				Saving.loadState(this)
-			}
+		
+		this.state = {
+			width: (this.props.width * window.innerWidth / 100).toString(),
+			height: (this.props.height * window.innerHeight / 100).toString(),
+			mode: "draw",
+			dragging: false,
+			dragInit: { x: 0, y: 0 },
+			drag: { x: 0, y: 0 },
+			gridFactor: 20,
+			snapFactor: 20,
+			canvasDrag: false
 		}
 		
 		this.nodeSelectEnd = { node: null, selected: false }
@@ -79,6 +71,13 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		this.gates.not.push(new LogicGates.NotGate(this.ctx));
 		this.gates.switch.push(new LogicGates.Switch(this.ctx));
 		this.gates.led.push(new LogicGates.LED(this.ctx));
+
+		if (!!this.props.name) {
+			Saving.loadState(this, this.props.name);
+		}
+		else {
+			Saving.loadState(this)
+		}
 
 		// Create graph
 		this.onChange();
