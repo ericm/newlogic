@@ -65,26 +65,24 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
 
-		if (!!this.props.name) {
-			Saving.loadState(this, this.props.name);
-		}
-		else {
-			Saving.loadState(this)
-		}
-
 		// Preload gates
 		LogicGates.AndGate.LOAD(this.ctx).then(() => 
 		LogicGates.OrGate.LOAD(this.ctx).then(() => 
 		LogicGates.NotGate.LOAD(this.ctx).then(() => 
 		LogicGates.Switch.LOAD(this.ctx).then(() => 
 		LogicGates.LED.LOAD(this.ctx).then(() => {
+			if (!!this.props.name) {
+				Saving.loadState(this, this.props.name);
+			}
+			else {
+				Saving.loadState(this)
+			}
 			// Create graph
 			this.onChange();
 
 			// Draw grid
 			this.updateCanvas();
 		})))));
-
 		
 	}
 
@@ -150,66 +148,58 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			// Gate cases
 			case "and":
 				if (e.type == "click") {
+					this.gates.and.push(new LogicGates.AndGate(this.ctx));
 					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
 
 					this.addNodes(newNodes);
-
-					this.gates.and.push(new LogicGates.AndGate(this.ctx));
 					this.onChange();
 				}
-
 				break;
 
 
 			case "or":
 				if (e.type == "click") {
+					this.gates.or.push(new LogicGates.OrGate(this.ctx));
 					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.or[this.gates.or.length - 1].add(coords, size);
 
 					this.addNodes(newNodes);
-
-					this.gates.or.push(new LogicGates.OrGate(this.ctx));
 					this.onChange();
 				}
-
 				break;
 
 			case "not":
 				if (e.type == "click") {
+					this.gates.not.push(new LogicGates.NotGate(this.ctx));
 					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.not[this.gates.not.length - 1].add(coords, size);
 
 					this.addNodes(newNodes);
-
-					this.gates.not.push(new LogicGates.NotGate(this.ctx));
 					this.onChange();
 				}
-
 				break;
+
 			case "led":
 				if (e.type == "click") {
+					this.gates.led.push(new LogicGates.LED(this.ctx));
 					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.led[this.gates.led.length - 1].add(coords, size);
 
 					this.addNodes(newNodes);
-
-					this.gates.led.push(new LogicGates.LED(this.ctx));
 					this.onChange();
 				}
-
 				break;
+
 			case "switch":
 				if (e.type == "click") {
+					this.gates.switch.push(new LogicGates.Switch(this.ctx));
 					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.switch[this.gates.switch.length - 1].add(coords, size);
 
 					this.addNodes(newNodes);
-
-					this.gates.switch.push(new LogicGates.Switch(this.ctx));
 					this.onChange();
 				}
-
 				break;
 		}
 

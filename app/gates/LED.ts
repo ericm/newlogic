@@ -5,23 +5,23 @@ import GateNode from './Node';
 // import img from '../img/and.svg'
 let img = require('../img/switch.svg')
 export default class LED extends Gates<LED> {
-
 	public state: InState<LED>
 
-	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve, _) => {
-		const listen = (_: Event): void => resolve(true);
-		const svg = new Image();
-		svg.src = img;
+	public static SVG: HTMLImageElement
 
-		ctx.drawImage(svg, 0, 0, 0, 0);
-		svg.addEventListener("load", listen);
+	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve) => {
+		const listen = (_: Event): void => resolve(true);
+		LED.SVG = new Image();
+		LED.SVG.src = img;
+
+		ctx.drawImage(LED.SVG, 0, 0, 0, 0);
+		LED.SVG.addEventListener("load", listen);
 	})
 
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();
 		this.ctx = ctx;
-		this.svg = new Image();
-		this.svg.src = img;
+		this.svg = LED.SVG;
 
 		this.nodeOffsetEnd = [{ x: 0, y: 20.5 }]
 	}

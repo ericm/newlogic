@@ -5,21 +5,21 @@ import GateNode from './Node';
 // import img from '../img/and.svg'
 let img = require('../img/not.svg');
 export default class NotGate extends Gates<NotGate> {
+	public static SVG: HTMLImageElement
 
-	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve, _) => {
+	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve) => {
 		const listen = (_: Event): void => resolve(true);
-		const svg = new Image();
-		svg.src = img;
+		NotGate.SVG = new Image();
+		NotGate.SVG.src = img;
 
-		ctx.drawImage(svg, 0, 0, 0, 0);
-		svg.addEventListener("load", listen);
+		ctx.drawImage(NotGate.SVG, 0, 0, 0, 0);
+		NotGate.SVG.addEventListener("load", listen);
 	})
 
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();
 		this.ctx = ctx;
-		this.svg = new Image();
-        this.svg.src = img;
+        this.svg = NotGate.SVG;
         
         this.nodeOffsetStart = [{ x: 40, y: 20.5 }];
         this.nodeOffsetEnd =  [{ x: 0, y: 20.5 }];

@@ -4,21 +4,21 @@ import GateNode from './Node';
 
 let img = require('../img/or.svg')
 export default class OrGate extends Gates<OrGate> {
+	public static SVG: HTMLImageElement
 
-	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve, _) => {
+	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve) => {
 		const listen = (_: Event): void => resolve(true);
-		const svg = new Image();
-		svg.src = img;
+		OrGate.SVG = new Image();
+		OrGate.SVG.src = img;
 
-		ctx.drawImage(svg, 0, 0, 0, 0);
-		svg.addEventListener("load", listen);
+		ctx.drawImage(OrGate.SVG, 0, 0, 0, 0);
+		OrGate.SVG.addEventListener("load", listen);
 	})
 
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();
 		this.ctx = ctx;
-		this.svg = new Image();
-		this.svg.src = img;
+		this.svg = OrGate.SVG;
 
 		this.nodeOffsetStart = [{ x: 40, y: 20.5 }]
 		this.nodeOffsetEnd = [{ x: 0, y: 1.5 }, { x: 0, y: 39.5 }]

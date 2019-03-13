@@ -128,12 +128,5 @@ export namespace Saving {
 			gridFactor: save.gridFactor,
 			snapFactor: save.snapFactor,
 		});
-
-		// Buffer Gates
-		workspace.gates.and.push(new AndGate(workspace.ctx));
-		workspace.gates.or.push(new OrGate(workspace.ctx));
-		workspace.gates.not.push(new NotGate(workspace.ctx));
-		workspace.gates.switch.push(new Switch(workspace.ctx));
-		workspace.gates.led.push(new LED(workspace.ctx));
 	}
 }

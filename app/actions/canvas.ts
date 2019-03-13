@@ -22,7 +22,7 @@ export namespace Wiring {
     }
 
     export function isClicked<T extends GateGeneric>(obj: T[], coords: GateCoords): T | null {
-        for (let gate of obj.slice(0, obj.length - 1)) {
+        for (let gate of obj) {
             const size = gate.state.size;
             const gatecoords = gate.state.coords;
 

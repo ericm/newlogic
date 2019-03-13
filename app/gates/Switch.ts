@@ -6,14 +6,15 @@ import GateNode from './Node';
 // import img from '../img/and.svg'
 let img = require('../img/switch.svg')
 export default class Switch extends Gates<Switch> {
+	public static SVG: HTMLImageElement
 
-	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve, _) => {
+	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve) => {
 		const listen = (_: Event): void => resolve(true);
-		const svg = new Image();
-		svg.src = img;
+		Switch.SVG = new Image();
+		Switch.SVG.src = img;
 
-		ctx.drawImage(svg, 0, 0, 0, 0);
-		svg.addEventListener("load", listen);
+		ctx.drawImage(Switch.SVG, 0, 0, 0, 0);
+		Switch.SVG.addEventListener("load", listen);
 	})
 
 	public state: OutState<Switch>
@@ -21,8 +22,7 @@ export default class Switch extends Gates<Switch> {
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();
 		this.ctx = ctx;
-		this.svg = new Image();
-		this.svg.src = img;
+		this.svg = Switch.SVG;
 
 		this.nodeOffsetStart = [{ x: 40, y: 20.5 }]
 	}
