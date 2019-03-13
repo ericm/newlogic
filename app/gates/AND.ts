@@ -9,6 +9,15 @@ export default class AndGate extends Gates<AndGate> {
 	nodeOffsetStart = [{ x: 40, y: 20.5 }]
 	nodeOffsetEnd = [{ x: 0, y: 1.5 }, { x: 0, y: 39.5 }]
 
+	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve, _) => {
+		const listen = (_: Event): void => resolve(true);
+		const svg = new Image();
+		svg.src = img;
+
+		ctx.drawImage(svg, 0, 0, 0, 0);
+		svg.addEventListener("load", listen);
+	})
+
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();
 		this.ctx = ctx;

@@ -8,6 +8,15 @@ export default class LED extends Gates<LED> {
 
 	public state: InState<LED>
 
+	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve, _) => {
+		const listen = (_: Event): void => resolve(true);
+		const svg = new Image();
+		svg.src = img;
+
+		ctx.drawImage(svg, 0, 0, 0, 0);
+		svg.addEventListener("load", listen);
+	})
+
 	public constructor(ctx: CanvasRenderingContext2D) {
 		super();
 		this.ctx = ctx;

@@ -7,6 +7,15 @@ import GateNode from './Node';
 let img = require('../img/switch.svg')
 export default class Switch extends Gates<Switch> {
 
+	public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve, _) => {
+		const listen = (_: Event): void => resolve(true);
+		const svg = new Image();
+		svg.src = img;
+
+		ctx.drawImage(svg, 0, 0, 0, 0);
+		svg.addEventListener("load", listen);
+	})
+
 	public state: OutState<Switch>
 
 	public constructor(ctx: CanvasRenderingContext2D) {

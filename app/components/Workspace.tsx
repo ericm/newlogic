@@ -65,13 +65,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			height: (this.props.height * window.innerHeight / 100).toString()
 		});
 
-		// Buffer Gates
-		this.gates.and.push(new LogicGates.AndGate(this.ctx));
-		this.gates.or.push(new LogicGates.OrGate(this.ctx));
-		this.gates.not.push(new LogicGates.NotGate(this.ctx));
-		this.gates.switch.push(new LogicGates.Switch(this.ctx));
-		this.gates.led.push(new LogicGates.LED(this.ctx));
-
 		if (!!this.props.name) {
 			Saving.loadState(this, this.props.name);
 		}
@@ -79,11 +72,20 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			Saving.loadState(this)
 		}
 
-		// Create graph
-		this.onChange();
+		// Preload gates
+		LogicGates.AndGate.LOAD(this.ctx).then(() => 
+		LogicGates.OrGate.LOAD(this.ctx).then(() => 
+		LogicGates.NotGate.LOAD(this.ctx).then(() => 
+		LogicGates.Switch.LOAD(this.ctx).then(() => 
+		LogicGates.LED.LOAD(this.ctx).then(() => {
+			// Create graph
+			this.onChange();
 
-		// Draw grid
-		this.drawGrid();
+			// Draw grid
+			this.updateCanvas();
+		})))));
+
+		
 	}
 
 	public componentDidUpdate() {

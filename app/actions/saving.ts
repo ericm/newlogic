@@ -125,15 +125,8 @@ export namespace Saving {
 		workspace.endNodes = endNodes;
 
 		workspace.setState({
-			width: (workspace.props.width * window.innerWidth / 100).toString(),
-			height: (workspace.props.height * window.innerHeight / 100).toString(),
-			mode: "draw",
-			dragging: false,
-			dragInit: { x: 0, y: 0 },
-			drag: { x: 0, y: 0 },
 			gridFactor: save.gridFactor,
 			snapFactor: save.snapFactor,
-			canvasDrag: false
 		});
 
 		// Buffer Gates
