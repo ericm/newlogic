@@ -4,14 +4,26 @@ import { GateNode, Gates, Wire, AndGate, LED, NotGate, Switch, OrGate } from '..
 import { AnyGate } from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
 export namespace Saving {
-	function addWires(output: AnyGate[], wires: Wire[],): void {
-		const checkId = (id: number): AnyGate => {
-			for (let ob of output) if (ob.state.id === id) return ob;
-			return output[0];
-		}
+	function addWires(output: AnyGate[], wires: Wire[], gates: IComponent.GateStatePlecibo[]): void {
 		// Connect gates
-		for (let gate of output) gate.state.gateIn.forEach(gIn => gate.connect("in", checkId(gIn.state.id)));
-		for (let gate of output) gate.state.gateOut.forEach(gOut => gate.connect("out", checkId(gOut.state.id)));
+		for (let plecibo of gates) {
+			plecibo.inputs.forEach(val => {
+				for (let checks of output) {
+					if(plecibo.id !== checks.state.id && val === checks.state.id) {
+						let out = output.find(valOut => { return valOut.state.id === plecibo.id });
+						if (!!out) out.connect("in", checks);
+					}
+				}
+			});
+			plecibo.outputs.forEach(val => {
+				for (let checks of output) {
+					if(plecibo.id !== checks.state.id && val === checks.state.id) {
+						let out = output.find(valOut => { return valOut.state.id === plecibo.id });
+						if (!!out) out.connect("out", checks);
+					}
+				}
+			});
+		}
 
 		// Create wire objects
 		for (let gate of output) {
@@ -118,7 +130,19 @@ export namespace Saving {
 			...workspace.gates.switch,
 			...workspace.gates.led
 		];
-		addWires(all, wires);
+		// Push all gate ids
+		Gates.IDS = [];
+		for (let gate of all) {
+			Gates.IDS.push(gate.state.id);
+		}
+		let allPlecibo: IComponent.GateStatePlecibo[] = [
+			...save.gates.and,
+			...save.gates.or,
+			...save.gates.not,
+			...save.gates.switch,
+			...save.gates.led
+		]
+		addWires(all, wires, allPlecibo);
 		workspace.gates.wire = wires;
 		
 		workspace.startNodes = startNodes;

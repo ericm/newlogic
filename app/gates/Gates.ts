@@ -66,8 +66,9 @@ export default class Gates<T extends Gates<any>>  {
     public evaluate = (): void => {}
 
     public static INCID = (): number => {
-        let id = Gates.IDS.length > 0 ? Gates.IDS[-1]+1 : 0;
+        let id: number = Gates.IDS.length > 0 ? Gates.IDS[Gates.IDS.length-1] + 1 : 0;
         Gates.IDS.push(id);
+        console.log(Gates.IDS);
         return id;
     }
 

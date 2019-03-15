@@ -82,6 +82,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 		// Draw grid
 		this.updateCanvas();
+		console.log(this.gates);
 		
 	}
 
