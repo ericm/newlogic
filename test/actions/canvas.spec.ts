@@ -26,18 +26,22 @@ describe("Wiring", () => {
     describe("isClicked", () => {
         it("returns gate", () => {
             if (ctx !== null) {
-                const obj = [new AndGate(ctx), new AndGate(ctx)];
-                obj[0].add({ x: 100, y: 100 }, { width: 40, height: 40 });
-                const coords: GateCoords = { x: 110, y: 110 };
-                expect(Wiring.isClicked(obj, coords)).toBe(obj[0]);
+                AndGate.LOAD(ctx).then(() => {
+                    const obj = [new AndGate(ctx)];
+                    obj[0].add({ x: 100, y: 100 }, { width: 40, height: 40 });
+                    const coords: GateCoords = { x: 110, y: 110 };
+                    expect(Wiring.isClicked(obj, coords)).toBe(obj[0]);
+                });
             }
         });
         it("returns null", () => {
             if (ctx !== null) {
-                const obj = [new AndGate(ctx), new AndGate(ctx)];
-                obj[0].add({ x: 100, y: 100 }, { width: 40, height: 40 });
-                const coords: GateCoords = { x: 140, y: 140 };
-                expect(Wiring.isClicked(obj, coords)).toBe(obj[0]);
+                AndGate.LOAD(ctx).then(() => {
+                    const obj = [new AndGate(ctx)];
+                    obj[0].add({ x: 100, y: 100 }, { width: 40, height: 40 });
+                    const coords: GateCoords = { x: 140, y: 140 };
+                    expect(Wiring.isClicked(obj, coords)).toBe(obj[0]);
+                });
             }
         });
     });
