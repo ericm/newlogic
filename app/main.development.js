@@ -3,8 +3,10 @@ const {
 	BrowserWindow,
 	Menu,
 	shell,
-	ipcMain
+	ipcMain,
+	remote
 } = require("electron");
+const fs = require("fs");
 
 const esettings = require("electron-settings");
 
@@ -78,6 +80,28 @@ var settings = () => {
 		settingsWindow = null;
 	});
 }
+
+// File I/O
+ipcMain.on("readFile", (e, path) => {
+	
+	try {
+		let file = fs.readFileSync(path, 'utf8');
+		let data = JSON.parse(file);
+		e.sender.send("read", data);
+	} catch (error) {
+		e.sender.send("readError", `File Read Error: ${error}`);
+	}
+	
+});
+ipcMain.on("findFile", e => {
+	const dialog = remote.dialog;
+	dialog.showOpenDialog((filePaths) => {
+		if (filePaths.length > 0) {
+			e.sender.send("foundFile", filePaths[0]);
+		}
+		return;
+	})
+})
 
 app.on("ready", () =>
 	installExtensions()
