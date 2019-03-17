@@ -1,6 +1,7 @@
 const {
 	app,
 	BrowserWindow,
+	dialog,
 	Menu,
 	shell,
 	ipcMain,
@@ -82,6 +83,10 @@ var settings = () => {
 }
 
 // File I/O
+/// Open
+const dialogProps = {filters:[
+	{name: 'newlogic Save File (.nlsave)', extensions: ['nlsave']}
+]}
 ipcMain.on("readFile", (e, path) => {
 	
 	try {
@@ -93,15 +98,27 @@ ipcMain.on("readFile", (e, path) => {
 	}
 	
 });
-ipcMain.on("findFile", e => {
-	const dialog = remote.dialog;
-	dialog.showOpenDialog((filePaths) => {
-		if (filePaths.length > 0) {
-			e.sender.send("foundFile", filePaths[0]);
-		}
-		return;
-	})
-})
+ipcMain.on("findFile", e => dialog.showOpenDialog(mainWindow, dialogProps, filePaths => {
+	if (!!filePaths && filePaths.length > 0) {
+		e.sender.send("foundFile", filePaths[0]);
+	}
+}));
+
+/// Save
+ipcMain.on("savePath", e => dialog.showSaveDialog(mainWindow, dialogProps, fileName => {
+	if (!!fileName) {
+		e.sender.send("gotSave", fileName);
+	}
+}));
+ipcMain.on("save", (e, data) => {
+	try {
+		let json = JSON.stringify(data["data"]);
+		fs.writeFileSync(data["path"], json);
+		e.sender.send("saved");
+	} catch (error) {
+		console.error(error);
+	}
+});
 
 app.on("ready", () =>
 	installExtensions()

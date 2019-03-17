@@ -3,6 +3,7 @@ import Workspace from '../components/Workspace';
 import { GateNode, Gates, Wire, AndGate, LED, NotGate, Switch, OrGate } from '../gates/all';
 import { AnyGate } from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
+import { ipcRenderer } from "electron";
 export namespace Saving {
 	function addWires(output: AnyGate[], wires: Wire[], gates: IComponent.GateStatePlecibo[]): void {
 		// Connect gates
@@ -95,24 +96,24 @@ export namespace Saving {
 		return ret;
 	}
 	export function saveState(workspace: Workspace, name: string): void {
-		const save: IComponent.WorkspaceSaveState = {
-			gates: {
-				and: genGates(workspace.gates.and),
-				or: genGates(workspace.gates.or),
-				not: genGates(workspace.gates.not),
-				led: genGates(workspace.gates.led),
-				switch: genGates(workspace.gates.switch)
-			},
-			gridFactor: workspace.state.gridFactor,
-			snapFactor: workspace.state.snapFactor,
-		}
-		settings.set(`saves.${name}`, save as any);
+		ipcRenderer.send("savePath");
+		ipcRenderer.on("gotSave", (_: any, path: string) => {
+			console.log(path);
+			const save: IComponent.WorkspaceSaveState = {
+				gates: {
+					and: genGates(workspace.gates.and),
+					or: genGates(workspace.gates.or),
+					not: genGates(workspace.gates.not),
+					led: genGates(workspace.gates.led),
+					switch: genGates(workspace.gates.switch)
+				},
+				gridFactor: workspace.state.gridFactor,
+				snapFactor: workspace.state.snapFactor,
+			}
+			ipcRenderer.send("save", {"path": path, "data": save});
+		});
 	}
-	export function loadState(workspace: Workspace, name?: string): void {
-		let saveName = !!name ? name : "default";
-		let save = settings.get(`saves.${saveName}`) as any as IComponent.WorkspaceSaveState;
-		if (typeof save === "undefined") save = settings.get(`saves.default`) as any as IComponent.WorkspaceSaveState;
-
+	function loader(workspace: Workspace, save: IComponent.WorkspaceSaveState): void {
 		let wires: Wire[] = [];
 		let startNodes: GateNode<any>[] = [];
 		let endNodes: GateNode<any>[] = [];
@@ -151,6 +152,25 @@ export namespace Saving {
 		workspace.setState({
 			gridFactor: save.gridFactor,
 			snapFactor: save.snapFactor,
+		});
+	}
+	export function loadState(workspace: Workspace, name?: string): void {
+		let save = settings.get(`saves.default`) as any as IComponent.WorkspaceSaveState;
+
+		ipcRenderer.send("findFile");
+		ipcRenderer.on("foundFile", (_: any, path: string) => {
+			ipcRenderer.send("readFile", path);
+		});
+
+		ipcRenderer.on("read", (_: any, data: any) => {
+			console.log(data);
+			save = data as IComponent.WorkspaceSaveState;
+			loader(workspace, save);
+		});
+
+		ipcRenderer.on("readError", (_: any, error: string) => {
+			console.error(error);
+			loader(workspace, save);
 		});
 	}
 }
