@@ -28,65 +28,7 @@ p {
   font-size: 24px;
 }
 
-nav {
-  z-index: 1000;
-  position: fixed;
-  padding: 0 .2em;
-  color: #0d4080;
-  background-color: rgba(255, 255, 255, 0.774);
-  width: 100%;
-  user-select: none;
-}
 
-ul {
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  list-style: none;
-  display: inline-block;
-  cursor: pointer;
-  padding: .2em .5em;
-  transition: all .3s;
-}
-
-li:hover  {
-  color: #4287db;
-  text-shadow: 0 0 1em rgba(54, 138, 255, 0.548);
-}
-
-.cl,.cl:hover {
-  background-color: #0d4080;
-  color: rgba(255, 255, 255, 0.774);
-}
-
-li ul {
-  height: 0;
-  overflow: hidden;
-  width: min-content;
-  position: fixed;
-  padding: 0;
-  margin: 0;
-  background: rgba(13, 64, 128, 0.66);
-  color: rgba(255, 255, 255, 0.774);
-  transition: opacity .3s;
-  opacity: 0;
-  width: 20em;
-}
-li ul li {
-  padding: .15em 1em;
-  display: block;
-}
-li ul li i {
-  float: right;
-  font-style: normal;
-  font-size: .97em;
-}
-li ul li:hover {
-  background: #255ca0;
-  color:  rgba(255, 255, 255, 0.774);
-}
 
 .clb {
   height: min-content;

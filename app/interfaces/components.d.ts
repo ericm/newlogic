@@ -75,7 +75,7 @@ export interface WorkspaceProps extends Component {
 }
 
 export interface NavBarState {
-
+	clicked: HTMLLIElement | null
 }
 export interface NavBarProps {
 	

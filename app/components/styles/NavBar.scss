@@ -1,0 +1,42 @@
+.main {
+	width: 100%;
+	height: 24px;
+	background-color: #222222;
+	color: rgb(224, 224, 224);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+  	padding: 0 .2em;
+  	user-select: none;
+}
+.main>ul {
+	padding: 0;
+  	margin: 0;
+}
+.main li>ul {
+	display: none;
+	background-color: rgba(0, 0, 0, 0.849);
+	color: rgb(224, 224, 224);
+	z-index: 1000;
+	overflow: hidden;
+	width: 20em;
+	position: fixed;
+	padding: .3em 0;
+	margin: 0;
+}
+.main .show>ul {
+	display: block;
+}
+.main li {
+	list-style: none;
+	display: inline-block;
+	cursor: pointer;
+	padding: .2em .5em;
+	transition: all .3s;
+}
+
+.main li ul li {
+	display: block;
+	padding: .15em 1em;
+}
