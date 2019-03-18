@@ -15,24 +15,24 @@ export default class NavBar extends React.Component<NavBarProps, NavBarState> {
             <nav>
             <ul>
               <li onClick={this.click}>File<ul>
-                <li onclick="nav_settings(this)">Settings<i>Alt + P</i></li>
-                <li onclick="nav_exit(this)">Exit</li>
+                <li>Settings<i>Alt + P</i></li>
+                <li>Exit</li>
               </ul></li>
-              <li onClick={this.click}>Edit<ul>
-                <li onclick="nav_settings(this)">Settings</li>
-                <li onclick="nav_exit(this)">Exit</li>
+              <li>Edit<ul>
+                <li>Settings</li>
+                <li>Exit</li>
               </ul></li>
               <li onClick={this.click}>View<ul>
-                <li onclick="nav_settings(this)">Settings</li>
-                <li onclick="nav_exit(this)">Exit</li>
+                <li>Settings</li>
+                <li>Exit</li>
               </ul></li>
               <li onClick={this.click}>Window<ul>
-                <li onclick="nav_settings(this)">Window Manager</li>
-                <li onclick="nav_exit(this)">Exit</li>
+                <li>Window Manager</li>
+                <li>Exit</li>
               </ul></li>
               <li onClick={this.click}>About<ul>
-                <li onclick="nav_settings(this)">Settings</li>
-                <li onclick="nav_exit(this)">Exit</li>
+                <li>Settings</li>
+                <li>Exit</li>
               </ul></li>
             </ul>
             <a></a>
