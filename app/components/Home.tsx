@@ -12,7 +12,10 @@ let styles = require('./styles/Home.scss');
 
 export default class Home extends React.Component<HomeProps, HomeState> {
 	private _children: { [key: number]: WindowBar; } = {};
-	private _workspaces: { [key: number]: Workspace; } = {};
+
+	public _workspaces: { [key: number]: Workspace; } = {};
+	public selectedWorkspace: number = 1
+
 	private _menus: { [key: number]: Menu; } = {};
 	private _navbar: NavBar
 
@@ -62,6 +65,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 		this.resizer();
 		this._menus[1].addWorkspace(this._workspaces[1]);
 		window.addEventListener("resize", (): void => this.resizer());
+
+		this._navbar.home = this;
+
 	}
 
 	public componentDidUpdate(): void {

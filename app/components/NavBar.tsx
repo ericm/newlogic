@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { NavBarState, NavBarProps } from '../interfaces/components';
+import Home from './Home';
 
 let styles = require('./styles/NavBar.scss');
 
 export default class NavBar extends React.Component<NavBarProps, NavBarState> {
+	public home: Home
+
 	public constructor(props: NavBarProps) {
 		super(props);
 		this.state = {
@@ -12,8 +15,19 @@ export default class NavBar extends React.Component<NavBarProps, NavBarState> {
 	}
 	private click = (e: React.MouseEvent<HTMLLIElement>): void => {
 		this.menuOff();
-		this.setState({clicked: e.currentTarget});
-		e.currentTarget.className = styles.show;
+		if (this.state.clicked !== e.currentTarget) {
+			this.setState({clicked: e.currentTarget});
+			e.currentTarget.className = styles.show;
+		} else {
+			this.setState({clicked: null});
+		}
+		
+	}
+
+	private save = (e: React.MouseEvent<HTMLLIElement>): void => {
+		if (!!this.home) {
+			this.home._workspaces[this.home.selectedWorkspace].save();
+		}
 	}
 
 	public menuOff = (): void => {
@@ -25,6 +39,8 @@ export default class NavBar extends React.Component<NavBarProps, NavBarState> {
 			<nav className={styles.main}>
 				<ul>
 					<li onClick={this.click}>File<ul>
+						<li onClick={this.save}>Save</li>
+						<li>Save As</li>
 						<li>Settings<i>Alt + P</i></li>
 						<li>Exit</li>
 					</ul></li>
