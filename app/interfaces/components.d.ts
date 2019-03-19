@@ -73,6 +73,13 @@ export interface WorkspaceProps extends Component {
 	name?: string,
 	testing?: boolean
 }
+
+export interface NavBarState {
+	clicked: HTMLLIElement | null
+}
+export interface NavBarProps {
+	
+}
 interface GateStatePlecibo {
 	coords: GateCoords,
 	size: GateSize,

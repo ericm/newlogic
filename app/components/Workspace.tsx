@@ -48,10 +48,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		this.nodeSelectStart = { node: null, selected: false }
 	}
 
-	public save = (name?: string): void => {
-		let saveName = !!name ? name : (!!this.props.name ? this.props.name : "");
-		Saving.saveState(this, saveName);
-	}
+	public save = (): void => Saving.saveState(this);
+	
 
 	public changeMode = (mode: string): void => this.setState({ mode });
 

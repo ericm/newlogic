@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Child, Component, HomeProps, HomeState, WinBarResize } from '../interfaces/components';
 import Menu from './Menu';
+import NavBar from './NavBar';
 import WindowBar from './WindowBar';
 import Workspace from './Workspace';
 
@@ -11,8 +12,12 @@ let styles = require('./styles/Home.scss');
 
 export default class Home extends React.Component<HomeProps, HomeState> {
 	private _children: { [key: number]: WindowBar; } = {};
-	private _workspaces: { [key: number]: Workspace; } = {};
+
+	public _workspaces: { [key: number]: Workspace; } = {};
+	public selectedWorkspace: number = 1
+
 	private _menus: { [key: number]: Menu; } = {};
+	private _navbar: NavBar
 
 	public constructor(props: HomeProps) {
 		super(props);
@@ -60,6 +65,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 		this.resizer();
 		this._menus[1].addWorkspace(this._workspaces[1]);
 		window.addEventListener("resize", (): void => this.resizer());
+
+		this._navbar.home = this;
+
 	}
 
 	public componentDidUpdate(): void {
@@ -145,11 +153,16 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 		}
 	}
 
+	private menuOff = (e: React.MouseEvent): void => {
+		if (!!this._navbar) this._navbar.menuOff();
+	}
+
 	public render(): JSX.Element {
 
 		return (
 			<div>
-				<div className={styles.container} data-tid="container">
+				<NavBar ref={(child) => { if (child !== null) this._navbar = child; }} />
+				<div onClick={this.menuOff} className={styles.container} data-tid="container">
 
 					<div id={"child2"} className={styles.window}>
 

@@ -25,7 +25,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     }
 
     private saveW = (): void => {
-        this._workspaces[0].save("test");
+        this._workspaces[0].save();
     }
 
     public toggleMode = (e: React.MouseEvent<HTMLAnchorElement>): void => this.sendMode(e.currentTarget.id);
