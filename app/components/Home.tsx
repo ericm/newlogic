@@ -153,7 +153,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 		}
 	}
 
-	private menuOff = (e: React.MouseEvent): void => {
+	private menuOff = (e: React.MouseEvent<HTMLDivElement>): void => {
 		if (!!this._navbar) this._navbar.menuOff();
 	}
 

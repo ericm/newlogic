@@ -34,7 +34,7 @@ export default class NavBar extends React.Component<NavBarProps, NavBarState> {
 		if (this.state.clicked !== null) this.state.clicked.className = "";
 	}
 
-	public render(): React.ReactNode {
+	public render(): JSX.Element {
 		return (
 			<nav className={styles.main}>
 				<ul>
