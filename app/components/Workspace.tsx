@@ -48,7 +48,18 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		this.nodeSelectStart = { node: null, selected: false }
 	}
 
-	public save = (): void => Saving.saveState(this);
+	public save = (saveAs: boolean): void => {
+		if (saveAs) {
+			Saving.saveState(this);
+		} else {
+			if (!!this.state.path) {
+				Saving.saveState(this, this.state.path);
+			} else {
+				Saving.saveState(this);
+			}
+		}
+		
+	}
 	
 
 	public changeMode = (mode: string): void => this.setState({ mode });
@@ -69,12 +80,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		await LogicGates.NotGate.LOAD(this.ctx);
 		await LogicGates.Switch.LOAD(this.ctx);
 		await LogicGates.LED.LOAD(this.ctx);
-		if (!!this.props.name) {
-			Saving.loadState(this, this.props.name);
-		}
-		else {
-			Saving.loadState(this)
-		}
+		
+		Saving.loadState(this)
+		
 		// Create graph
 		this.onChange();
 

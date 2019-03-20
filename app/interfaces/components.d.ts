@@ -67,7 +67,8 @@ export interface WorkspaceState {
 	dragging: boolean,
 	canvasDrag: boolean,
 	gridFactor: number,
-	snapFactor: number
+	snapFactor: number,
+	path?: string
 }
 export interface WorkspaceProps extends Component {
 	name?: string,

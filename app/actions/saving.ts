@@ -95,10 +95,10 @@ export namespace Saving {
 		}
 		return ret;
 	}
-	export function saveState(workspace: Workspace): void {
-		ipcRenderer.send("savePath");
-		ipcRenderer.on("gotSave", (_: any, path: string) => {
+	export function saveState(workspace: Workspace, savePath?: string): void {
+		const sendSave = (path: string): void => {
 			console.log(path);
+			workspace.setState({path});
 			const save: IComponent.WorkspaceSaveState = {
 				gates: {
 					and: genGates(workspace.gates.and),
@@ -111,7 +111,17 @@ export namespace Saving {
 				snapFactor: workspace.state.snapFactor,
 			}
 			ipcRenderer.send("save", {"path": path, "data": save});
-		});
+		}
+		
+		if (!!!savePath) {
+			ipcRenderer.send("savePath");
+		}
+		else {
+			sendSave(savePath);
+		}
+		
+		ipcRenderer.on("gotSave", (_: any, path: string) => sendSave(path));
+
 	}
 	function loader(workspace: Workspace, save: IComponent.WorkspaceSaveState): void {
 		let wires: Wire[] = [];
@@ -154,11 +164,12 @@ export namespace Saving {
 			snapFactor: save.snapFactor,
 		});
 	}
-	export function loadState(workspace: Workspace, name?: string): void {
+	export function loadState(workspace: Workspace): void {
 		let save = settings.get(`saves.default`) as any as IComponent.WorkspaceSaveState;
 
 		ipcRenderer.send("findFile");
 		ipcRenderer.on("foundFile", (_: any, path: string) => {
+			workspace.setState({path});
 			ipcRenderer.send("readFile", path);
 		});
 

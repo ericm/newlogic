@@ -26,7 +26,13 @@ export default class NavBar extends React.Component<NavBarProps, NavBarState> {
 
 	private save = (e: React.MouseEvent<HTMLLIElement>): void => {
 		if (!!this.home) {
-			this.home._workspaces[this.home.selectedWorkspace].save();
+			this.home._workspaces[this.home.selectedWorkspace].save(false);
+		}
+	}
+
+	private saveAs = (e: React.MouseEvent<HTMLLIElement>): void => {
+		if (!!this.home) {
+			this.home._workspaces[this.home.selectedWorkspace].save(true);
 		}
 	}
 
@@ -40,7 +46,7 @@ export default class NavBar extends React.Component<NavBarProps, NavBarState> {
 				<ul>
 					<li onClick={this.click}>File<ul>
 						<li onClick={this.save}>Save</li>
-						<li>Save As</li>
+						<li onClick={this.saveAs}>Save As</li>
 						<li>Settings<i>Alt + P</i></li>
 						<li>Exit</li>
 					</ul></li>
