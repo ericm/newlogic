@@ -60,8 +60,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		}
 		
 	}
-	
 
+	public load = (): void => Saving.loadState(this);
+	
 	public changeMode = (mode: string): void => this.setState({ mode });
 
 	public onChange = (): void => Logic.evalAll(this.gates);
@@ -80,8 +81,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		await LogicGates.NotGate.LOAD(this.ctx);
 		await LogicGates.Switch.LOAD(this.ctx);
 		await LogicGates.LED.LOAD(this.ctx);
-		
-		Saving.loadState(this)
 		
 		// Create graph
 		this.onChange();

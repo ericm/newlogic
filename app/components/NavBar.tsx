@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { NavBarState, NavBarProps } from '../interfaces/components';
 import Home from './Home';
+import Workspace from './Workspace';
 
 let styles = require('./styles/NavBar.scss');
 
@@ -24,15 +25,23 @@ export default class NavBar extends React.Component<NavBarProps, NavBarState> {
 		
 	}
 
+	private workspace = (): Workspace => { return this.home._workspaces[this.home.selectedWorkspace]; }
+
 	private save = (e: React.MouseEvent<HTMLLIElement>): void => {
 		if (!!this.home) {
-			this.home._workspaces[this.home.selectedWorkspace].save(false);
+			this.workspace().save(false);
 		}
 	}
 
 	private saveAs = (e: React.MouseEvent<HTMLLIElement>): void => {
 		if (!!this.home) {
-			this.home._workspaces[this.home.selectedWorkspace].save(true);
+			this.workspace().save(true);
+		}
+	}
+
+	private open = (e: React.MouseEvent<HTMLLIElement>): void => {
+		if (!!this.home) {
+			this.workspace().load();
 		}
 	}
 
@@ -45,6 +54,7 @@ export default class NavBar extends React.Component<NavBarProps, NavBarState> {
 			<nav className={styles.main}>
 				<ul>
 					<li onClick={this.click}>File<ul>
+						<li onClick={this.open}>Open</li>
 						<li onClick={this.save}>Save</li>
 						<li onClick={this.saveAs}>Save As</li>
 						<li>Settings<i>Alt + P</i></li>
