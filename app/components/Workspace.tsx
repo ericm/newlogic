@@ -299,6 +299,16 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 				break;
 
+			case "contextmenu":
+				let check: ICanvas.AnyGate | null; 
+				if (this.clicked.length > 0) {
+					check = Wiring.isClicked(this.clicked, coords);
+				} else {
+					check = null;
+				}
+				console.log(check);
+				break;
+
 		}
 	}
 
@@ -391,7 +401,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				<canvas ref={(canvas) => { if (canvas !== null) this.canvas = canvas }} onClick={this.canvasEvent}
 					className={styles.canvas} width={this.state.width} height={this.state.height}
 					onMouseUp={this.canvasEvent} onMouseDown={this.canvasEvent} onMouseMove={this.canvasEvent}
-					onMouseLeave={this.canvasEvent} />
+					onMouseLeave={this.canvasEvent} onContextMenu={this.canvasEvent} />
 			</div>
 		)
 	}
