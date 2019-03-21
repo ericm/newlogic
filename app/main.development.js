@@ -11,6 +11,8 @@ const fs = require("fs");
 
 const esettings = require("electron-settings");
 
+const base64 = require("js-base64").Base64;
+
 let menu;
 let template;
 let mainWindow = null;
@@ -91,7 +93,7 @@ ipcMain.on("readFile", (e, path) => {
 	
 	try {
 		let file = fs.readFileSync(path, 'utf8');
-		let data = JSON.parse(file);
+		let data = JSON.parse(base64.decode(file));
 		e.sender.send("read", data);
 	} catch (error) {
 		e.sender.send("readError", `File Read Error: ${error}`);
@@ -113,7 +115,7 @@ ipcMain.on("savePath", e => dialog.showSaveDialog(mainWindow, dialogProps, fileN
 ipcMain.on("save", (e, data) => {
 	try {
 		let json = JSON.stringify(data["data"]);
-		fs.writeFileSync(data["path"], json);
+		fs.writeFileSync(data["path"], base64.encode(json));
 		e.sender.send("saved");
 	} catch (error) {
 		console.error(error);

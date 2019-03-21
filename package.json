@@ -175,6 +175,7 @@
     "flatted": "^2.0.0",
     "font-awesome": "^4.7.0",
     "history": "^4.6.1",
+    "js-base64": "^2.5.1",
     "konva": "^2.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
