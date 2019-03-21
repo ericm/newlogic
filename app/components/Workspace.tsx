@@ -307,6 +307,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 					check = null;
 				}
 				console.log(check);
+				if (check !== null) {
+					let size = check.context(coords);
+					this.setState({context: {coords, size, gate: check}});
+				}
 				break;
 
 		}
@@ -397,7 +401,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 	public render(): JSX.Element {
 		return (
-			<div className={styles.main}>
+			<div className={styles.main} onContextMenu={(e: React.MouseEvent<HTMLDivElement>) => { e.preventDefault(); }}>
 				<canvas ref={(canvas) => { if (canvas !== null) this.canvas = canvas }} onClick={this.canvasEvent}
 					className={styles.canvas} width={this.state.width} height={this.state.height}
 					onMouseUp={this.canvasEvent} onMouseDown={this.canvasEvent} onMouseMove={this.canvasEvent}

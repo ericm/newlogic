@@ -66,4 +66,5 @@ export namespace Wiring {
         y = Math.ceil(coords.y / factor) * factor;
         return { x, y }
     }
+    
 }

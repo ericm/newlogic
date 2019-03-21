@@ -28,6 +28,12 @@ export default class Gates<T extends Gates<any>>  {
 
     }
 
+    public context = (coords: GateCoords): GateSize => {
+        let size: GateSize = {width: 100, height: 500};
+        this.ctx.strokeRect(coords.x, coords.y, size.width, size.height);
+        return size;
+    }
+
     public drag = (coords: GateCoords): void => {
         this.state.coords = coords;
         this.dragNodes(coords);

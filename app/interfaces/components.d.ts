@@ -1,6 +1,6 @@
 // Gates imports
 import { AndGate, GateNode, LED, NotGate, OrGate, Switch, Wire } from '../gates/all';
-import { GateCoords, GateSize } from "./canvas";
+import { GateCoords, GateSize, AnyGate } from "./canvas";
 
 // Home
 export interface Child extends WinBarResize {
@@ -57,6 +57,12 @@ export interface MenuProps extends Component {
 
 }
 
+export interface IContext {
+	coords: GateCoords,
+	size: GateSize,
+	gate: AnyGate
+}
+
 // Workspace
 export interface WorkspaceState {
 	width: string,
@@ -68,7 +74,8 @@ export interface WorkspaceState {
 	canvasDrag: boolean,
 	gridFactor: number,
 	snapFactor: number,
-	path?: string
+	path?: string,
+	context?: IContext
 }
 export interface WorkspaceProps extends Component {
 	name?: string,
