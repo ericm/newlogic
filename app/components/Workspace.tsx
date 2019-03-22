@@ -67,7 +67,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 	public onChange = (): void => Logic.evalAll(this.gates);
 	
-
 	public async componentDidMount() {
 		this.setCtx();
 		this.setState({
@@ -128,6 +127,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 		Wiring.renderNodes(this.startNodes, this.ctx);
 		Wiring.renderNodes(this.endNodes, this.ctx);
+
+		if (!!this.state.context) Wiring.renderContext(this.ctx, this.state.context);
 	}
 
 	private getCoords(e: any): ICanvas.GateCoords {
@@ -139,6 +140,20 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		let coords = this.getCoords(e);
 
 		coords = Wiring.gridLayout(coords, this.state.gridFactor);
+
+		if (e.type === "contextmenu") {
+			let check = this.isClicked(coords); 
+			console.log(check);
+			if (check !== null) {
+				let context = check.context(coords);
+				this.setState({context});
+			}
+			return;
+		} else if (e.type === "click" && !!this.state.context ? !Wiring.contextClicked(coords, this.state.context) : false) {
+			this.setState({context: undefined});
+			console.log(this.state.context);
+			this.updateCanvas();
+		}
 
 		switch (this.state.mode) {
 			case "click":
@@ -223,14 +238,18 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		this.updateCanvas();
 	}
 
+	private isClicked = (coords: ICanvas.GateCoords): ICanvas.AnyGate | null => {
+		return Wiring.isClicked(this.gates.and, coords) 
+			|| Wiring.isClicked(this.gates.or, coords)
+			|| Wiring.isClicked(this.gates.not, coords)
+			|| Wiring.isClicked(this.gates.switch, coords)
+			|| Wiring.isClicked(this.gates.led, coords);
+	}
+
 	private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords): void => {
 
 		// Find if a gate was clicked
-		let gate: ICanvas.AnyGate | null = Wiring.isClicked(this.gates.and, coords) 
-										|| Wiring.isClicked(this.gates.or, coords)
-										|| Wiring.isClicked(this.gates.not, coords)
-										|| Wiring.isClicked(this.gates.switch, coords)
-										|| Wiring.isClicked(this.gates.led, coords);
+		let gate = this.isClicked(coords);
 
 		switch (e.type) {
 			case "click":
@@ -297,20 +316,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 					this.setState({canvasDrag: false});
 				}
 
-				break;
-
-			case "contextmenu":
-				let check: ICanvas.AnyGate | null; 
-				if (this.clicked.length > 0) {
-					check = Wiring.isClicked(this.clicked, coords);
-				} else {
-					check = null;
-				}
-				console.log(check);
-				if (check !== null) {
-					let size = check.context(coords);
-					this.setState({context: {coords, size, gate: check}});
-				}
 				break;
 
 		}

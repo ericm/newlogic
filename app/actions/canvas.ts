@@ -1,5 +1,6 @@
 import GateNode from "../gates/Node";
 import { GateCoords, GateGeneric } from "../interfaces/canvas";
+import { IContext } from "../interfaces/components";
 
 export namespace Wiring {
 
@@ -67,4 +68,18 @@ export namespace Wiring {
         return { x, y }
     }
     
+    export function renderContext(ctx: CanvasRenderingContext2D, obj: IContext): void {
+        ctx.fillRect(obj.coords.x, obj.coords.y, obj.size.width, obj.size.height);
+        ctx.strokeRect(obj.coords.x, obj.coords.y, obj.size.width, obj.size.height);
+    }
+
+    export function contextClicked(coords: GateCoords, obj: IContext): boolean {
+        let gatecoords = obj.coords;
+        let size = obj.size;
+        if (coords.x >= gatecoords.x && coords.x <= gatecoords.x + size.width &&
+            coords.y >= gatecoords.y && coords.y <= gatecoords.y + size.height) {
+            return true;
+        }
+        return false;
+    }
 }
