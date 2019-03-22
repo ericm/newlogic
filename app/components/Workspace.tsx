@@ -41,7 +41,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			drag: { x: 0, y: 0 },
 			gridFactor: 20,
 			snapFactor: 20,
-			canvasDrag: false
+			canvasDrag: false,
+			context: null
 		}
 		
 		this.nodeSelectEnd = { node: null, selected: false }
@@ -128,7 +129,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		Wiring.renderNodes(this.startNodes, this.ctx);
 		Wiring.renderNodes(this.endNodes, this.ctx);
 
-		if (!!this.state.context) Wiring.renderContext(this.ctx, this.state.context);
+		if (this.state.context !== null) Wiring.renderContext(this.ctx, this.state.context);
 	}
 
 	private getCoords(e: any): ICanvas.GateCoords {
@@ -149,11 +150,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				this.setState({context});
 			}
 			return;
-		} else if (e.type === "click" && !!this.state.context ? !Wiring.contextClicked(coords, this.state.context) : false) {
-			this.setState({context: undefined});
-			console.log(this.state.context);
-			this.updateCanvas();
+		} else if (e.type === "click" && this.state.context !== null ? !Wiring.contextClicked(coords, this.state.context) : false) {
+			this.setState({context: null});
 		}
+		console.log(this.state.context);
 
 		switch (this.state.mode) {
 			case "click":
@@ -222,6 +222,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				}
 				break;
 		}
+		this.clear();
+		this.updateCanvas();
 
 	}
 

@@ -74,8 +74,8 @@ export interface WorkspaceState {
 	canvasDrag: boolean,
 	gridFactor: number,
 	snapFactor: number,
+	context: IContext | null,
 	path?: string,
-	context?: IContext // TODO: null
 }
 export interface WorkspaceProps extends Component {
 	name?: string,
