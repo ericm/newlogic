@@ -137,6 +137,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		return { x: e.clientX - box.left, y: e.clientY - box.top };
 	}
 
+	
+
 	private canvasEvent = (e: React.MouseEvent<HTMLCanvasElement>): void => {
 		let coords = this.getCoords(e);
 
@@ -151,9 +153,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			}
 			return;
 		} else if (e.type === "click" && this.state.context !== null ? !Wiring.contextClicked(coords, this.state.context) : false) {
-			this.setState({context: null});
+			this.contextStop();
+			return;
 		}
-		console.log(this.state.context);
 
 		switch (this.state.mode) {
 			case "click":
@@ -222,9 +224,12 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				}
 				break;
 		}
-		this.clear();
-		this.updateCanvas();
 
+	}
+
+	private async contextStop() {
+		await this.setState({context: null});
+		this.clear();
 	}
 
 	private addNodes<T extends LogicGates.Gates<any>>(newNodes: ICanvas.Nodes<T>): void {
@@ -258,11 +263,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				if (gate === null){
 					this.clicked = [];
 					this.clear();
-					this.updateCanvas();
 				} else {
 					this.clicked = []
 					this.clear();
-					this.updateCanvas();
 					this.clicked.push(gate);
 				}
 
@@ -281,7 +284,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 						this.clickedDrag = [];
 						this.clickedDrag.push(gate);
 						this.clear();
-						this.updateCanvas();
 					}
 				} else {
 					this.setState({canvasDrag: true});
@@ -298,7 +300,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 						g.drag(move);
 					}
 					this.clear();
-					this.updateCanvas();
 				} else if (this.state.canvasDrag) {
 					console.log("dragging");
 					const move: ICanvas.GateCoords = {
@@ -312,7 +313,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			case "mouseup":
 				if (this.state.dragging) {
 					this.clear();
-					this.updateCanvas();
 					this.setState({ dragging: false });
 				} else if (this.state.canvasDrag) {
 					this.setState({canvasDrag: false});

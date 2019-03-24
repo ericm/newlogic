@@ -69,8 +69,13 @@ export namespace Wiring {
     }
     
     export function renderContext(ctx: CanvasRenderingContext2D, obj: IContext): void {
+        ctx.fillStyle = 'rgba(20,20,20,.7)';
+        ctx.strokeStyle = "rgba(20,20,20,.1)";
+        ctx.lineWidth = 1;
         ctx.fillRect(obj.coords.x, obj.coords.y, obj.size.width, obj.size.height);
         ctx.strokeRect(obj.coords.x, obj.coords.y, obj.size.width, obj.size.height);
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 3;
     }
 
     export function contextClicked(coords: GateCoords, obj: IContext): boolean {
