@@ -59,13 +59,3 @@ export interface InState<T extends Gates<any>>  extends State<T> {
 	input: boolean,
 	connected: boolean
 }
-
-export interface contextOption {
-	coords: GateCoords,
-	size: GateSize,
-	text: string
-}
-
-export interface contextMenu {
-	options: contextOption[]
-}

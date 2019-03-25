@@ -60,7 +60,8 @@ export interface MenuProps extends Component {
 export interface IContext {
 	coords: GateCoords,
 	size: GateSize,
-	gate: AnyGate
+	gate: AnyGate,
+	options: string[]
 }
 
 // Workspace
