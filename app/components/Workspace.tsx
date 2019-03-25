@@ -47,6 +47,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		
 		this.nodeSelectEnd = { node: null, selected: false }
 		this.nodeSelectStart = { node: null, selected: false }
+
+		this.canvasEvent = this.canvasEvent.bind(this);
 	}
 
 	public save = (saveAs: boolean): void => {
@@ -139,7 +141,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 	
 
-	private canvasEvent = (e: React.MouseEvent<HTMLCanvasElement>): void => {
+	private async canvasEvent(e: React.MouseEvent<HTMLCanvasElement>): Promise<void> {
 		let coords = this.getCoords(e);
 
 		coords = Wiring.gridLayout(coords, this.state.gridFactor);
@@ -147,13 +149,17 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		if (e.type === "contextmenu") {
 			let check = this.isClicked(coords); 
 			console.log(check);
-			if (check !== null) {
-				let context = check.context(coords);
-				this.setState({context});
+			if (check !== null && (this.state.context === null || check.state.id !== this.state.context.gate.state.id )) {
+				await this.setState({context: null});
+				this.clear();
+				let context = await check.context(coords);
+				await this.setState({context});
+				return;
 			}
 			return;
 		} else if (e.type === "click" && this.state.context !== null ? !Wiring.contextClicked(coords, this.state.context) : false) {
-			this.contextStop();
+			await this.setState({context: null});
+			this.clear();
 			return;
 		}
 
@@ -227,10 +233,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 	}
 
-	private async contextStop() {
-		await this.setState({context: null});
-		this.clear();
-	}
+
 
 	private addNodes<T extends LogicGates.Gates<any>>(newNodes: ICanvas.Nodes<T>): void {
 		this.endNodes.push(...newNodes.end);

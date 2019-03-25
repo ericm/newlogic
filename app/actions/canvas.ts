@@ -69,6 +69,7 @@ export namespace Wiring {
     }
     
     export function renderContext(ctx: CanvasRenderingContext2D, obj: IContext): void {
+        console.log("ctx");
         ctx.fillStyle = 'rgba(20,20,20,.7)';
         ctx.strokeStyle = "rgba(20,20,20,.1)";
         ctx.lineWidth = 1;
