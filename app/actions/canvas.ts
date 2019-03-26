@@ -71,7 +71,7 @@ export namespace Wiring {
     export function renderContext(ctx: CanvasRenderingContext2D, obj: IContext): void {
         console.log("ctx");
         // Render background
-        ctx.fillStyle = 'rgba(20,20,20,.7)';
+        ctx.fillStyle = 'rgba(20,20,20,.8)';
         ctx.strokeStyle = "rgba(20,20,20,.1)";
         ctx.lineWidth = 1;
         ctx.fillRect(obj.coords.x, obj.coords.y, obj.size.width, obj.size.height);
@@ -106,7 +106,7 @@ export namespace Wiring {
         if (y > obj.coords.y + 15 && y < obj.coords.y + obj.size.height) {
             let i = Math.ceil((y - obj.coords.y + 10) / (obj.size.height - 10));
             let renderY = obj.coords.y + 5 + 15*(i-1);
-            ctx.fillStyle = "rgba(0, 0, 0, .2)";
+            ctx.fillStyle = "rgba(0, 0, 0, .5)";
             ctx.fillRect(obj.coords.x, renderY, obj.size.width, 15);
 
             // Render text

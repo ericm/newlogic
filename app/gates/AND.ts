@@ -25,6 +25,7 @@ export default class AndGate extends Gates<AndGate> {
 		super();
 		this.ctx = ctx;
 		this.svg = AndGate.SVG;
+		this.contextMenu = ["Make NAND"].concat(this.contextMenu);
 	}
 
 	public add = (c: GateCoords, s: GateSize, id?: number): Nodes<any> => {

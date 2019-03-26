@@ -151,7 +151,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			console.log(check);
 			if (check !== null && (this.state.context === null || check.state.id !== this.state.context.gate.state.id )) {
 				await this.setState({context: null});
-				this.clear();
+				await this.clear();
 				let context = await check.context(coords);
 				await this.setState({context});
 				return;

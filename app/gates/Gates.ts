@@ -1,7 +1,6 @@
-import { AnyGate, Nodes, GateSize } from './../interfaces/canvas.d';
 import { GateCoords, State } from "../interfaces/canvas";
 import { IContext } from '../interfaces/components';
-import { Wiring } from '../actions/canvas';
+import { AnyGate, GateSize, Nodes } from './../interfaces/canvas.d';
 
 export default class Gates<T extends Gates<any>>  {
     public static IDS: number[] = []
@@ -9,7 +8,7 @@ export default class Gates<T extends Gates<any>>  {
     public ctx: CanvasRenderingContext2D
     public svg: HTMLImageElement
     public state: State<T>
-    public contextMenu: string[] = ["Properties", "Name"]
+    public contextMenu: string[] = ["Properties"]
 
     public nodeOffsetStart: GateCoords[]
 	public nodeOffsetEnd: GateCoords[]
@@ -34,7 +33,6 @@ export default class Gates<T extends Gates<any>>  {
     public context = (coords: GateCoords): IContext => {
         let height = 15 * (this.contextMenu.length+1);
         let obj: IContext = {size: {width: 100, height}, coords, gate: this, options: this.contextMenu};
-        Wiring.renderContext(this.ctx, obj);
         return obj;
     }
 
