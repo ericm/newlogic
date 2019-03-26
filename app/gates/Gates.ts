@@ -32,7 +32,7 @@ export default class Gates<T extends Gates<any>>  {
     }
 
     public context = (coords: GateCoords): IContext => {
-        let height = 30 * this.contextMenu.length;
+        let height = 15 * (this.contextMenu.length+1);
         let obj: IContext = {size: {width: 100, height}, coords, gate: this, options: this.contextMenu};
         Wiring.renderContext(this.ctx, obj);
         return obj;

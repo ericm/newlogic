@@ -161,6 +161,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			await this.setState({context: null});
 			this.clear();
 			return;
+		} else if (e.type === "mousemove" && this.state.context !== null && Wiring.contextClicked(coords, this.state.context)) {
+			this.clear();
+			Wiring.contextHover(coords.y, this.state.context, this.ctx);
+			return;
 		}
 
 		switch (this.state.mode) {

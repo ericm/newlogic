@@ -70,11 +70,24 @@ export namespace Wiring {
     
     export function renderContext(ctx: CanvasRenderingContext2D, obj: IContext): void {
         console.log("ctx");
+        // Render background
         ctx.fillStyle = 'rgba(20,20,20,.7)';
         ctx.strokeStyle = "rgba(20,20,20,.1)";
         ctx.lineWidth = 1;
         ctx.fillRect(obj.coords.x, obj.coords.y, obj.size.width, obj.size.height);
         ctx.strokeRect(obj.coords.x, obj.coords.y, obj.size.width, obj.size.height);
+
+        // Render text
+        ctx.strokeStyle = "white";
+        ctx.font = "Arial";
+        ctx.lineWidth = .7;
+        let x = obj.coords.x + 5;
+        let y = obj.coords.y + 15;
+        for (let text of obj.options) {
+            ctx.strokeText(text, x, y, obj.size.width - 5);
+            y += 15;
+        }
+
         ctx.strokeStyle = "black";
         ctx.lineWidth = 3;
     }
@@ -87,5 +100,21 @@ export namespace Wiring {
             return true;
         }
         return false;
+    }
+
+    export function contextHover(y: number, obj: IContext, ctx: CanvasRenderingContext2D): void {
+        if (y > obj.coords.y + 15 && y < obj.coords.y + obj.size.height) {
+            let i = Math.ceil((y - obj.coords.y + 10) / (obj.size.height - 10));
+            let renderY = obj.coords.y + 5 + 15*(i-1);
+            ctx.fillStyle = "rgba(0, 0, 0, .2)";
+            ctx.fillRect(obj.coords.x, renderY, obj.size.width, 15);
+
+            // Render text
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = .7;
+            ctx.strokeText(obj.options[i-1], obj.coords.x + 5, obj.coords.y + 15*(i), obj.size.width - 5);
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 3;
+            }
     }
 }
