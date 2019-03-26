@@ -28,15 +28,14 @@ export namespace Saving {
 
 		// Create wire objects
 		for (let gate of output) {
-			gate.state.gateIn.forEach(g => {
-				for (let i in g.state.nodes.start) {
-					let n = g.state.nodes.start[i];
-					let endNode = gate.state.nodes.end[i];
-					let wire = new Wire({startNode: n, endNode});
-					endNode.state.wire.push(wire);
-					n.state.wire.push(wire);
-					wires.push(wire);
-				}
+			gate.state.gateIn.forEach((g, i) => {
+				// TODO: fix for multi out
+				let n = g.state.nodes.start[0];
+				let endNode = gate.state.nodes.end[i];
+				let wire = new Wire({startNode: n, endNode});
+				endNode.state.wire.push(wire);
+				n.state.wire.push(wire);
+				wires.push(wire);
 			});
 		}
 	}
