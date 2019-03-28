@@ -8,6 +8,7 @@ import WindowBar from './WindowBar';
 import Workspace from './Workspace';
 import { AnyGate } from '../interfaces/canvas';
 import Properties from './Properties';
+import ReactDOM = require('react-dom');
 
 
 let styles = require('./styles/Home.scss');
@@ -73,10 +74,18 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
 	}
 
+	private unmountPopup = (_: any) => {
+		let el = document.getElementById("popup");
+		if (!!el) ReactDOM.unmountComponentAtNode(el);
+		this.setState({popup: (<p hidden></p>)});
+	}
+
 	private propertyWindow = (gate: AnyGate): void => {
+		let propRef = React.createRef<Properties>();
 		this.setState({popup: (
-			<Properties gate={gate}></Properties>
-		)})
+			<Properties ref={propRef} gate={gate}></Properties>
+		)});
+		if (!!propRef.current) propRef.current.unmount = this.unmountPopup
 	}
 
 	public componentDidUpdate(): void {
@@ -194,7 +203,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 					</div>
 
 				</div>
-				{this.state.popup}
+				<div id="popup">{this.state.popup}</div>
 			</div>
 		);
 
