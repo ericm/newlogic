@@ -1,6 +1,7 @@
 import GateNode from "../gates/Node";
-import { GateCoords, GateGeneric } from "../interfaces/canvas";
+import { GateCoords, GateGeneric, AnyGate } from "../interfaces/canvas";
 import { IContext } from "../interfaces/components";
+import Workspace from "../components/Workspace";
 
 export namespace Wiring {
 
@@ -102,7 +103,7 @@ export namespace Wiring {
         return false;
     }
 
-    export function contextHover(y: number, obj: IContext, ctx: CanvasRenderingContext2D): void {
+    export function contextHover(y: number, obj: IContext, ctx: CanvasRenderingContext2D): string {
         if (y > obj.coords.y + 15 && y < obj.coords.y + obj.size.height) {
             let i = Math.ceil((y - obj.coords.y + 10) / (obj.size.height - 10));
             let renderY = obj.coords.y + 5 + 15*(i-1);
@@ -115,6 +116,18 @@ export namespace Wiring {
             ctx.strokeText(obj.options[i-1], obj.coords.x + 5, obj.coords.y + 15*(i), obj.size.width - 5);
             ctx.strokeStyle = "black";
             ctx.lineWidth = 3;
-            }
+
+            // Return str
+            return obj.options[i-1];
+        }
+        return "";
+    }
+
+    export function contextActions(workspace: Workspace, gate: AnyGate, option: string): void {
+        switch (option) {
+            case "Properties":
+                workspace.propertyWindow(gate);
+                break;
+        }
     }
 }

@@ -6,6 +6,7 @@ import Menu from './Menu';
 import NavBar from './NavBar';
 import WindowBar from './WindowBar';
 import Workspace from './Workspace';
+import { AnyGate } from '../interfaces/canvas';
 
 
 let styles = require('./styles/Home.scss');
@@ -67,7 +68,12 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 		window.addEventListener("resize", (): void => this.resizer());
 
 		this._navbar.home = this;
+		this._workspaces[this.selectedWorkspace].propertyWindow = this.propertyWindow;
 
+	}
+
+	private propertyWindow = (gate: AnyGate): void => {
+		console.log("tt", gate);
 	}
 
 	public componentDidUpdate(): void {

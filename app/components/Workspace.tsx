@@ -161,11 +161,19 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			await this.setState({context: null});
 			this.clear();
 			return;
-		} else if (e.type === "mousemove" && this.state.context !== null && Wiring.contextClicked(coords, this.state.context)) {
-			this.clear();
-			Wiring.contextHover(coords.y, this.state.context, this.ctx);
-			return;
+		} else if (this.state.context !== null && Wiring.contextClicked(coords, this.state.context)) {
+			switch (e.type) {
+				case "mousemove":
+					this.clear();
+					Wiring.contextHover(coords.y, this.state.context, this.ctx);
+					return;
+				case "click":
+					this.clear();
+					Wiring.contextActions(this, this.state.context.gate, Wiring.contextHover(coords.y, this.state.context, this.ctx));
+					return;
+			}
 		}
+		
 
 		switch (this.state.mode) {
 			case "click":
@@ -406,6 +414,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		}
 
 	}
+
+	public propertyWindow = (gate: ICanvas.AnyGate): void => {}
 
 	public resize = (n: IComponent.Component): void =>
 		this.setState({

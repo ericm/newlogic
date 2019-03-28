@@ -35,7 +35,7 @@ export default class Gates<T extends Gates<any>>  {
         let obj: IContext = {size: {width: 100, height}, coords, gate: this, options: this.contextMenu};
         return obj;
     }
-
+    
     public drag = (coords: GateCoords): void => {
         this.state.coords = coords;
         this.dragNodes(coords);
