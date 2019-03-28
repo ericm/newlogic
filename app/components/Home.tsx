@@ -7,6 +7,7 @@ import NavBar from './NavBar';
 import WindowBar from './WindowBar';
 import Workspace from './Workspace';
 import { AnyGate } from '../interfaces/canvas';
+import Properties from './Properties';
 
 
 let styles = require('./styles/Home.scss');
@@ -73,7 +74,9 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 	}
 
 	private propertyWindow = (gate: AnyGate): void => {
-		console.log("tt", gate);
+		this.setState({popup: (
+			<Properties gate={gate}></Properties>
+		)})
 	}
 
 	public componentDidUpdate(): void {
@@ -191,6 +194,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 					</div>
 
 				</div>
+				{this.state.popup}
 			</div>
 		);
 

@@ -1,0 +1,30 @@
+@keyframes op {
+    0% {opacity: 0; transform: scale(1.5);}
+    100% {opacity: 1; transform: scale(1);}
+}
+.popup {
+    z-index: 1000;
+    background-color: rgb(255, 255, 255);
+    border-radius: .2em;
+    box-shadow: 0 0 10em -2em #000;
+    border: solid rgba(0, 0, 0, 0.733) .1em; 
+    width: 500px;
+    height: 500px;
+    position: fixed;
+    margin-left: -250px;
+    margin-top: -250px;
+    top: 50vh;
+    left: 50vw;
+    opacity: 1;
+    animation: op .7s;
+}
+.back {
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    animation: op .3s;
+}

@@ -15,10 +15,17 @@ export interface Component {
 }
 export interface HomeState {
 	child1: Child,
-	child2: Child
+	child2: Child,
+	popup?: JSX.Element
 }
 export interface HomeProps {
 	testing?: boolean
+}
+export interface PropertiesState {
+
+}
+export interface PropertiesProps {
+	gate: AnyGate
 }
 // Gates
 export interface AllGates {
