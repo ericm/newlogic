@@ -13,7 +13,8 @@ export default class Properties extends React.Component<PropertiesProps, Propert
         // }
     }
     
-    public unmount = (e: React.MouseEvent<HTMLDivElement>) => {}
+    public unmount = (_: React.MouseEvent<HTMLDivElement>) => { this.props.home.unmountPopup() }
+    
 
 	public render(): JSX.Element {
 		return (

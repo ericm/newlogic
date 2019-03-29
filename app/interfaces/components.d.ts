@@ -1,6 +1,7 @@
 // Gates imports
 import { AndGate, GateNode, LED, NotGate, OrGate, Switch, Wire } from '../gates/all';
 import { GateCoords, GateSize, AnyGate } from "./canvas";
+import Home from '../components/Home';
 
 // Home
 export interface Child extends WinBarResize {
@@ -25,7 +26,8 @@ export interface PropertiesState {
 
 }
 export interface PropertiesProps {
-	gate: AnyGate
+	gate: AnyGate,
+	home: Home
 }
 // Gates
 export interface AllGates {
