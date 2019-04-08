@@ -19,8 +19,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 	public ctx: CanvasRenderingContext2D
 	public gates: IComponent.AllGates
-	public endNodes: LogicGates.GateNode<any>[] = []
-	public startNodes: LogicGates.GateNode<any>[] = []
+	public endNodes: LogicGates.GateNode<ICanvas.AnyGate>[] = []
+	public startNodes: LogicGates.GateNode<ICanvas.AnyGate>[] = []
 
 	private nodeSelectEnd: ICanvas.SelectedNode<any>
 	private nodeSelectStart: ICanvas.SelectedNode<any>
@@ -62,6 +62,47 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			}
 		}
 		
+	}
+
+	public deleteGate = (id: number): void => {
+		let is = [];
+		for (let index in this.startNodes) {
+			if (this.startNodes[index].state.gate.state.id === id) {
+				is.push(+index);
+			}
+		}
+		for (let i of is) this.startNodes.splice(i, 1);
+		is = [];
+		for (let index in this.endNodes) {
+			if (this.endNodes[index].state.gate.state.id === id) {
+				is.push(+index);
+			}
+		}
+		for (let i of is) this.endNodes.splice(i, 1);
+		const find = (check: (val: ICanvas.AnyGate) => boolean): void => {
+			let i = this.gates.and.findIndex(check);
+			if (i !== -1) this.gates.and.splice(i, 1);
+			if (i === -1) {
+				i = this.gates.or.findIndex(check); 
+				if (i !== -1) this.gates.or.splice(i, 1);
+			}
+			if (i === -1) {
+				i = this.gates.not.findIndex(check); 
+				if (i !== -1) this.gates.not.splice(i, 1);
+			} 
+			if (i === -1) {
+				i = this.gates.led.findIndex(check);
+				if (i !== -1) this.gates.led.splice(i, 1);
+			}
+			if (i === -1) {
+				i = this.gates.switch.findIndex(check);
+				if (i !== -1) this.gates.switch.splice(i, 1);
+			} 
+		}
+		find(val => { return val.state.id === id; })
+		// find(val => { return val.state.gateIn.findIndex(val => { return val.state.id === id; }) !== -1; });
+		// find(val => { return val.state.gateOut.findIndex(val => { return val.state.id === id; }) !== -1; });
+		console.log(this.gates);
 	}
 
 	public load = (): void => Saving.loadState(this);

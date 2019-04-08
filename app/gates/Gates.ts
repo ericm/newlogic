@@ -8,7 +8,7 @@ export default class Gates<T extends Gates<any>>  {
     public ctx: CanvasRenderingContext2D
     public svg: HTMLImageElement
     public state: State<T>
-    public contextMenu: string[] = ["Properties"]
+    public contextMenu: string[] = ["Properties", "Delete"]
 
     public nodeOffsetStart: GateCoords[]
 	public nodeOffsetEnd: GateCoords[]
@@ -32,6 +32,7 @@ export default class Gates<T extends Gates<any>>  {
 
     public context = (coords: GateCoords): IContext => {
         let height = 15 * (this.contextMenu.length+1);
+        console.log(height);
         let obj: IContext = {size: {width: 100, height}, coords, gate: this, options: this.contextMenu};
         return obj;
     }

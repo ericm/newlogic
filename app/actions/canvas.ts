@@ -70,7 +70,6 @@ export namespace Wiring {
     }
     
     export function renderContext(ctx: CanvasRenderingContext2D, obj: IContext): void {
-        console.log("ctx");
         // Render background
         ctx.fillStyle = 'rgba(20,20,20,.8)';
         ctx.strokeStyle = "rgba(20,20,20,.1)";
@@ -104,8 +103,9 @@ export namespace Wiring {
     }
 
     export function contextHover(y: number, obj: IContext, ctx: CanvasRenderingContext2D): string {
-        if (y > obj.coords.y + 15 && y < obj.coords.y + obj.size.height) {
-            let i = Math.ceil((y - obj.coords.y + 10) / (obj.size.height - 10));
+        if (y > obj.coords.y + 15 && y < obj.coords.y + obj.size.height+ 15) {
+            let i = Math.ceil(((y - obj.coords.y) / (obj.size.height) * obj.options.length));
+            console.log(i-1);
             let renderY = obj.coords.y + 5 + 15*(i-1);
             ctx.fillStyle = "rgba(0, 0, 0, .5)";
             ctx.fillRect(obj.coords.x, renderY, obj.size.width, 15);
@@ -127,6 +127,9 @@ export namespace Wiring {
         switch (option) {
             case "Properties":
                 workspace.propertyWindow(gate);
+                break;
+            case "Delete":
+                workspace.deleteGate(gate.state.id);
                 break;
         }
     }
