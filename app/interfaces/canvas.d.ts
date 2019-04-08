@@ -18,8 +18,8 @@ export interface Nodes<T extends Gates<any>>  {
 	end: GateNode<T>[]
 }
 export interface WireProps {
-	startNode: GateNode<any>,
-	endNode: GateNode<any>
+	startNode: GateNode<AnyGate>,
+	endNode: GateNode<AnyGate>
 }
 // AND GATE
 export interface AndState {

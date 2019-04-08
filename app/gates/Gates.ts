@@ -81,5 +81,7 @@ export default class Gates<T extends Gates<any>>  {
         return id;
     }
 
+    public static REMID = (id: number): number[] => Gates.IDS.splice(Gates.IDS.findIndex(val => { return val === id; }), 1)
+
     public add = (c: GateCoords, s: GateSize, id?: number): Nodes<any> => { return this.state.nodes }
 }

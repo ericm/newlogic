@@ -65,20 +65,38 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 	}
 
 	public deleteGate = (id: number): void => {
+		// Remove context menu
+		// this.setState({context: null});
+		// Delete Wires referencing gate
 		let is = [];
+		for (let i in this.gates.wire) {
+			let wire = this.gates.wire[i].state;
+			if (wire.startNode.state.gate.state.id === id || wire.endNode.state.gate.state.id === id) {
+				console.log(i);
+				is.push(+i);
+			}
+		}
+		for (let i of is) {
+			this.gates.wire.splice(+i);
+		}
+		
+		// Delete nodes referencing the gate
+		is = [];
 		for (let index in this.startNodes) {
 			if (this.startNodes[index].state.gate.state.id === id) {
 				is.push(+index);
 			}
 		}
-		for (let i of is) this.startNodes.splice(i, 1);
+		this.startNodes.splice(is[0], is.length);
 		is = [];
 		for (let index in this.endNodes) {
 			if (this.endNodes[index].state.gate.state.id === id) {
 				is.push(+index);
 			}
 		}
-		for (let i of is) this.endNodes.splice(i, 1);
+		this.endNodes.splice(is[0], is.length);
+
+		// Lambda to delete gate
 		const find = (check: (val: ICanvas.AnyGate) => boolean): void => {
 			let i = this.gates.and.findIndex(check);
 			if (i !== -1) this.gates.and.splice(i, 1);
@@ -99,10 +117,11 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				if (i !== -1) this.gates.switch.splice(i, 1);
 			} 
 		}
-		find(val => { return val.state.id === id; })
-		// find(val => { return val.state.gateIn.findIndex(val => { return val.state.id === id; }) !== -1; });
-		// find(val => { return val.state.gateOut.findIndex(val => { return val.state.id === id; }) !== -1; });
-		console.log(this.gates);
+		find(val => { return val.state.id === id; });
+		// Remove ID
+		LogicGates.Gates.REMID(id);
+		console.log(this.endNodes, this.startNodes, this.gates);
+		this.clear();
 	}
 
 	public load = (): void => Saving.loadState(this);
