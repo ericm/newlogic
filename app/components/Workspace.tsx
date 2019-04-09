@@ -68,7 +68,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		// Remove context menu
 		// this.setState({context: null});
 		// Delete Wires referencing gate
-		console.log(this.gates.wire)
 		let is: number[] = [];
 		for (let i in this.gates.wire) {
 			let wire = this.gates.wire[i].state;
@@ -78,8 +77,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			}
 		}
 		// this.gates.wire = this.gates.wire.filter((_, i)  => { console.log(i, is); return i !in is; });
-		this.gates.wire.filter((_val, i: number, _arr)  => { console.log(i, is); return i !in is; });
-		console.log(this.gates.wire);
+		this.gates.wire = this.gates.wire.filter((_val, i: number, _arr)  => { return is.findIndex(ii => { return i === ii; }) === -1; });
 		
 		// Delete nodes referencing the gate
 		is = [];
@@ -447,7 +445,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 				break;
 			case "mouseup":
-			case "mouseleave":
 				// save wire
 				if (this.nodeSelectEnd.selected && this.nodeSelectEnd.node !== null && this.nodeSelectStart.node !== null 
 					&& this.state.dragging) {
@@ -472,6 +469,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 					this.clear();
 				}
 				this.setState({ dragging: false });
+				break;
+			case "mouseleave":
+				this.setState({ dragging: false });
+				this.clear();
 				break;
 		}
 
