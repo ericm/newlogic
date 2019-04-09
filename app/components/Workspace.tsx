@@ -68,7 +68,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		// Remove context menu
 		// this.setState({context: null});
 		// Delete Wires referencing gate
-		let is = [];
+		console.log(this.gates.wire)
+		let is: number[] = [];
 		for (let i in this.gates.wire) {
 			let wire = this.gates.wire[i].state;
 			if (wire.startNode.state.gate.state.id === id || wire.endNode.state.gate.state.id === id) {
@@ -76,9 +77,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				is.push(+i);
 			}
 		}
-		for (let i of is) {
-			this.gates.wire.splice(+i);
-		}
+		// this.gates.wire = this.gates.wire.filter((_, i)  => { console.log(i, is); return i !in is; });
+		this.gates.wire.filter((_val, i: number, _arr)  => { console.log(i, is); return i !in is; });
+		console.log(this.gates.wire);
 		
 		// Delete nodes referencing the gate
 		is = [];
@@ -461,8 +462,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 					const wire = new LogicGates.Wire({
 						startNode, endNode
 					});
-
 					this.gates.wire.push(wire);
+
+					console.log(this.gates.wire);
 					endNode.setWire(wire, "end");
 					startNode.setWire(wire, "start");
 					this.onChange();
