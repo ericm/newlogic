@@ -54,11 +54,11 @@ export default class NavBar extends React.Component<NavBarProps, NavBarState> {
 			<nav className={styles.main}>
 				<ul>
 					<li onClick={this.click}>File<ul>
-						<li onClick={this.open}>Open</li>
-						<li onClick={this.save}>Save</li>
-						<li onClick={this.saveAs}>Save As</li>
+						<li onClick={this.open}>Open<i>Ctrl + O</i></li>
+						<li onClick={this.save}>Save<i>Ctrl + S</i></li>
+						<li onClick={this.saveAs}>Save As<i>Ctrl + Shift + S</i></li>
 						<li>Settings<i>Alt + P</i></li>
-						<li>Exit</li>
+						<li>Exit<i>Ctrl + Q</i></li>
 					</ul></li>
 					<li onClick={this.click}>Edit<ul>
 						<li>Settings</li>

@@ -79,7 +79,7 @@ export namespace Wiring {
 
         // Render text
         ctx.fillStyle = "white";
-        ctx.font = "15px Arial";
+        ctx.font = "15px PT_Sans";
         ctx.lineWidth = .7;
         let x = obj.coords.x + 5;
         let y = obj.coords.y + 15;
