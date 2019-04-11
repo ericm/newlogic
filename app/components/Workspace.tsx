@@ -66,13 +66,11 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 	public deleteGate = (id: number): void => {
 		// Remove context menu
-		// this.setState({context: null});
 		// Delete Wires referencing gate
 		let is: number[] = [];
 		for (let i in this.gates.wire) {
 			let wire = this.gates.wire[i].state;
 			if (wire.startNode.state.gate.state.id === id || wire.endNode.state.gate.state.id === id) {
-				console.log(i);
 				is.push(+i);
 			}
 		}
@@ -205,6 +203,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 		coords = Wiring.gridLayout(coords, this.state.gridFactor);
 
+		// Context menu checks
 		if (e.type === "contextmenu") {
 			let check = this.isClicked(coords); 
 			console.log(check);
@@ -227,10 +226,12 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 					Wiring.contextHover(coords.y, this.state.context, this.ctx);
 					return;
 				case "click":
+					await Wiring.contextActions(this, this.state.context.gate, Wiring.contextHover(coords.y, this.state.context, this.ctx));
+					await this.setState({context: null});
 					this.clear();
-					Wiring.contextActions(this, this.state.context.gate, Wiring.contextHover(coords.y, this.state.context, this.ctx));
 					return;
 			}
+			
 		}
 		
 
@@ -411,7 +412,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 					this.setState({
 						dragInit: snapCoords,
 						drag: snapCoords,
-						dragging: true
+						dragging: true,
+						canvasDrag: false
 					});
 					this.nodeSelectStart = { node, selected: true }
 				} else {
@@ -437,7 +439,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 						this.nodeSelectEnd = { node: null, selected: false };
 					}
 					this.setState({
-						drag: coords
+						drag: coords,
+						canvasDrag: true
 					});
 					this.clear();
 					Wiring.drawWire(this.ctx, this.state.dragInit, this.state.drag);
@@ -447,7 +450,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			case "mouseup":
 				// save wire
 				if (this.nodeSelectEnd.selected && this.nodeSelectEnd.node !== null && this.nodeSelectStart.node !== null 
-					&& this.state.dragging) {
+					&& this.state.dragging && this.state.canvasDrag) {
 
 					let startNode = this.nodeSelectStart.node;
 					let endNode = this.nodeSelectEnd.node;
