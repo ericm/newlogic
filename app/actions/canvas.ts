@@ -1,7 +1,7 @@
-import GateNode from "../gates/Node";
-import { GateCoords, GateGeneric, AnyGate } from "../interfaces/canvas";
-import { IContext } from "../interfaces/components";
 import Workspace from "../components/Workspace";
+import GateNode from "../gates/Node";
+import { AnyGate, GateCoords, GateGeneric, GateSize } from "../interfaces/canvas";
+import { IContext } from "../interfaces/components";
 
 export namespace Wiring {
 
@@ -34,6 +34,18 @@ export namespace Wiring {
             }
         }
         return null;
+    }
+
+    export function otherGates(coords: GateCoords, gates: AnyGate[], size: GateSize = {width: 40, height: 40}): boolean {
+        for (let gate of gates) {
+            if ((coords.x >= gate.state.coords.x && coords.x <= gate.state.coords.x + gate.state.size.width &&
+                coords.y >= gate.state.coords.y && coords.y <= gate.state.coords.y + gate.state.size.height) ||
+                (coords.x >= gate.state.coords.x + size.width && coords.x <= gate.state.coords.x + gate.state.size.width + size.width &&
+                coords.y >= gate.state.coords.y + size.height && coords.y <= gate.state.coords.y + gate.state.size.height + size.height)) {
+                    return true;
+                }
+        }
+        return false;
     }
 
     export function renderNodes(nodes: GateNode<any>[], ctx: CanvasRenderingContext2D): void {

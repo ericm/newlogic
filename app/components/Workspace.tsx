@@ -121,6 +121,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 		this.clear();
 	}
 
+	private allGates = (): ICanvas.AnyGate[] => {
+		return [...this.gates.and, ...this.gates.or, ...this.gates.not, ...this.gates.led, ...this.gates.switch];
+	}
+
 	public load = (): void => Saving.loadState(this);
 	
 	public changeMode = (mode: string): void => this.setState({ mode });
@@ -247,7 +251,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 			// Gate cases
 			case "and":
-				if (e.type == "click") {
+				if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
 					this.gates.and.push(new LogicGates.AndGate(this.ctx));
 					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
@@ -259,7 +263,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 
 			case "or":
-				if (e.type == "click") {
+				if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
 					this.gates.or.push(new LogicGates.OrGate(this.ctx));
 					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.or[this.gates.or.length - 1].add(coords, size);
@@ -270,7 +274,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				break;
 
 			case "not":
-				if (e.type == "click") {
+				if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
 					this.gates.not.push(new LogicGates.NotGate(this.ctx));
 					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.not[this.gates.not.length - 1].add(coords, size);
@@ -281,7 +285,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				break;
 
 			case "led":
-				if (e.type == "click") {
+				if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
 					this.gates.led.push(new LogicGates.LED(this.ctx));
 					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.led[this.gates.led.length - 1].add(coords, size);
@@ -292,7 +296,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 				break;
 
 			case "switch":
-				if (e.type == "click") {
+				if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
 					this.gates.switch.push(new LogicGates.Switch(this.ctx));
 					const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
 					const newNodes = this.gates.switch[this.gates.switch.length - 1].add(coords, size);
