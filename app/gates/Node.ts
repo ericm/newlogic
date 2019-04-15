@@ -1,11 +1,11 @@
-import { GateCoords, NodeState } from "../interfaces/canvas";
+import * as canvas from "../interfaces/canvas";
 import Wire from "./Wire";
 import Gates from "./Gates";
 
 export default class GateNode<T extends Gates<any>> {
-    public state: NodeState<T>
+    public state: canvas.NodeState<T>
 
-    public constructor(gate: T, coords: GateCoords, type: string) {
+    public constructor(gate: T, coords: canvas.GateCoords, type: string) {
         this.state = { gate, wire: [], coords, type, value: false };
     }
 
@@ -21,7 +21,7 @@ export default class GateNode<T extends Gates<any>> {
         }
     }
 
-    public getCoords = (): GateCoords => {
+    public getCoords = (): canvas.GateCoords => {
         return this.state.coords;
     }
 
@@ -42,7 +42,7 @@ export default class GateNode<T extends Gates<any>> {
         return this.state.type;
     }
 
-    public setCoords = (coords: GateCoords): void => {
+    public setCoords = (coords: canvas.GateCoords): void => {
         this.state.coords = coords;
     }
 

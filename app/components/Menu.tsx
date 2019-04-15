@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { Component } from 'react';
 import { MenuProps, MenuState } from '../interfaces/components';
 import Workspace from './Workspace';
 
 let styles = require("./styles/Menu.scss")
 
-export default class Menu extends React.Component<MenuProps, MenuState> {
+export default class Menu extends Component<MenuProps, MenuState> {
     private _workspaces: Workspace[] = []
 
     public constructor(props: MenuProps) {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Wiring } from '../actions/canvas';
 import { Logic } from '../actions/logic';
 import { Saving } from '../actions/saving';
-//import items (gates etc)
+// import items (gates etc)
 import * as LogicGates from '../gates/all';
 import * as ICanvas from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';

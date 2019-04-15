@@ -1,4 +1,4 @@
-import { GateCoords, State } from "../interfaces/canvas";
+import * as canvas from "../interfaces/canvas";
 import { IContext } from '../interfaces/components';
 import { AnyGate, GateSize, Nodes } from './../interfaces/canvas.d';
 
@@ -7,11 +7,11 @@ export default class Gates<T extends Gates<any>>  {
 
     public ctx: CanvasRenderingContext2D
     public svg: HTMLImageElement
-    public state: State<T>
+    public state: canvas.State<T>
     public contextMenu: string[] = ["Properties", "Delete"]
 
-    public nodeOffsetStart: GateCoords[]
-	public nodeOffsetEnd: GateCoords[]
+    public nodeOffsetStart: canvas.GateCoords[]
+    public nodeOffsetEnd: canvas.GateCoords[]
 
     public render = (): void => {
         this.ctx.drawImage(this.svg, this.state.coords.x, this.state.coords.y,
@@ -30,27 +30,27 @@ export default class Gates<T extends Gates<any>>  {
 
     }
 
-    public context = (coords: GateCoords): IContext => {
+    public context = (coords: canvas.GateCoords): IContext => {
         let height = 15 * (this.contextMenu.length+1);
         console.log(height);
         let obj: IContext = {size: {width: 200, height}, coords, gate: this, options: this.contextMenu};
         return obj;
     }
     
-    public drag = (coords: GateCoords): void => {
+    public drag = (coords: canvas.GateCoords): void => {
         this.state.coords = coords;
         this.dragNodes(coords);
     }
 
-    public dragNodes = (c: GateCoords): void => {
-		for (let i in this.state.nodes.start) {
-			const move: GateCoords = { x: c.x + this.nodeOffsetStart[i].x, y: c.y + this.nodeOffsetStart[i].y }
-			this.state.nodes.start[i].setCoords(move);
-		}
-		for (let i in this.state.nodes.end) {
-			const move: GateCoords = { x: c.x + this.nodeOffsetEnd[i].x, y: c.y + this.nodeOffsetEnd[i].y }
-			this.state.nodes.end[i].setCoords(move);
-		}
+    public dragNodes = (c: canvas.GateCoords): void => {
+        for (let i in this.state.nodes.start) {
+            const move: canvas.GateCoords = { x: c.x + this.nodeOffsetStart[i].x, y: c.y + this.nodeOffsetStart[i].y }
+            this.state.nodes.start[i].setCoords(move);
+        }
+        for (let i in this.state.nodes.end) {
+            const move: canvas.GateCoords = { x: c.x + this.nodeOffsetEnd[i].x, y: c.y + this.nodeOffsetEnd[i].y }
+            this.state.nodes.end[i].setCoords(move);
+        }
     }
     
     public clickSpecific = (): void => {}
@@ -83,5 +83,5 @@ export default class Gates<T extends Gates<any>>  {
 
     public static REMID = (id: number): number[] => Gates.IDS.splice(Gates.IDS.findIndex(val => { return val === id; }), 1)
 
-    public add = (c: GateCoords, s: GateSize, id?: number): Nodes<any> => { return this.state.nodes }
+    public add = (c: canvas.GateCoords, s: GateSize, id?: number): Nodes<any> => { return this.state.nodes }
 }
