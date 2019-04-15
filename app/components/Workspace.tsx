@@ -184,7 +184,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
     private drawGrid = (): void => {
         if (!!this.ctx) {
-
             switch (this.state.gridType) {
                 case "dots":
                     this.ctx.fillStyle = "rgba(0,0,0,1)";
@@ -473,10 +472,12 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         x: coords.x - (this.state.dragInit.x - this.state.drag.x),
                         y: coords.y - (this.state.dragInit.y - this.state.drag.y)
                     }
-                    for (let g of this.clickedDrag) {
-                        g.drag(move);
+                    if (move.x > 0 && move.y > 0) {
+                        for (let g of this.clickedDrag) {
+                            g.drag(move);
+                        }
+                        this.clear();
                     }
-                    this.clear();
                 } else if (this.state.canvasDrag) {
                     console.log("dragging");
                     const move: ICanvas.GateCoords = {
@@ -494,7 +495,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                             x: this.state.dragInit.x,
                             y: this.state.dragInit.y
                         }
-                        for (let g of this.clickedDrag) g.drag(move);
+                        if (move.x > 0 && move.y > 0) for (let g of this.clickedDrag) g.drag(move);
                     }
                     this.clear();
                     this.setState({ dragging: false });
@@ -502,6 +503,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     this.setState({ canvasDrag: false });
                 }
 
+                break;
+            case "mouseleave":
+                this.setState({ dragging: false });
+                this.clear();
                 break;
 
         }
