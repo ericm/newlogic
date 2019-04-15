@@ -86,6 +86,7 @@ export interface WorkspaceState {
 	snapFactor: number,
 	context: IContext | null,
 	path?: string,
+	gridType: string
 }
 export interface WorkspaceProps extends Component {
 	name?: string,

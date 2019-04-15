@@ -27,6 +27,7 @@ export default class GateNode<T extends Gates<any>> {
 
     public render = (ctx: CanvasRenderingContext2D): void => {
         ctx.beginPath();
+        ctx.strokeStyle = "rgb(0,0,0)";
         ctx.lineWidth = 3;
         ctx.arc(this.state.coords.x, this.state.coords.y, 1.5, 0, 2 * Math.PI);
         ctx.stroke();

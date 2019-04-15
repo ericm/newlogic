@@ -42,7 +42,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 			gridFactor: 20,
 			snapFactor: 20,
 			canvasDrag: false,
-			context: null
+			context: null,
+			gridType: 'lines'
 		}
 		
 		this.nodeSelectEnd = { node: null, selected: false }
@@ -160,16 +161,39 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 	private drawGrid = (): void => {
 		if (!!this.ctx) {
-			this.ctx.fillStyle = "rgba(0,0,0,1)";
-			for (let x = 0; x < this.canvas.width; x++) {
-				if (x % this.state.snapFactor == 0) {
-					for (let y = 0; y < this.canvas.height; y++) {
-						if (y % this.state.snapFactor == 0) {
-							this.ctx.fillRect(x, y, 1, 1);
+			
+			switch (this.state.gridType) {
+				case "dots":
+					this.ctx.fillStyle = "rgba(0,0,0,1)";
+					for (let x = 0; x < this.canvas.width; x++) {
+						if (x % this.state.snapFactor == 0) {
+							for (let y = 0; y < this.canvas.height; y++) {
+								if (y % this.state.snapFactor == 0) {
+									this.ctx.fillRect(x, y, 1, 1);
+								}
+							}
 						}
 					}
-				}
+					break;
+				case "lines":
+					this.ctx.strokeStyle = "rgb(200,200,200)";
+					this.ctx.lineWidth = 1;
+					for (let x = 0; x < (this.canvas.width > this.canvas.height ? this.canvas.width : this.canvas.height); x++) {
+						if (x % this.state.snapFactor == 0) {
+							this.ctx.beginPath();
+							this.ctx.moveTo(x, 0);
+							this.ctx.lineTo(x, parseInt(this.state.height.split('.')[0]));
+							this.ctx.stroke();
+
+							this.ctx.beginPath();
+							this.ctx.moveTo(0, x);
+							this.ctx.lineTo(parseInt(this.state.width.split('.')[0]), x);
+							this.ctx.stroke();
+						}
+					}
+					break;
 			}
+			
 		}
 	}
 
