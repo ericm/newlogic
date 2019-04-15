@@ -508,13 +508,15 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     }
 
     /**
-     * Run when mode set to draw
-     * For drawing wires
+     * Run when click event triggered and mode set to draw
+     * For drawing wires 
      *
      * @private
+     * @param {React.MouseEvent<HTMLCanvasElement>} e
+     * @param {ICanvas.GateCoords} coords
      * @memberof Workspace
      */
-    private cavasDrag = (e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords): void => {
+    private async cavasDrag(e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords) {
 
         // Drawing wires
 
@@ -558,7 +560,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         drag: coords,
                         canvasDrag: true
                     });
-                    this.clear();
+                    await this.clear();
                     Wiring.drawWire(this.ctx, this.state.dragInit, this.state.drag);
                 }
 
