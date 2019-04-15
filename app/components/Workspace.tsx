@@ -391,6 +391,13 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
 			case "mouseup":
 				if (this.state.dragging) {
+					if (Wiring.otherGates(this.clickedDrag[0].state.coords, this.allGates().filter(g => { return g.state.id !== this.clickedDrag[0].state.id; }))) {
+						const move: ICanvas.GateCoords = {
+							x: this.state.dragInit.x,
+							y: this.state.dragInit.y
+						}
+						for (let g of this.clickedDrag) g.drag(move);
+					}
 					this.clear();
 					this.setState({ dragging: false });
 				} else if (this.state.canvasDrag) {

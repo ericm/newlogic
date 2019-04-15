@@ -40,8 +40,8 @@ export namespace Wiring {
         for (let gate of gates) {
             if ((coords.x >= gate.state.coords.x && coords.x <= gate.state.coords.x + gate.state.size.width &&
                 coords.y >= gate.state.coords.y && coords.y <= gate.state.coords.y + gate.state.size.height) ||
-                (coords.x >= gate.state.coords.x + size.width && coords.x <= gate.state.coords.x + gate.state.size.width + size.width &&
-                coords.y >= gate.state.coords.y + size.height && coords.y <= gate.state.coords.y + gate.state.size.height + size.height)) {
+                (coords.x >= gate.state.coords.x - size.width && coords.x <= gate.state.coords.x + gate.state.size.width - size.width &&
+                coords.y >= gate.state.coords.y - size.height && coords.y <= gate.state.coords.y + gate.state.size.height - size.height)) {
                     return true;
                 }
         }
