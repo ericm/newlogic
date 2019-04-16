@@ -111,6 +111,12 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         }
         this.endNodes.splice(is[0], is.length);
 
+        // Find refs
+        for (let g of this.allGates()) {
+            g.state.gateIn = g.state.gateIn.filter(v => { return v.state.id !== id; });
+            g.state.gateOut = g.state.gateOut.filter(v => { return v.state.id !== id; });
+        }
+
         // Lambda to delete gate
         const find = (check: (val: ICanvas.AnyGate) => boolean): void => {
             let i = this.gates.and.findIndex(check);
@@ -136,6 +142,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         // Remove ID
         LogicGates.Gates.REMID(id);
         console.log(this.endNodes, this.startNodes, this.gates);
+        Logic.evalAll(this.gates);
         this.clear();
     }
 
@@ -591,6 +598,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     endNode.setWire(wire, "end");
                     startNode.setWire(wire, "start");
                     this.onChange();
+                    Logic.evalAll(this.gates);
                 } else {
                     this.clear();
                 }
