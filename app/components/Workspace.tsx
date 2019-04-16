@@ -198,7 +198,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     }
                     break;
                 case "lines":
-                    this.ctx.strokeStyle = "rgb(200,200,200)";
+                    this.ctx.strokeStyle = "rgba(230,230,230,1)";
                     this.ctx.lineWidth = 1;
                     for (let x = 0; x < (this.canvas.width > this.canvas.height ? this.canvas.width : this.canvas.height); x++) {
                         if (x % this.state.snapFactor == 0) {

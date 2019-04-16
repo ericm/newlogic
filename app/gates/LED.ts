@@ -2,17 +2,24 @@ import * as canvas from '../interfaces/canvas';
 import Gates from './Gates';
 import GateNode from './Node';
 
-// import img from '../img/and.svg'
-let img = require('../img/switch.svg')
+let img = require('../img/led.svg')
+let imgOn = require('../img/ledOn.svg')
 export default class LED extends Gates<LED> {
     public state: canvas.InState<LED>
 
     public static SVG: HTMLImageElement
+    public static SVGON: HTMLImageElement
 
     public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve) => {
         const listen = (_: Event): void => resolve(true);
         LED.SVG = new Image();
         LED.SVG.src = img;
+
+        ctx.drawImage(LED.SVG, 0, 0, 0, 0);
+
+        // Load SVGON
+        LED.SVGON = new Image();
+        LED.SVGON.src = imgOn;
 
         ctx.drawImage(LED.SVG, 0, 0, 0, 0);
         LED.SVG.addEventListener("load", listen);
@@ -48,11 +55,21 @@ export default class LED extends Gates<LED> {
         return this.state.nodes;
     }
 
+    private setInput = (): void => {
+        this.state.input = this.state.nodes.end[0].getVal();
+        if (this.state.input) {
+            this.svg = LED.SVGON;
+        } else {
+            this.svg = LED.SVG;
+        }
+        this.render();
+    }
+
     public evaluate = (): void => {
         this.upEval();
         
         // Set Val
-        this.state.input = this.state.nodes.end[0].getVal();
+        this.setInput();
         console.log(this.state.input);
     }
 

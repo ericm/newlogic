@@ -4,9 +4,11 @@ import Gates from './Gates';
 import GateNode from './Node';
 
 // import img from '../img/and.svg'
-let img = require('../img/switch.svg')
+let img = require('../img/switch.svg');
+let imgOn = require('../img/switchOn.svg');
 export default class Switch extends Gates<Switch> {
     public static SVG: HTMLImageElement
+    public static SVGON: HTMLImageElement
 
     public static LOAD = (ctx: CanvasRenderingContext2D): Promise<boolean> => new Promise<boolean>((resolve) => {
         const listen = (_: Event): void => resolve(true);
@@ -14,6 +16,12 @@ export default class Switch extends Gates<Switch> {
         Switch.SVG.src = img;
 
         ctx.drawImage(Switch.SVG, 0, 0, 0, 0);
+        
+        // Load imgOn
+        Switch.SVGON = new Image();
+        Switch.SVGON.src = imgOn;
+
+        ctx.drawImage(Switch.SVGON, 0, 0, 0, 0);
         Switch.SVG.addEventListener("load", listen);
     })
 
@@ -51,6 +59,16 @@ export default class Switch extends Gates<Switch> {
 
     public clickSpecific = (): void => {
         this.state.clicked = !this.state.clicked;
+        this.setOutput();
+    }
+
+    private setOutput = (): void => {
+        if (this.state.clicked) {
+            this.svg = Switch.SVGON;
+        } else {
+            this.svg = Switch.SVG;
+        }
+        this.render();
     }
 
     public evaluate = (): void => {
