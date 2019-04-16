@@ -9,16 +9,22 @@ export default class GateNode<T extends Gates<any>> {
         this.state = { gate, wire: [], coords, type, value: false };
     }
 
-    public setWire = (wire: Wire, type: string): void => {
-        this.state.wire.push(wire);
+    public setWire = (wire: Wire, type: string): boolean => {
+        
         switch (type) {
             case "start":
+                this.state.wire.push(wire);
                 this.state.gate.connect("out", wire.state.endNode.state.gate);
-                break;
+                return true;
             case "end":
-                this.state.gate.connect("in", wire.state.startNode.state.gate);
-                break;
+                if (this.state.wire.length === 0) {
+                    this.state.wire.push(wire);
+                    this.state.gate.connect("in", wire.state.startNode.state.gate);
+                    return true;
+                }
         }
+        return false;
+
     }
 
     public getCoords = (): canvas.GateCoords => {

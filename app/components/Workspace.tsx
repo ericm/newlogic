@@ -592,13 +592,13 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     const wire = new LogicGates.Wire({
                         startNode, endNode
                     });
-                    this.gates.wire.push(wire);
-
-                    console.log(this.gates.wire);
-                    endNode.setWire(wire, "end");
-                    startNode.setWire(wire, "start");
-                    this.onChange();
-                    Logic.evalAll(this.gates);
+                    if (endNode.setWire(wire, "end") && startNode.setWire(wire, "start")) {
+                        this.gates.wire.push(wire);
+                        console.log(this.gates.wire);
+                        this.onChange();
+                        Logic.evalAll(this.gates);
+                    }
+                    
                 } else {
                     this.clear();
                 }
