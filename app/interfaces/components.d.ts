@@ -2,6 +2,7 @@
 import { AndGate, GateNode, LED, NotGate, OrGate, Switch, Wire } from '../gates/all';
 import { GateCoords, GateSize, AnyGate } from "./canvas";
 import Home from '../components/Home';
+import { notDeepEqual } from 'assert';
 
 // Home
 export interface Child extends WinBarResize {
@@ -60,7 +61,16 @@ export interface WinBarResize extends Component {
 // Menu
 export interface MenuState {
 	mode: string,
-	loading: boolean
+	loading: boolean,
+	clicked: {
+		"click": string,
+		"draw": string,
+		"and": string,
+		"or": string,
+		"not": string,
+		"switch": string,
+		"led": string
+	}
 }
 export interface MenuProps extends Component {
 

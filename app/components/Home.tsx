@@ -25,8 +25,8 @@ export default class Home extends RComponent<HomeProps, HomeState> {
     public constructor(props: HomeProps) {
         super(props);
         this.state = {
-            child1: { width: 79.5, height: 80, x: 0, y: 0, initHeight: 80, initWidth: 80, initX: 0, initY: 0 },
-            child2: { width: 20, height: 80, x: 0, y: 0, initHeight: 80, initWidth: 80, initX: 0, initY: 0 }
+            child1: { width: 87.5, height: 80, x: 0, y: 0, initHeight: 80, initWidth: 80, initX: 0, initY: 0 },
+            child2: { width: 12, height: 80, x: 0, y: 0, initHeight: 80, initWidth: 80, initX: 0, initY: 0 }
         };
         this.propertyWindow = this.propertyWindow.bind(this);
     }

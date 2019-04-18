@@ -1,8 +1,32 @@
 :local {
     .main {
         color: black;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-auto-rows: 50px;
     }
     .tool {
         color: black;
+        display: block;
+        border: 2px solid #b9b9b9;
+        margin: 2px;
+        border-radius: .25em;
+        overflow: hidden;
+        box-shadow: 0 0 1em transparent;
+        transition: box-shadow .2s;
+    }
+    .tool:hover {
+        box-shadow: 0 0 3em #5a5a5a;
+    }
+    .tool img {
+        height: 25px;
+    }
+    .tool div {
+        padding-top: 9px;
+        text-align: center;
+    }
+    .clicked, .clicked:hover {
+        border-color: rgb(60, 105, 228);
+        box-shadow: 0 0 1em rgb(60, 105, 228);
     }
 }
