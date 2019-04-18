@@ -11,9 +11,11 @@
 	display: flex;
 	flex-direction: row;
 	user-select: none;
-	  
+	-ms-overflow-style: scrollbar;
+	-webkit-app-region:drag;
 }
 .main>ul {
+	-webkit-app-region: no-drag;
 	padding: 0;
 	margin: 0;
 	margin-left: 1em; 
