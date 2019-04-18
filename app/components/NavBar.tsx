@@ -5,6 +5,7 @@ import Home from './Home';
 import Workspace from './Workspace';
 
 let styles = require('./styles/NavBar.scss');
+let logo = require('../img/logoW.svg');
 
 export default class NavBar extends Component<NavBarProps, NavBarState> {
     public home: Home
@@ -53,6 +54,7 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
     public render(): JSX.Element {
         return (
             <nav className={styles.main}>
+                <img className={styles.logo} src={logo} />
                 <ul>
                     <li onClick={this.click}>File<ul>
                         <li onClick={this.open}>Open<i>Ctrl + O</i></li>
