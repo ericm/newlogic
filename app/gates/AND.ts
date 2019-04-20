@@ -26,6 +26,7 @@ export default class AndGate extends Gates<AndGate> {
         this.ctx = ctx;
         this.svg = AndGate.SVG;
         this.contextMenu = ["Make NAND"].concat(this.contextMenu);
+        this.props = new Map<string, any>([["Node count", 2]])
     }
 
     public add = (c: canvas.GateCoords, s: canvas.GateSize, id?: number): canvas.Nodes<any> => {

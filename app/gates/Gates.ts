@@ -9,6 +9,7 @@ export default class Gates<T extends Gates<any>>  {
     public svg: HTMLImageElement
     public state: canvas.State<T>
     public contextMenu: string[] = ["Properties", "Delete"]
+    public props = new Map<string, any>()
 
     public nodeOffsetStart: canvas.GateCoords[]
     public nodeOffsetEnd: canvas.GateCoords[]
