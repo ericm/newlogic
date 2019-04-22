@@ -9,7 +9,7 @@ export default class Gates<T extends Gates<any>>  {
     public svg: HTMLImageElement
     public state: canvas.State<T>
     public contextMenu: string[] = ["Properties", "Delete"]
-    public props = new Map<string, any>()
+    public props = new Map<string, Array<any>>()
 
     public nodeOffsetStart: canvas.GateCoords[]
     public nodeOffsetEnd: canvas.GateCoords[]
@@ -66,6 +66,20 @@ export default class Gates<T extends Gates<any>>  {
                 break;
         }
     }
+
+    public setProp<T>(key: string, value: T) {
+        let get = this.props.get(key) || [];
+        switch (get[0]) {
+            case "number":
+                get[3] = value;
+                this.props.set(key, get);
+                break;
+        }
+    }
+
+    public checkProps = () => {}
+
+    public invert = () => {}
 
     public upEval = (): void => 
         this.state.gateIn.forEach((val) => {

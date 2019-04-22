@@ -21,10 +21,6 @@ export interface WireProps {
 	startNode: GateNode<AnyGate>,
 	endNode: GateNode<AnyGate>
 }
-// AND GATE
-export interface AndState {
-	nodes: GateNode<AndGate>[]
-}
 // Node
 export interface NodeState<T> {
 	gate: T,
