@@ -75,6 +75,7 @@ export default class Gates<T extends Gates<any>>  {
                 this.props.set(key, get);
                 break;
         }
+        this.checkProps();
     }
 
     public checkProps = () => {}

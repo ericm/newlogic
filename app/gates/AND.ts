@@ -6,7 +6,10 @@ import GateNode from './Node';
 let img = require('../img/and.svg')
 export default class AndGate extends Gates<AndGate> {
     nodeOffsetStart = [{ x: 40, y: 20.5 }]
-    nodeOffsetEnd = [{ x: 0, y: 1.5 }, { x: 0, y: 39.5 }]
+    nodeOffsetEnd = [
+        { x: 0, y: 1.5 }, { x: 0, y: 39.5 }, 
+        {x: 0, y: 19},
+    ];
 
     public static SVG: HTMLImageElement
 
@@ -52,10 +55,30 @@ export default class AndGate extends Gates<AndGate> {
         return this.state.nodes;
     }
 
+    public checkProps = () => {
+        // Node count
+        if (this.props.get("Node count")![3] !== this.state.nodes.end.length) {
+            let count = this.props.get("Node count")![3];
+            if (count > this.state.nodes.end.length) {
+                console.log(count);
+                switch (count) {
+                    case "3":
+                        const c: canvas.GateCoords = { x: this.state.coords.x + this.nodeOffsetEnd[2].x, y: this.state.coords.y + this.nodeOffsetEnd[2].y };
+                        this.state.nodes.end.push(new GateNode<AndGate>(this, c, "end"));
+                        this.render();
+                        console.log(this.state.nodes);
+                        break;
+                }
+            }
+            
+        }
+    }
+
     public evaluate = (): void => {
         this.upEval();
         
         // Bitwise AND
+        // TODO: expand
         this.state.nodes.start[0].setVal(
             this.state.nodes.end[0].getVal() && this.state.nodes.end[1].getVal()
         );
