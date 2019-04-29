@@ -69,6 +69,8 @@ export default class AndGate extends Gates<AndGate> {
                         console.log(this.state.nodes);
                         break;
                 }
+            } else {
+                this.state.nodes.end.splice(0, count-1);
             }
             
         }
