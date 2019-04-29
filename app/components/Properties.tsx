@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { PropertiesProps, PropertiesState } from '../interfaces/components';
 
+
 let styles = require('./styles/Properties.scss');
 
 export default class Properties extends Component<PropertiesProps, PropertiesState> {
@@ -14,7 +15,9 @@ export default class Properties extends Component<PropertiesProps, PropertiesSta
             const get = props.gate.props.get(option) || new Array<any>();
             switch (get[0]) {
                 case "number":
-                    this.options.push((<label id={option} onChange={this.changeNumber}>{option}: <input type="range" min={get[1]} defaultValue={get[3]} max={get[2]}/></label>));
+                    this.options.push(
+                        (<label id={option} onChange={this.changeNumber}>{option}: <input type="range" min={get[1]} defaultValue={get[3]} max={get[2]}/></label>)
+                        );
                     break;
             }
         }

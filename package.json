@@ -170,6 +170,7 @@
   },
   "dependencies": {
     "@types/electron-settings": "^3.1.1",
+    "@types/rc-slider": "^8.6.3",
     "electron-debug": "^1.1.0",
     "electron-settings": "^3.2.0",
     "flatted": "^2.0.0",
@@ -177,6 +178,7 @@
     "history": "^4.6.1",
     "js-base64": "^2.5.1",
     "konva": "^2.6.0",
+    "rc-slider": "^8.6.9",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-konva": "^16.7.1",
