@@ -21,6 +21,7 @@ export default class Menu extends Component<MenuProps, MenuState> {
             clicked: {
                 "click": styles.clicked,
                 "draw": '',
+                "cut": '',
                 "and": '',
                 "or": '',
                 "not": '',
@@ -47,6 +48,7 @@ export default class Menu extends Component<MenuProps, MenuState> {
         let clicked = {
             "click": '',
             "draw": '',
+            "cut": '',
             "and": '',
             "or": '',
             "not": '',
@@ -64,6 +66,7 @@ export default class Menu extends Component<MenuProps, MenuState> {
                 <div className={styles.main}>
                     <a title={"Click"} className={`${styles.tool} ${this.state.clicked['click']}`} id={"click"} onClick={this.toggleMode}><div><img src={imgs["click"]}/></div></a>
                     <a title={"Draw"} className={`${styles.tool} ${this.state.clicked['draw']}`} id={"draw"} onClick={this.toggleMode}><div><img src={imgs["draw"]}/></div></a>
+                    <a title={"Cut"} className={`${styles.tool} ${this.state.clicked['cut']}`} id={"cut"} onClick={this.toggleMode}><div><img src={imgs["draw"]}/></div></a>
                     <a title={"NOT Gate"} className={`${styles.tool} ${this.state.clicked['not']}`} id={"not"} onClick={this.toggleMode}><div><img src={imgs["not"]}/></div></a>
                     <a title={"AND Gate"} className={`${styles.tool} ${this.state.clicked['and']}`} id={"and"} onClick={this.toggleMode}><div><img src={imgs["and"]}/></div></a>
                     <a title={"OR Gate"} className={`${styles.tool} ${this.state.clicked['or']}`} id={"or"} onClick={this.toggleMode}><div><img src={imgs["or"]}/></div></a>

@@ -327,6 +327,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.cavasDrag(e, coords);
                 break;
 
+            case "cut":
+                this.canvasCut(e, coords);
+
 
             // Gate cases
             case "and":
@@ -610,6 +613,18 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 break;
         }
 
+    }
+
+    /**
+     * Used to cut wires between gates
+     *
+     * @private
+     * @param {React.MouseEvent<HTMLCanvasElement>} e
+     * @param {ICanvas.GateCoords} coords
+     * @memberof Workspace
+     */
+    private async canvasCut(e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords) {
+        
     }
 
     /**

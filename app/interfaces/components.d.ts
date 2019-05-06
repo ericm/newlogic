@@ -65,6 +65,7 @@ export interface MenuState {
 	clicked: {
 		"click": string,
 		"draw": string,
+		"cut": string
 		"and": string,
 		"or": string,
 		"not": string,
