@@ -5,6 +5,14 @@ import { IContext } from "../interfaces/components";
 
 export namespace Wiring {
 
+    export function cutDraw(ctx: CanvasRenderingContext2D, init: GateCoords, coords: GateCoords): void {
+        ctx.moveTo(init.x, init.y);
+        ctx.lineTo(coords.x, coords.y);
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    }
+
     export function wireSnap(nodes: GateNode<any>[], coords: GateCoords, snap: number): GateNode<any> | null {
         for (let node of nodes) {
             const nodeCoords = node.getCoords();

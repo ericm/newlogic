@@ -283,6 +283,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      */
     private async canvasEvent(e: React.MouseEvent<HTMLCanvasElement>): Promise<void> {
         let coords = this.getCoords(e);
+        let coordsReal = coords;
 
         coords = Wiring.gridLayout(coords, this.state.gridFactor);
 
@@ -328,8 +329,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 break;
 
             case "cut":
-                this.canvasCut(e, coords);
-
+                this.canvasCut(e, coordsReal);
+                break;
 
             // Gate cases
             case "and":
@@ -624,7 +625,17 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @memberof Workspace
      */
     private async canvasCut(e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords) {
-        
+        switch (e.type) {
+            case "mousedown":
+                this.setState({dragInit: coords, dragging: true});
+                break;
+            case "mousemove":
+                if (this.state.dragging) {
+                    this.clear();
+                    window.requestAnimationFrame(() => Wiring.cutDraw(this.ctx, this.state.dragInit, coords));
+                }
+                break;
+        }
     }
 
     /**
