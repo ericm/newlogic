@@ -1,7 +1,7 @@
 # ![newlogic](assets/logo.png?raw=true)
 
 [![Build Status](https://travis-ci.com/ericm/newlogic.svg?branch=master)](https://travis-ci.com/ericm/newlogic)
-
+[![CircleCI](https://circleci.com/gh/ericm/newlogic.svg?style=svg)](https://circleci.com/gh/ericm/newlogic)
 
 
 **Newlogic** is a *Circuit Builder / Logic Design Desktop Application* (like mmlogic) made with *Electron + React Typescript*. It's currently compatible with **Windows**, **Mac** and **Linux**.
