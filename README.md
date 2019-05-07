@@ -1,6 +1,7 @@
 # ![newlogic](assets/logo.png?raw=true)
 
 [![Build Status](https://travis-ci.com/ericm/newlogic.svg?branch=master)](https://travis-ci.com/ericm/newlogic)
+[![Build status](https://ci.appveyor.com/api/projects/status/x4i8jalu9yf8ioa5/branch/master?svg=true)](https://ci.appveyor.com/project/ericm/newlogic/branch/master)
 [![CircleCI](https://circleci.com/gh/ericm/newlogic.svg?style=svg)](https://circleci.com/gh/ericm/newlogic)
 
 
