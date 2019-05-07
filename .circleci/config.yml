@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:11
 
     environment:
       - secure: hH+MmHE3WhyyBflZoOZLqqr501OOnvA1VtaqF3WU9rJCpjnKb4fZvHejYtVw65Ho2C40G2a34oBGxnT6INF1BfClYz4IMijL689xuR8dgStQzvcpMTwEQkrLsaCTSqXJR6nzqbRRGmaRfjSLdF6vhd3bGmtVNMEtoEky5EsXeBVjn8D5WMrme17m4F4D/qjHty6Xr5PjZL6eInVKlPZEbALYBhnIWqE5Xw6LcGa8JkqsWw80sLNtz4yWQSwkjrZ1lzCNd/GSUDN5K/BFK6kUZB5HpJZUzUoIQyXmEft+ALZFE4p4tX/H044JguPN9sKsP4SNkz2+3tOMevz/x5of3ssLMqB7gFtd5SGKwjdn6sWYNHKeM0MALyXAARhilyzY0v+xf226ZLRb++8Ih/vAZNymvQjn0idBfwC8ffUSXEx786Zysot1AqWrxaktKFHkBHkiQ4BGkAXVT4FLCgLtdMta+NLYYmuNrmXoU2iEhSzwvZmw94wcBxZie+TvuXE76TgrOiopRPbGXw/0iDm8J1MVWpoPmqSLUG5Vbq9fSNZnR/6j89j7Ws83fdnfZby+qOcV5WMJetQs/EHTxfWJu/AM6bxCYSSmXEJUb8dHpk8el8T+MGLI9pCTiiyy1ozOeo1WKpcOdmF6GU64EOxRWn2837+a9W0kXXAj6tPCW6A=
