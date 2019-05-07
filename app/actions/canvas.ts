@@ -2,15 +2,27 @@ import Workspace from "../components/Workspace";
 import GateNode from "../gates/Node";
 import { AnyGate, GateCoords, GateGeneric, GateSize } from "../interfaces/canvas";
 import { IContext } from "../interfaces/components";
+import { Wire } from "../gates/all";
 
 export namespace Wiring {
 
     export function cutDraw(ctx: CanvasRenderingContext2D, init: GateCoords, coords: GateCoords): void {
         ctx.moveTo(init.x, init.y);
         ctx.lineTo(coords.x, coords.y);
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#777";
+        ctx.lineWidth = 1.5;
         ctx.stroke();
+    }
+
+    export function cutIntersect(coords: GateCoords, wires: Wire[]): number[] {
+        let intersect: number[] = [];
+
+        for (let i in wires) {
+            // https://web.archive.org/web/20060911055655/http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/
+            let wire = wires[i];
+            
+        }
+        return intersect;
     }
 
     export function wireSnap(nodes: GateNode<any>[], coords: GateCoords, snap: number): GateNode<any> | null {
@@ -62,7 +74,7 @@ export namespace Wiring {
         }
     }
 
-    export function drawWire(ctx: CanvasRenderingContext2D, init: GateCoords, current: GateCoords): void {
+    export function drawWire(ctx: CanvasRenderingContext2D, init: GateCoords, current: GateCoords): GateCoords {
         ctx.beginPath();
         // Normalise for horizontal/vertical drawing
         let breakpoint: GateCoords = {
@@ -76,6 +88,8 @@ export namespace Wiring {
         ctx.strokeStyle = "black";
         ctx.lineWidth = 3;
         ctx.stroke();
+
+        return breakpoint;
     }
 
     export function selection(ctx: CanvasRenderingContext2D, init: GateCoords, curent: GateCoords): void {

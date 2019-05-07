@@ -21,6 +21,9 @@ export interface WireProps {
 	startNode: GateNode<AnyGate>,
 	endNode: GateNode<AnyGate>
 }
+export interface WireState extends WireProps {
+	break: GateCoords
+}
 // Node
 export interface NodeState<T> {
 	gate: T,

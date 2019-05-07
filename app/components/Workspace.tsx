@@ -631,9 +631,18 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 break;
             case "mousemove":
                 if (this.state.dragging) {
-                    this.clear();
-                    window.requestAnimationFrame(() => Wiring.cutDraw(this.ctx, this.state.dragInit, coords));
+                    window.requestAnimationFrame(() => {
+                        this.clear();
+                        Wiring.cutDraw(this.ctx, this.state.dragInit, coords);
+                    });
                 }
+                break;
+            case "mouseup":
+                this.clear();
+                if (this.state.dragging) {
+                    Wiring.cutIntersect(coords, this.gates.wire);
+                }
+                this.setState({dragging: false});
                 break;
         }
     }
