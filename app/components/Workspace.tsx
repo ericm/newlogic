@@ -639,9 +639,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 break;
             case "mouseup":
                 this.clear();
-                if (this.state.dragging) {
-                    Wiring.cutIntersect(coords, this.gates.wire);
-                }
+                // if (this.state.dragging) {
+                //     Wiring.cutIntersect(coords, this.gates.wire);
+                // }
                 this.setState({dragging: false});
                 break;
         }

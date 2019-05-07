@@ -2,7 +2,7 @@ import Workspace from "../components/Workspace";
 import GateNode from "../gates/Node";
 import { AnyGate, GateCoords, GateGeneric, GateSize } from "../interfaces/canvas";
 import { IContext } from "../interfaces/components";
-import { Wire } from "../gates/all";
+// import { Wire } from "../gates/all";
 
 export namespace Wiring {
 
@@ -14,16 +14,16 @@ export namespace Wiring {
         ctx.stroke();
     }
 
-    export function cutIntersect(coords: GateCoords, wires: Wire[]): number[] {
-        let intersect: number[] = [];
+    // export function cutIntersect(coords: GateCoords, wires: Wire[]): number[] {
+    //     let intersect: number[] = [];
 
-        for (let i in wires) {
-            // https://web.archive.org/web/20060911055655/http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/
-            let wire = wires[i];
+    //     for (let i in wires) {
+    //         // https://web.archive.org/web/20060911055655/http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/
+    //         let wire = wires[i];
             
-        }
-        return intersect;
-    }
+    //     }
+    //     return intersect;
+    // }
 
     export function wireSnap(nodes: GateNode<any>[], coords: GateCoords, snap: number): GateNode<any> | null {
         for (let node of nodes) {
