@@ -632,7 +632,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             case "mousemove":
                 if (this.state.dragging) {
                     let cut = Wiring.cutIntersect(coords, this.gates.wire);
-                    this.gates.wire = this.gates.wire.filter((wire, i) => { 
+                    if (cut !== -1) {
+                        let wire = this.gates.wire[cut];
                         // GIANT REREF BLOCK
                         // DONT TRY THIS AT HOME
                         let checkWire = (v: LogicGates.Wire): boolean => { return v.state.break.x !== wire.state.break.x || v.state.break.y !== wire.state.break.y; }
@@ -642,8 +643,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         let gateOut = wire.state.endNode.state.gate;
                         gateIn.state.gateOut = gateIn.state.gateOut.filter(v => { return v.state.id !== gateOut.state.id; });
                         gateOut.state.gateIn = gateOut.state.gateIn.filter(v => { return v.state.id !== gateIn.state.id; });
-                        return i !== cut; 
-                    });
+                        this.gates.wire = this.gates.wire.filter((_, i) => { return i !== cut; });
+                    }
                     window.requestAnimationFrame(() => {
                         this.clear();
                         Wiring.cutDraw(this.ctx, this.state.dragInit, coords);
