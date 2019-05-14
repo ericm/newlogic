@@ -5,8 +5,8 @@ import Workspace from './Workspace';
 
 let styles = require("./styles/Menu.scss")
 const imgs = {
-    "and": require('../img/and.svg'), "led": require('../img/led.svg'), "or": require('../img/or.svg'), 
-    "not": require("../img/not.svg"), "switch": require("../img/switch.svg"), "click": require('../img/click.svg'),
+    "and": require('../img/icons/and.svg'), "led": require('../img/led.svg'), "or": require('../img/icons/or.svg'), 
+    "not": require("../img/icons/not.svg"), "switch": require("../img/icons/switch.svg"), "click": require('../img/click.svg'),
     "draw": require('../img/draw.svg')
 };
 
