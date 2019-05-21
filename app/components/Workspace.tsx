@@ -6,6 +6,7 @@ import { Saving } from '../actions/saving';
 import * as LogicGates from '../gates/all';
 import * as ICanvas from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
+import { Exit } from '../actions/system';
 
 
 let styles = require('./styles/Workspace.scss');
@@ -50,7 +51,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             snapFactor: 20,
             canvasDrag: false,
             context: null,
-            gridType: 'lines'
+            gridType: 'lines',
+            unsavedChanges: false
         }
 
         this.nodeSelectEnd = { node: null, selected: false }
@@ -67,6 +69,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     public save = (saveAs: boolean): void => {
         if (saveAs) {
             Saving.saveState(this);
+            this.setState({ unsavedChanges: false });
         } else {
             if (!!this.state.path) {
                 Saving.saveState(this, this.state.path);
@@ -75,6 +78,14 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             }
         }
 
+    }
+
+    public checkSave = (): void => {
+        if (this.state.unsavedChanges) {
+            alert("SAVE");
+        } else {
+            Exit();
+        }
     }
 
     /**
@@ -182,6 +193,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         // Draw grid
         this.updateCanvas();
         console.log(this.gates);
+        this.setState({ unsavedChanges: false });
 
     }
 
@@ -415,6 +427,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @memberof Workspace
      */
     private clear = (): void => {
+        if(!this.state.unsavedChanges) this.setState({ unsavedChanges: true });
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.updateCanvas();
     }

@@ -122,6 +122,9 @@ ipcMain.on("save", (e, data) => {
 	}
 });
 
+// Exit
+ipcMain.on("exit", () => app.quit());
+
 app.on("ready", () =>
 	installExtensions()
 	.then(() => {
