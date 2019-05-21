@@ -5,6 +5,7 @@ const {
 	Menu,
 	shell,
 	ipcMain,
+	nativeImage,
 	remote
 } = require("electron");
 const fs = require("fs");
@@ -13,10 +14,22 @@ const esettings = require("electron-settings");
 
 const base64 = require("js-base64").Base64;
 
+let icon = nativeImage.createFromPath('img/icon.png');
+
+if (process.platform === "win32") {
+	icon = nativeImage.createFromPath('img/icon.ico');
+}
+
 let menu;
 let template;
 let mainWindow = null;
 let settingsWindow = null;
+
+const settingsFile = app.getPath('userData') + "/Settings"
+
+if (fs.existsSync(settingsFile)) {
+	fs.writeFileSync(settingsFile, "");
+}
 
 // set defaults
 if (!esettings.has("saves.default")) {
@@ -69,7 +82,8 @@ var settings = () => {
 		show: false,
 		width: 500,
 		height: 500,
-		alwaysOnTop: true
+		alwaysOnTop: true,
+		icon
 	});
 
 	settingsWindow.loadURL(`file://${__dirname}/settings.html`);
@@ -132,7 +146,8 @@ app.on("ready", () =>
 			show: false,
 			width: 1024,
 			height: 728,
-			frame: false
+			frame: false,
+			icon
 		});
 
 		mainWindow.loadURL(`file://${__dirname}/app.html`);
