@@ -66,23 +66,24 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      *
      * @memberof Workspace
      */
-    public save = (saveAs: boolean): void => {
+    public save = (saveAs: boolean, callback = () => {}): void => {
         if (saveAs) {
-            Saving.saveState(this);
+            Saving.saveState(this, undefined, callback);
             this.setState({ unsavedChanges: false });
         } else {
             if (!!this.state.path) {
-                Saving.saveState(this, this.state.path);
+                Saving.saveState(this, this.state.path, callback);
             } else {
-                Saving.saveState(this);
+                Saving.saveState(this, undefined, callback);
             }
         }
-
     }
 
     public checkSave = (): void => {
         if (this.state.unsavedChanges) {
-            alert("SAVE");
+            if (confirm("Save unsaved changes?")) {
+                this.save(false, Exit);
+            }
         } else {
             Exit();
         }

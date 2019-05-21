@@ -94,7 +94,7 @@ export namespace Saving {
         }
         return ret;
     }
-    export function saveState(workspace: Workspace, savePath?: string): void {
+    export function saveState(workspace: Workspace, savePath?: string, callback = () => {}): void {
         const sendSave = (path: string): void => {
             console.log(path);
             workspace.setState({path});
@@ -111,6 +111,8 @@ export namespace Saving {
             }
             ipcRenderer.send("save", {"path": path, "data": save});
         }
+
+        ipcRenderer.on("saved", callback)
         
         if (!!!savePath) {
             ipcRenderer.send("savePath");
