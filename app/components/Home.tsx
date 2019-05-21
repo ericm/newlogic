@@ -28,6 +28,8 @@ export default class Home extends RComponent<HomeProps, HomeState> {
             child1: { width: 92.5, height: 100, x: 0, y: 0, initHeight: 80, initWidth: 80, initX: 0, initY: 0 },
             child2: { width: 7, height: 100, x: 0, y: 0, initHeight: 80, initWidth: 80, initX: 0, initY: 0 }
         };
+        // Add keybind listener
+        document.addEventListener("keydown", this.keyBinds);
         this.propertyWindow = this.propertyWindow.bind(this);
     }
 
@@ -170,6 +172,30 @@ export default class Home extends RComponent<HomeProps, HomeState> {
 
     private menuOff = (_: React.MouseEvent<HTMLDivElement>): void => {
         if (!!this._navbar) this._navbar.menuOff();
+    }
+
+    private keyBinds = (e: KeyboardEvent): void => {
+        let workspace = this._workspaces[this.selectedWorkspace];
+        if (e.altKey && e.key !== "Alt") {
+            switch(e.key.toLowerCase()) {
+            case "p":
+                // TODO: Settings
+                break;
+            }
+        }
+        if (e.ctrlKey && e.key !== "Control") {
+            switch (e.key.toLowerCase()) {
+            case "o":
+                workspace.load();
+                break;
+            case "s":
+                workspace.save(e.shiftKey);
+                break;
+            case "q":
+                workspace.checkSave();
+                break;
+            }
+        }
     }
 
     public render(): JSX.Element {
