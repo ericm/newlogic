@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 338.3 238.1" style="enable-background:new 0 0 338.3 238.1;" xml:space="preserve">
+	 viewBox="0 0 222.8 187.4" style="enable-background:new 0 0 222.8 187.4;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#FFFFFF;}
-	.st1{fill:#FFFFFF;stroke:#000000;stroke-width:20;stroke-miterlimit:10;}
-	.st2{fill:none;stroke:#000000;stroke-width:20;stroke-miterlimit:10;}
-	.st3{fill:none;stroke:#000000;stroke-width:13;stroke-miterlimit:10;}
+	.st0{fill:#FFFFFF;stroke:#000000;stroke-width:13;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#000000;stroke-width:13;stroke-miterlimit:10;}
+	.st2{fill:#FFFFFF;}
+	.st3{fill:#FFFFFF;stroke:#000000;stroke-width:20;stroke-miterlimit:10;}
+	.st4{fill:none;stroke:#000000;stroke-width:20;stroke-miterlimit:10;}
 </style>
+<title>or</title>
+<path class="st0" d="M165,205.9"/>
+<path class="st0" d="M160.3-4.2"/>
+<path class="st1" d="M22.7,3.7"/>
+<path class="st1" d="M22.6,176.9"/>
 <g id="Layer_3">
-	<path class="st0" d="M199,11c0,0,96-7.9,91,108s-96,112.5-96,112.5h-62V10.9L199,11z"/>
+	<path class="st2" d="M135.3,7.2c0,0,80.8-6.3,76.5,86.6S131,184.1,131,184.1H78.9V7.1L135.3,7.2z"/>
 </g>
 <g id="Layer_1_1_">
 	<title>and</title>
-	<polyline class="st1" points="196.8,14.7 51.9,14.7 51.9,223.4 196.8,223.4 	"/>
-	<path class="st2" d="M286.7,119c0-57.7-40.1-104.3-89.8-104.3"/>
-	<path class="st2" d="M196.8,223.3c49.6,0,89.8-46.6,89.8-104.3"/>
-	<path class="st3" d="M51.9,14.7"/>
-	<path class="st3" d="M42.7,231.6"/>
+	<polyline class="st3" points="134,10.1 12.2,10.1 12.2,177.5 134,177.5 	"/>
+	<path class="st4" d="M209.7,93.8c0-46.3-33.7-83.7-75.6-83.7"/>
+	<path class="st4" d="M134,177.4c41.7,0,75.6-37.4,75.6-83.7"/>
+	<path class="st1" d="M12.2,10.1"/>
+	<path class="st1" d="M4.4,184.1"/>
 </g>
 </svg>

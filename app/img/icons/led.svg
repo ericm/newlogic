@@ -7,13 +7,10 @@
 	.st1{fill:none;stroke:#000000;stroke-width:20;stroke-miterlimit:10;}
 </style>
 <title>or</title>
-<g id="Layer_2">
-	<rect x="47.9" y="11.1" class="st0" width="127" height="165.2"/>
-	<rect x="88.2" y="52.2" class="st0" width="46.3" height="83"/>
-	<path class="st1" d="M172.7,93.7"/>
-</g>
-<g id="Layer_4">
-	<polyline class="st0" points="134.5,93.7 117.6,138.6 68.5,138.6 88.2,93.7 88.2,89.7 	"/>
-	<path class="st0" d="M136.5,138.6"/>
-</g>
+<circle class="st0" cx="111.4" cy="92.9" r="85.9"/>
+<circle class="st0" cx="111.4" cy="92.9" r="50.9"/>
+<line class="st1" x1="111.4" y1="145.5" x2="111.4" y2="180.4"/>
+<line class="st1" x1="25.5" y1="92.9" x2="60.5" y2="92.9"/>
+<line class="st1" x1="111.4" y1="7" x2="111.4" y2="42"/>
+<line class="st1" x1="162.3" y1="92.9" x2="197.3" y2="92.9"/>
 </svg>
