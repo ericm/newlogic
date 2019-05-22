@@ -9,9 +9,22 @@
 
 **NOTE**: This app is currently in development so functionality is limited.
 
-## Screenshot
+## Features
 
-![Demo](assets/scr1.gif?raw=true)
+### An intuitive UI
+![](assets/screenshot_menu.png?raw=true)
+
+***Newlogic** has a modern, clean UI that's easy to use*
+
+### Easy wire drawing
+![](assets/screenshot_ui.gif?raw=true)
+
+*When you draw a wire, it snaps onto the nearest node*
+
+### And best of all,
+**It's free!**
+
+---
 
 ## Installation
 
@@ -29,6 +42,7 @@ And then install dependencies.
 $ cd newlogic && npm i
 ```
 
+---
 
 ## Run
 
@@ -44,6 +58,8 @@ or run two servers with one command
 ```bash
 $ npm run dev
 ```
+
+---
 
 ## Packaging
 
@@ -65,6 +81,8 @@ To package apps with options:
 $ npm run package -- --[option]
 ```
 
+---
+
 ## Further commands
 
 To run the application without packaging run
@@ -85,6 +103,8 @@ To run End-to-End Test
 $ npm run build
 $ npm run test-e2e
 ```
+
+---
 
 ## Maintainers
 
