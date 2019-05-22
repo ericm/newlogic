@@ -26,6 +26,10 @@ export default class Settings extends Component<SettingsProps, SettingsState> {
         this.setState(settings.getSettings());
     }
 
+    public componentDidUpdate() {
+        settings.setSettings(this.state);
+    }
+
     public unmount = (_?: React.MouseEvent<HTMLDivElement>) => { this.props.home.unmountPopup() }
 
     public render() {
@@ -35,29 +39,29 @@ export default class Settings extends Component<SettingsProps, SettingsState> {
                     <h1>Settings</h1>
                     <label>
                         Theme:
-                        <select value={this.state.theme}>
+                        <select onChange={e => this.setState({theme: +e.currentTarget.value})} value={this.state.theme}>
                             <option value={0}>Light</option>
                             <option value={1}>Dark (Coming Soon)</option>
                         </select>
                     </label>
                     <label>
                         Snap To Grid: 
-                        <input type="checkbox" checked={this.state.snapGrid} />
+                        <input onChange={e => this.setState({snapGrid: e.currentTarget.checked})} type="checkbox" checked={this.state.snapGrid} />
                     </label>
                     <label>
                         Grid Type: 
-                        <select value={this.state.gridType}>
+                        <select onChange={e => this.setState({gridType: +e.currentTarget.value})} value={this.state.gridType}>
                             <option value={0}>Lines</option>
                             <option value={1}>Dots</option>
                         </select>
                     </label>
                     <label>
                         Grid Factor <i>(The width and height of a box in the grid)</i>: 
-                        <input type="number" value={this.state.gridFactor} />
+                        <input onChange={e => this.setState({gridFactor: +e.currentTarget.value})} type="number" value={this.state.gridFactor} />
                     </label>
                     <label>
                         Snap Factor <i>(How close to a node a wire should be before snapping on)</i>: 
-                        <input type="number" value={this.state.snapFactor} />
+                        <input onChange={e => this.setState({snapFactor: +e.currentTarget.value})} type="number" value={this.state.snapFactor} />
                     </label>
                 </div>
             </div>
