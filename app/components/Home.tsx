@@ -10,6 +10,7 @@ import Workspace from './Workspace';
 import { AnyGate } from '../interfaces/canvas';
 import Properties from './Properties';
 import Settings from './Settings';
+import Status from './Status';
 
 
 let styles = require('./styles/Home.scss');
@@ -92,6 +93,15 @@ export default class Home extends RComponent<HomeProps, HomeState> {
         this.setState({popup: (
             <Settings home={this} />
         )})
+    }
+
+    public addStatus = (message: string, reload: boolean): void => {
+        let status = this.state.status || [];
+        for (let item of status as any) {
+            item.changeOrder();
+        }
+        status = [((<Status message={message} reload={reload} />))].concat(status);
+        this.setState({status});
     }
 
     public componentDidUpdate(): void {
@@ -233,7 +243,10 @@ export default class Home extends RComponent<HomeProps, HomeState> {
                     </div>
 
                 </div>
+
                 <div id="popup">{this.state.popup}</div>
+
+                {this.state.status}
             </div>
         );
 

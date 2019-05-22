@@ -26,8 +26,11 @@ export default class Settings extends Component<SettingsProps, SettingsState> {
         this.setState(settings.getSettings());
     }
 
+    private i = 0
     public componentDidUpdate() {
         settings.setSettings(this.state);
+        if (this.i > 0) this.props.home.addStatus("A setting has been changed. You may need to reload.", true);
+        ++this.i;
     }
 
     public unmount = (_?: React.MouseEvent<HTMLDivElement>) => { this.props.home.unmountPopup() }

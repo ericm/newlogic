@@ -1,0 +1,22 @@
+.status {
+    width: 200px;
+    border-radius: .3em;
+    background: rgba(255, 255, 255, 0.815);
+    position: fixed;
+    right: 20px;
+    height: 100px;
+    color: #000;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.74);
+    z-index: 1001;
+    padding: .2em 1em 0 1em;
+}
+.status p {
+    font-size: 14px;
+}
+.status button {
+    background: rgba(0, 0, 0, 0.87);
+    border: 0;
+    color: #fff;
+    padding: .4em;
+    border-radius: .5em;
+}
