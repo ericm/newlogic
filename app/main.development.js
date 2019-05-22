@@ -136,6 +136,11 @@ ipcMain.on("save", (e, data) => {
 // Exit
 ipcMain.on("exit", () => app.quit());
 
+// Open
+ipcMain.on("open", (_, data) => {
+	require('electron').shell.openExternal(data);
+})
+
 app.on("ready", () =>
 	installExtensions()
 	.then(() => {

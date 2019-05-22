@@ -7,3 +7,7 @@ export function Exit() {
 export function Reload() {
     window.location.reload();
 }
+
+export function Open(file: string) {
+    ipcRenderer.send("open", file);
+}

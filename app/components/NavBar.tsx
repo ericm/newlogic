@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { NavBarState, NavBarProps } from '../interfaces/components';
 import Home from './Home';
 import Workspace from './Workspace';
+import * as system from '../actions/system';
 
 let styles = require('./styles/NavBar.scss');
 let logo = require('../img/logoW.svg');
@@ -61,6 +62,9 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
         }
     }
 
+    private wiki = (): void => system.Open("https://github.com/ericm/newlogic/wiki")
+    private credits = (): void => system.Open("https://github.com/ericm/newlogic/graphs/contributors")
+
     public menuOff = (): void => {
         if (this.state.clicked !== null) this.state.clicked.className = "";
     }
@@ -83,8 +87,8 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
                         <li>Window Manager<i>Coming Soon</i></li>
                     </ul></li>
                     <li onClick={this.click}>About<ul>
-                        <li>Credits</li>
-                        <li>Wiki</li>
+                        <li onClick={this.wiki}>Wiki</li>
+                        <li onClick={this.credits}>Credits</li>
                     </ul></li>
                 </ul>
                 <a></a>
