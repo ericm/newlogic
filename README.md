@@ -28,7 +28,7 @@
 
 ## Installation
 
-- **Note: requires a node version >= 6 and an npm version >= 3.**
+- **Note: requires a node version >= 6, npm version >= 3 and yarn version >= 1.**
 
 First, clone the repo via git:
 
@@ -39,7 +39,7 @@ git clone https://github.com/TooFiveFive/newlogic.git
 And then install dependencies.
 
 ```bash
-$ cd newlogic && npm i
+$ cd newlogic && yarn
 ```
 
 ---
