@@ -32,18 +32,15 @@ if (fs.existsSync(settingsFile)) {
 }
 
 // set defaults
-if (!esettings.has("saves.default")) {
-	console.log("set default save");
-	esettings.set("saves.default", {
-		gates: { and: [], wire: [], or: [], not: [], switch: [], led: [] },
-		endNodes: [],
-		startNodes: [],
+if (!esettings.has("settings")) {
+	esettings.set("settings", {
+		theme: "light",
 		gridFactor: 20,
-		snapFactor: 20
+		snapGrid: true,
+		snapFactor: 20,
+		gridType: "lines"
 	});
 }
-
-console.log(esettings.getAll());
 
 if (process.env.NODE_ENV === "production") {
 	const sourceMapSupport = require("source-map-support"); // eslint-disable-line

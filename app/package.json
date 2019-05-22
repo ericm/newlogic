@@ -6,8 +6,8 @@
   "main": "./main.js",
   "author": {
     "name": "Eric Moynihan",
-    "email": "mail@er1c.me",
-    "url": "https://er1c.me"
+    "email": "git@moynihan.io",
+    "url": "https://moynihan.io"
   },
   "scripts": {
     "postinstall": "npm rebuild --runtime=electron --target=1.6.6 --disturl=https://atom.io/download/atom-shell --build-from-source"
