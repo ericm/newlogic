@@ -198,6 +198,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         console.log(this.gates);
         this.setState({ unsavedChanges: false });
 
+        // Get settings through IPC
         let settings = getSettings();
         this.setState({
 	        gridFactor: settings.gridFactor,
@@ -509,7 +510,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     }
                     if (move.x > 0 && move.y > 0) {
                         for (let g of this.clickedDrag) {
-                            g.drag(move);
+                            window.requestAnimationFrame(() => g.drag(move));
                         }
                         this.clear();
                     }
