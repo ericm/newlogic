@@ -602,7 +602,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         canvasDrag: true
                     });
                     await this.clear();
-                    Wiring.drawWire(this.ctx, this.state.dragInit, this.state.drag);
+                    window.requestAnimationFrame(() => Wiring.drawWire(this.ctx, this.state.dragInit, this.state.drag));
                 }
 
                 break;
