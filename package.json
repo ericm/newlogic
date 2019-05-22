@@ -50,8 +50,8 @@
     ]
   },
   "build": {
-    "productName": "ElectronReactTypescript",
-    "appId": "io.github.irath96.ElectronReactTypescript",
+    "productName": "newlogic",
+    "appId": "io.moynihan.newlogic",
     "dmg": {
       "contents": [
         {
@@ -73,7 +73,8 @@
       "app.html",
       "main.js",
       "main.js.map",
-      "package.json"
+      "package.json",
+      "app/img/"
     ],
     "directories": {
       "buildResources": "resources",
@@ -94,16 +95,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/irath96/electron-react-typescript-boilerplate.git"
+    "url": "git+https://github.com/ericm/newlogic.git"
   },
   "author": {
-    "name": "Alexander Rath",
-    "email": "irath96@gmail.com",
-    "url": "https://github.com/irath96"
+    "name": "Eric Moynihan",
+    "email": "git@moynihan.io",
+    "url": "https://github.com/ericm"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/irath96/electron-react-typescript-boilerplate/issues"
+    "url": "https://github.com/ericm/newlogic/issues"
   },
   "keywords": [
     "electron",
@@ -114,7 +115,7 @@
     "webpack",
     "react-hot"
   ],
-  "homepage": "https://github.com/irath96/electron-react-typescript-boilerplate#readme",
+  "homepage": "https://github.com/ericm/newlogic#readme",
   "devDependencies": {
     "@types/enzyme": "^3.1.1",
     "@types/history": "^4.5.2",
