@@ -8,17 +8,41 @@
     border-radius: .2em;
     box-shadow: 0 0 10em -2em #000;
     border: solid rgba(0, 0, 0, 0.733) .1em; 
-    width: 500px;
-    height: 500px;
+    width: 60vw;
+    height: 60vh;
     position: fixed;
-    margin-left: -250px;
-    margin-top: -250px;
+    margin-left: -30vw;
+    margin-top: -30vh;
     top: 50vh;
     left: 50vw;
     opacity: 1;
     animation: op .7s;
     color: #111;
     padding: 1em;
+}
+.popup label {
+    font-size: 1.3em;
+    padding-left: 1em;
+    display: block;
+    padding-bottom: 1em;
+}
+.popup i {
+    font-size: .6em;
+    margin-right: .5em;
+    display: inline-block;
+}
+.popup select, .popup input {
+    background: transparent;
+    font-size: 1em;
+    border-radius: .1em;
+    margin-left: .5em;
+}
+.popup input {
+    border: 1px solid rgb(175, 175, 175);
+    padding-left: .3em;
+}
+.popup input[type="number"] {
+    width: 100px;
 }
 .container {
     z-index: 999;

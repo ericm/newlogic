@@ -186,7 +186,7 @@ export default class Home extends RComponent<HomeProps, HomeState> {
         if (e.altKey && e.key !== "Alt") {
             switch(e.key.toLowerCase()) {
             case "p":
-                // TODO: Settings
+                this.settingsWindow();
                 break;
             }
         }
