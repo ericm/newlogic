@@ -111,6 +111,12 @@ export interface NavBarState {
 export interface NavBarProps {
 	
 }
+export interface SettingsState {
+	
+}
+export interface SettingsProps {
+	home: Home
+}
 interface GateStatePlecibo {
 	coords: GateCoords,
 	size: GateSize,

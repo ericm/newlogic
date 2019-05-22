@@ -49,6 +49,12 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
         }
     }
 
+    private settings = (e: event): void => {
+        if (!!this.home) {
+            this.home.settingsWindow();
+        }
+    }
+
     private exit = (e: event): void => {
         if (!!this.home) {
             this.workspace().checkSave();
@@ -71,7 +77,7 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
                         <li onClick={this.exit}>Exit<i>Ctrl + Q</i></li>
                     </ul></li>
                     <li onClick={this.click}>Edit<ul>
-                        <li>Settings<i>Alt + P</i></li>
+                        <li onClick={this.settings}>Settings<i>Alt + P</i></li>
                     </ul></li>
                     <li onClick={this.click}>Window<ul>
                         <li>Window Manager<i>Coming Soon</i></li>

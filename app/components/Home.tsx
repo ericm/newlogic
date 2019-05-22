@@ -9,6 +9,7 @@ import WindowBar from './WindowBar';
 import Workspace from './Workspace';
 import { AnyGate } from '../interfaces/canvas';
 import Properties from './Properties';
+import Settings from './Settings';
 
 
 let styles = require('./styles/Home.scss');
@@ -85,6 +86,12 @@ export default class Home extends RComponent<HomeProps, HomeState> {
         this.setState({popup: (
             <Properties home={this} gate={gate} />
         )});
+    }
+
+    public settingsWindow = (): void => {
+        this.setState({popup: (
+            <Settings home={this} />
+        )})
     }
 
     public componentDidUpdate(): void {
