@@ -438,7 +438,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @private
      * @memberof Workspace
      */
-    private clear = (): void => {
+    public clear = (): void => {
         if(!this.state.unsavedChanges) this.setState({ unsavedChanges: true });
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.updateCanvas();

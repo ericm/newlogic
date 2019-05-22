@@ -149,7 +149,7 @@ export namespace Wiring {
     }
 
     export function contextHover(y: number, obj: IContext, ctx: CanvasRenderingContext2D): string {
-        if (y > obj.coords.y + 15 && y < obj.coords.y + obj.size.height+ 15) {
+        if (y > obj.coords.y + 5 && y < obj.coords.y + obj.size.height + 5) {
             let i = Math.ceil(((y - obj.coords.y) / (obj.size.height) * obj.options.length));
             console.log(i-1);
             let renderY = obj.coords.y + 5 + 15*(i-1);
@@ -170,13 +170,18 @@ export namespace Wiring {
     }
 
     export function contextActions(workspace: Workspace, gate: AnyGate, option: string): void {
-        switch (option) {
+        if (!gate.checkCustomContext(option)) {
+            switch (option) {
             case "Properties":
                 workspace.propertyWindow(gate);
                 break;
             case "Delete":
                 workspace.deleteGate(gate.state.id);
                 break;
+            }
+        } else {
+            workspace.clear();
+            workspace.onChange();
         }
     }
 }

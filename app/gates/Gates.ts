@@ -38,6 +38,9 @@ export default class Gates<T extends Gates<any>>  {
         let obj: IContext = {size: {width: 200, height}, coords, gate: this, options: this.contextMenu};
         return obj;
     }
+
+    // Overloaded in gates
+    public checkCustomContext = (option: string): boolean => { return false; }
     
     public drag = (coords: canvas.GateCoords): void => {
         this.state.coords = coords;
