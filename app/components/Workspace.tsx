@@ -7,6 +7,7 @@ import * as LogicGates from '../gates/all';
 import * as ICanvas from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
 import { Exit } from '../actions/system';
+import { getSettings } from '../actions/settings';
 
 
 let styles = require('./styles/Workspace.scss');
@@ -51,8 +52,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             snapFactor: 20,
             canvasDrag: false,
             context: null,
-            gridType: 'lines',
-            unsavedChanges: false
+            gridType: 0,
+            unsavedChanges: false,
+            snapGrid: true
         }
 
         this.nodeSelectEnd = { node: null, selected: false }
@@ -196,6 +198,14 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         console.log(this.gates);
         this.setState({ unsavedChanges: false });
 
+        let settings = getSettings();
+        this.setState({
+	        gridFactor: settings.gridFactor,
+	        snapGrid: settings.snapGrid,
+	        snapFactor: settings.snapFactor,
+	        gridType: settings.gridType
+        });
+
     }
 
     public componentDidUpdate() {
@@ -205,23 +215,23 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     private drawGrid = (): void => {
         if (!!this.ctx) {
             switch (this.state.gridType) {
-                case "dots":
+                case 1:
                     this.ctx.fillStyle = "rgba(0,0,0,1)";
                     for (let x = 0; x < this.canvas.width; x++) {
-                        if (x % this.state.snapFactor == 0) {
+                        if (x % this.state.gridFactor == 0) {
                             for (let y = 0; y < this.canvas.height; y++) {
-                                if (y % this.state.snapFactor == 0) {
+                                if (y % this.state.gridFactor == 0) {
                                     this.ctx.fillRect(x, y, 1, 1);
                                 }
                             }
                         }
                     }
                     break;
-                case "lines":
+                case 0:
                     this.ctx.strokeStyle = "rgba(230,230,230,1)";
                     this.ctx.lineWidth = 1;
                     for (let x = 0; x < (this.canvas.width > this.canvas.height ? this.canvas.width : this.canvas.height); x++) {
-                        if (x % this.state.snapFactor == 0) {
+                        if (x % this.state.gridFactor == 0) {
                             this.ctx.beginPath();
                             this.ctx.moveTo(x, 0);
                             this.ctx.lineTo(x, parseInt(this.state.height.split('.')[0]));
@@ -297,8 +307,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     private async canvasEvent(e: React.MouseEvent<HTMLCanvasElement>): Promise<void> {
         let coords = this.getCoords(e);
         let coordsReal = coords;
-
-        coords = Wiring.gridLayout(coords, this.state.gridFactor);
+        
+         if (this.state.snapGrid) coords = Wiring.gridLayout(coords, this.state.gridFactor);
 
         // Context menu checks
         if (e.type === "contextmenu") {

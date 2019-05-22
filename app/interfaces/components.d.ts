@@ -95,9 +95,10 @@ export interface WorkspaceState {
 	canvasDrag: boolean,
 	gridFactor: number,
 	snapFactor: number,
+	snapGrid: boolean,
 	context: IContext | null,
 	path?: string,
-	gridType: string,
+	gridType: number,
 	unsavedChanges: boolean
 }
 export interface WorkspaceProps extends Component {
