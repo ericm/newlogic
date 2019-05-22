@@ -129,7 +129,8 @@ export interface StatusState {
 }
 export interface StatusProps {
 	message: string,
-	reload: boolean
+	reload: boolean,
+	unmount: () => void
 }
 interface GateStatePlecibo {
 	coords: GateCoords,

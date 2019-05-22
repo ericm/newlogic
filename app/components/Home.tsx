@@ -80,6 +80,8 @@ export default class Home extends RComponent<HomeProps, HomeState> {
     }
 
     public unmountPopup = () => this.setState({popup: (<p hidden></p>)});
+
+    public unmountStatus = () => this.setState({status: [(<p hidden></p>)]});
     
 
     private propertyWindow = (gate: AnyGate): void => {
@@ -97,10 +99,7 @@ export default class Home extends RComponent<HomeProps, HomeState> {
 
     public addStatus = (message: string, reload: boolean): void => {
         let status = this.state.status || [];
-        for (let item of status as any) {
-            item.changeOrder();
-        }
-        status = [((<Status message={message} reload={reload} />))].concat(status);
+        status = [((<Status unmount={this.unmountStatus} message={message} reload={reload} />))].concat(status);
         this.setState({status});
     }
 
