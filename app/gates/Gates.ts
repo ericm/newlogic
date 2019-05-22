@@ -8,7 +8,8 @@ export default class Gates<T extends Gates<any>>  {
     public ctx: CanvasRenderingContext2D
     public svg: HTMLImageElement
     public state: canvas.State<T>
-    public contextMenu: string[] = ["Properties", "Delete"]
+    // TODO: Properties
+    public contextMenu: string[] = ["Delete"]
     public props = new Map<string, Array<any>>()
 
     public nodeOffsetStart: canvas.GateCoords[]
