@@ -27,18 +27,18 @@ let settingsWindow = null;
 
 const settingsFile = app.getPath('userData') + "/Settings"
 
-if (fs.existsSync(settingsFile)) {
+if (!fs.existsSync(settingsFile)) {
 	fs.writeFileSync(settingsFile, "");
 }
 
 // set defaults
 if (!esettings.has("settings")) {
 	esettings.set("settings", {
-		theme: "light",
+		theme: 0,
 		gridFactor: 20,
 		snapGrid: true,
 		snapFactor: 20,
-		gridType: "lines"
+		gridType: 0
 	});
 }
 

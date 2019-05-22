@@ -112,7 +112,11 @@ export interface NavBarProps {
 	
 }
 export interface SettingsState {
-	
+	theme: number,
+	gridFactor: number,
+	snapGrid: boolean,
+	snapFactor: number,
+	gridType: number
 }
 export interface SettingsProps {
 	home: Home

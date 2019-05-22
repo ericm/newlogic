@@ -1,16 +1,32 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { SettingsState, SettingsProps } from '../interfaces/components';
+import * as settings from '../actions/settings';
 
 let styles = require('./styles/Settings.scss');
 
 export default class Settings extends Component<SettingsProps, SettingsState> {
     public constructor(props: SettingsProps) {
         super(props);
-        this.state = {};
+        this.state = {
+            theme: 0,
+		    gridFactor: 20,
+		    snapGrid: false,
+		    snapFactor: 20,
+		    gridType: 0
+        };
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape") {
+                this.unmount();
+            }
+        });
     }
 
-    public unmount = (_: React.MouseEvent<HTMLDivElement>) => { this.props.home.unmountPopup() }
+    public componentDidMount() {
+        this.setState(settings.getSettings());
+    }
+
+    public unmount = (_?: React.MouseEvent<HTMLDivElement>) => { this.props.home.unmountPopup() }
 
     public render() {
         return (
@@ -19,29 +35,29 @@ export default class Settings extends Component<SettingsProps, SettingsState> {
                     <h1>Settings</h1>
                     <label>
                         Theme:
-                        <select>
-                            <option>Light</option>
-                            <option>Dark (Coming Soon)</option>
+                        <select value={this.state.theme}>
+                            <option value={0}>Light</option>
+                            <option value={1}>Dark (Coming Soon)</option>
                         </select>
                     </label>
                     <label>
                         Snap To Grid: 
-                        <input type="checkbox" value={20} />
+                        <input type="checkbox" checked={this.state.snapGrid} />
                     </label>
                     <label>
                         Grid Type: 
-                        <select>
-                            <option value="lines">Lines</option>
-                            <option value="dots">Dots</option>
+                        <select value={this.state.gridType}>
+                            <option value={0}>Lines</option>
+                            <option value={1}>Dots</option>
                         </select>
                     </label>
                     <label>
                         Grid Factor <i>(The width and height of a box in the grid)</i>: 
-                        <input type="number" value={20} />
+                        <input type="number" value={this.state.gridFactor} />
                     </label>
                     <label>
                         Snap Factor <i>(How close to a node a wire should be before snapping on)</i>: 
-                        <input type="number" value={20} />
+                        <input type="number" value={this.state.snapFactor} />
                     </label>
                 </div>
             </div>
