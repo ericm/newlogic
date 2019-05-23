@@ -239,7 +239,7 @@ export default class Home extends RComponent<HomeProps, HomeState> {
                             style={{ height: this.state.child1.height.toString() + "vh" }} className={styles.barV} />
 
                         <WindowBar ref={(child) => { if (child !== null) this._children[1] = child; }} resize={"horizontal"} identity={1} type={"Workspace"} title={"Canvas"}>
-                            <Workspace name={"test"} testing={this.props.testing} ref={(child) => { if (child !== null) this._workspaces[1] = child; }}
+                            <Workspace addStatus={this.addStatus} name={"test"} testing={this.props.testing} ref={(child) => { if (child !== null) this._workspaces[1] = child; }}
                                 width={this.state.child1.width} height={this.state.child2.height} />
                         </WindowBar>
 

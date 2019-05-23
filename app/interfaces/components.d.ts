@@ -104,7 +104,8 @@ export interface WorkspaceState {
 }
 export interface WorkspaceProps extends Component {
 	name?: string,
-	testing?: boolean
+	testing?: boolean,
+	addStatus?: (message: string, reload: boolean) => void
 }
 
 export interface NavBarState {

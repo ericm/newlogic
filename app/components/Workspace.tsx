@@ -69,16 +69,19 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @memberof Workspace
      */
     public save = (saveAs: boolean, callback = () => {}): void => {
-        if (saveAs) {
-            Saving.saveState(this, undefined, callback);
-            this.setState({ unsavedChanges: false });
-        } else {
-            if (!!this.state.path) {
-                Saving.saveState(this, this.state.path, callback);
+        if (!!this.props.addStatus) {
+            if (saveAs) {
+                Saving.saveState(this, this.props.addStatus, undefined, callback);
+                this.setState({ unsavedChanges: false });
             } else {
-                Saving.saveState(this, undefined, callback);
+                if (!!this.state.path) {
+                    Saving.saveState(this, this.props.addStatus, this.state.path, callback);
+                } else {
+                    Saving.saveState(this, this.props.addStatus, undefined, callback);
+                }
             }
         }
+        
     }
 
     public checkSave = (): void => {
@@ -439,10 +442,12 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @memberof Workspace
      */
     public clear = (): void => {
-        if(!this.state.unsavedChanges) this.setState({ unsavedChanges: true });
+        if(this.i > 3) this.setState({ unsavedChanges: true });
+        this.i++;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.updateCanvas();
     }
+    private i = 0
 
     /**
      * Checks if a gate is clicked 

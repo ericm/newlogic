@@ -95,7 +95,7 @@ export namespace Saving {
         }
         return ret;
     }
-    export function saveState(workspace: Workspace, savePath?: string, callback = () => {}): void {
+    export function saveState(workspace: Workspace, addStatus: (message: string, reload: boolean) => void, savePath?: string, callback = () => {}): void {
         const sendSave = (path: string): void => {
             console.log(path);
             workspace.setState({path});
@@ -111,6 +111,7 @@ export namespace Saving {
                 snapFactor: workspace.state.snapFactor,
             }
             ipcRenderer.send("save", {"path": path, "data": save});
+            addStatus(`Saved to: ${path}`, false);
         }
 
         ipcRenderer.on("saved", callback)
