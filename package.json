@@ -1,7 +1,7 @@
 {
   "name": "newlogic",
   "productName": "newlogic",
-  "version": "0.10.0",
+  "version": "0.1.0-beta",
   "description": "Circuit Builder Desktop Application (like mmlogic) made with Electron + React Typescript. Compatible with Windows, Mac and Linux.",
   "main": "main.js",
   "scripts": {
