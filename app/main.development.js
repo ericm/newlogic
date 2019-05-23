@@ -5,7 +5,6 @@ const {
 	Menu,
 	shell,
 	ipcMain,
-	nativeImage,
 	remote
 } = require("electron");
 const fs = require("fs");
@@ -14,10 +13,10 @@ const esettings = require("electron-settings");
 
 const base64 = require("js-base64").Base64;
 
-let icon = nativeImage.createFromPath('img/icon.png');
+let icon = __dirname + '/img/icon.png';
 
-if (process.platform === "win32") {
-	icon = nativeImage.createFromPath('img/icon.ico');
+if (process.platform == "win32") {
+	icon = __dirname + '/img/icon.ico';
 }
 
 let menu;
@@ -148,6 +147,8 @@ app.on("ready", () =>
 			show: false,
 			width: 1024,
 			height: 728,
+			minHeight: 700,
+			minWidth: 1000,
 			frame: false,
 			icon
 		});
