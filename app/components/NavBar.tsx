@@ -8,6 +8,10 @@ import * as system from '../actions/system';
 let styles = require('./styles/NavBar.scss');
 let logo = require('../img/logoW.svg');
 
+let x = require('../img/nav/x.svg');
+let max = require('../img/nav/max.svg');
+let min = require('../img/nav/min.svg');
+
 type event = React.MouseEvent<HTMLLIElement>;
 
 export default class NavBar extends Component<NavBarProps, NavBarState> {
@@ -99,6 +103,11 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
                     </ul></li>
                 </ul>
                 <a></a>
+                <div className={styles.opt}>
+                    <img className={styles.min} src={min} />
+                    <img className={styles.max} src={max} />
+                    <img src={x} />
+                </div>
             </nav>
         );
     }

@@ -70,3 +70,27 @@
 	padding-top: 2px;
 	height: 20px;
 }
+
+.opt {
+	line-height: 20px;
+	display: block;
+	position: fixed;
+	right: 5px;
+	top: 4px;
+	z-index: 1999;
+	user-select: initial;
+	-webkit-app-region: no-drag;
+}
+.opt img {
+	width: 15px;
+	cursor: pointer;
+	z-index: 2000;
+	position: relative;
+	padding-right: 5px;
+}
+.max {
+	top: -2px;
+}
+.min {
+	top: -5px;
+}
