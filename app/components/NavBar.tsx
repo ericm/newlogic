@@ -4,6 +4,7 @@ import { NavBarState, NavBarProps } from '../interfaces/components';
 import Home from './Home';
 import Workspace from './Workspace';
 import * as system from '../actions/system';
+import { remote } from 'electron';
 
 let styles = require('./styles/NavBar.scss');
 let logo = require('../img/logoW.svg');
@@ -36,6 +37,17 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
 
     private workspace = (): Workspace => { return this.home._workspaces[this.home.selectedWorkspace]; }
 
+    private min = (): void => remote.getCurrentWindow().minimize()
+    
+    private max = (): void => {
+        let win = remote.getCurrentWindow();
+        if (!win.isMaximized()) {
+            win.maximize();
+        } else {
+            win.restore();
+        }
+    }
+
     private save = (e: event): void => {
         if (!!this.home) {
             this.workspace().save(false);
@@ -66,7 +78,7 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
         }
     }
 
-    private exit = (e: event): void => {
+    private exit = (): void => {
         if (!!this.home) {
             this.workspace().checkSave();
         }
@@ -104,9 +116,9 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
                 </ul>
                 <a></a>
                 <div className={styles.opt}>
-                    <img className={styles.min} src={min} />
-                    <img className={styles.max} src={max} />
-                    <img src={x} />
+                    <img onClick={this.min} className={styles.min} src={min} />
+                    <img onClick={this.max} className={styles.max} src={max} />
+                    <img onClick={this.exit} src={x} />
                 </div>
             </nav>
         );
