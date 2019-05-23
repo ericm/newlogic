@@ -11,6 +11,7 @@ import { AnyGate } from '../interfaces/canvas';
 import Properties from './Properties';
 import Settings from './Settings';
 import Status from './Status';
+import { Reload } from '../actions/system';
 
 
 let styles = require('./styles/Home.scss');
@@ -201,6 +202,9 @@ export default class Home extends RComponent<HomeProps, HomeState> {
         }
         if (e.ctrlKey && e.key !== "Control") {
             switch (e.key.toLowerCase()) {
+            case "n":
+                Reload();
+                break;
             case "o":
                 workspace.load();
                 break;

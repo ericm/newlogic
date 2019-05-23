@@ -50,6 +50,12 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
         }
     }
 
+    private new = (e: event): void => {
+        if (!!this.home) {
+            system.Reload();
+        }
+    }
+
     private settings = (e: event): void => {
         if (!!this.home) {
             this.home.settingsWindow();
@@ -75,6 +81,7 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
                 <img className={styles.logo} src={logo} />
                 <ul>
                     <li onClick={this.click}>File<ul>
+                        <li onClick={this.new}>New<i>Ctrl + N</i></li>
                         <li onClick={this.open}>Open<i>Ctrl + O</i></li>
                         <li onClick={this.save}>Save<i>Ctrl + S</i></li>
                         <li onClick={this.saveAs}>Save As<i>Ctrl + Shift + S</i></li>
