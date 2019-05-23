@@ -138,7 +138,8 @@ interface GateStatePlecibo {
 	id: number,
 	inputs: number[],
 	outputs: number[],
-	type: string
+	type: string,
+	invert?: boolean
 }
 export interface WorkspaceSaveState {
 	gates: { and: GateStatePlecibo[], 

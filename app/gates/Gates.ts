@@ -103,5 +103,5 @@ export default class Gates<T extends Gates<any>>  {
 
     public static REMID = (id: number): number[] => Gates.IDS.splice(Gates.IDS.findIndex(val => { return val === id; }), 1)
 
-    public add = (c: canvas.GateCoords, s: GateSize, id?: number): Nodes<any> => { return this.state.nodes }
+    public add = (c: canvas.GateCoords, s: GateSize, id?: number, invert = false): Nodes<any> => { return this.state.nodes }
 }

@@ -52,7 +52,7 @@ export default class AndGate extends Gates<AndGate> {
         return false;
     }
 
-    public add = (c: canvas.GateCoords, s: canvas.GateSize, id?: number): canvas.Nodes<any> => {
+    public add = (c: canvas.GateCoords, s: canvas.GateSize, id?: number, invert = false): canvas.Nodes<any> => {
         const c1: canvas.GateCoords = { x: c.x + this.nodeOffsetEnd[0].x, y: c.y + this.nodeOffsetEnd[0].y }
         const c2: canvas.GateCoords = { x: c.x + this.nodeOffsetEnd[1].x, y: c.y + this.nodeOffsetEnd[1].y }
 
@@ -68,7 +68,12 @@ export default class AndGate extends Gates<AndGate> {
             gateIn: new Array(),
             gateOut: new Array(),
             id: !!id ? id : Gates.INCID(),
-            invert: false
+            invert
+        }
+
+        if (invert) {
+            this.svg = AndGate.SVGNOT;
+            this.contextMenu[0] = "Make AND";
         }
 
         this.render();

@@ -63,7 +63,7 @@ export namespace Saving {
                 let constructed: T = {} as T;
                 constructed = construct() as T;
                 constructed.ctx = ctx;
-                let nodes = constructed.add(gate.coords, gate.size, gate.id);
+                let nodes = typeof gate.invert !== "undefined" ? constructed.add(gate.coords, gate.size, gate.id, gate.invert) : constructed.add(gate.coords, gate.size, gate.id);
                 output.push(constructed);
                 endNodes.push(...nodes.end);
                 startNodes.push(...nodes.start);
@@ -88,7 +88,8 @@ export namespace Saving {
                         for (let gg of g.state.gateOut) retg.push(gg.state.id)
                         return retg;
                     })(),
-                    type: (typeof g).toString()
+                    type: (typeof g).toString(),
+                    invert: g.state.invert
                 });
             }
         }

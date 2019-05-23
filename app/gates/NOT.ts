@@ -25,7 +25,7 @@ export default class NotGate extends Gates<NotGate> {
         this.nodeOffsetEnd =  [{ x: 0, y: 20.5 }];
     }
 
-    public add = (c: canvas.GateCoords, s: canvas.GateSize, id?: number): canvas.Nodes<any> => {
+    public add = (c: canvas.GateCoords, s: canvas.GateSize, id?: number, invert = false): canvas.Nodes<any> => {
         const c1: canvas.GateCoords = { x: c.x + this.nodeOffsetEnd[0].x, y: c.y + this.nodeOffsetEnd[0].y }
 
         const c3: canvas.GateCoords = { x: c.x + this.nodeOffsetStart[0].x, y: c.y + this.nodeOffsetStart[0].y }
