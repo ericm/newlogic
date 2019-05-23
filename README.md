@@ -108,7 +108,7 @@ $ npm run test-e2e
 
 ## Maintainers
 
-- [Eric Moynihan](https://github.com/TooFiveFive)
+- [Eric Moynihan (ericm)](https://github.com/ericm)
 
 ## License
 MIT © [Eric Moynihan](https://github.com/TooFiveFive)
