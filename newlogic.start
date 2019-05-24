@@ -1,6 +1,0 @@
-#! /usr/bin/env bash
-# Copyright Eric Moynihan 2019, licensed under MIT
-# This file is used to run newlogic on linux
-BASEDIR=$(dirname "$0")
-cd $BASEDIR
-electron ./app
