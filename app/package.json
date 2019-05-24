@@ -1,7 +1,7 @@
 {
   "name": "newlogic",
   "productName": "newlogic",
-  "version": "0.1.0-beta",
+  "version": "0.1.1_beta",
   "description": "A circuit builder",
   "main": "./main.js",
   "author": {
