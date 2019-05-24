@@ -5,7 +5,7 @@
 [![CircleCI](https://circleci.com/gh/ericm/newlogic.svg?style=svg)](https://circleci.com/gh/ericm/newlogic)
 [![Release](https://img.shields.io/github/package-json/v/ericm/newlogic.svg)](https://github.com/ericm/newlogic/releases/latest)
 [![Release](https://img.shields.io/npm/v/newlogic.svg)](https://www.npmjs.com/package/newlogic)
-
+[![Release](https://img.shields.io/aur/version/newlogic.svg)](https://aur.archlinux.org/packages/newlogic/)
 
 **Newlogic** is a *Circuit Builder / Logic Design Desktop Application* (like mmlogic) made with *Electron + React Typescript*. It's currently compatible with **Windows**, **Mac** and **Linux**.
 
