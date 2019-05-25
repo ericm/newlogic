@@ -9,10 +9,13 @@ export default class Status extends Component<StatusProps, StatusState> {
     public constructor(props: StatusProps) {
         super(props);
         this.state = { offset: 30 };
-    }
+    } 
 
-    
-    
+    public componentDidUpdate() {
+        if (this.state.offset !== this.props.offset) {
+            this.setState({ offset: this.props.offset })
+        }
+    }
 
     public render() {
         return (
