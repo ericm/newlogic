@@ -3,7 +3,8 @@ sudo: false
 language: node_js
 
 node_js:
-- 11
+- 8
+- 7
 
 cache:
   yarn: true
