@@ -88,6 +88,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         if (this.state.unsavedChanges) {
             if (confirm("Save unsaved changes?")) {
                 this.save(false, Exit);
+            } else {
+                Exit();
             }
         } else {
             Exit();
@@ -345,78 +347,90 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
         }
 
-
+        let change = false;
         switch (this.state.mode) {
-            case "click":
-                this.canvasClick(e, coords);
-                break;
+        case "click":
+            this.canvasClick(e, coords);
+            break;
 
-            case "draw":
-                this.cavasDrag(e, coords);
-                break;
+        case "draw":
+            this.cavasDrag(e, coords);
+            break;
 
-            case "cut":
-                this.canvasCut(e, coordsReal);
-                break;
+        case "cut":
+            this.canvasCut(e, coordsReal);
+            break;
 
-            // Gate cases
-            case "and":
-                if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
-                    this.gates.and.push(new LogicGates.AndGate(this.ctx));
-                    const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
-                    const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
+        // Gate cases
+        case "and":
+            if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
+                this.gates.and.push(new LogicGates.AndGate(this.ctx));
+                const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+                const newNodes = this.gates.and[this.gates.and.length - 1].add(coords, size);
 
-                    this.addNodes(newNodes);
-                    this.onChange();
-                }
-                break;
+                this.addNodes(newNodes);
+                this.onChange();
+                change = true;
+            }
+            break;
 
 
-            case "or":
-                if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
-                    this.gates.or.push(new LogicGates.OrGate(this.ctx));
-                    const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
-                    const newNodes = this.gates.or[this.gates.or.length - 1].add(coords, size);
+        case "or":
+            if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
+                this.gates.or.push(new LogicGates.OrGate(this.ctx));
+                const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+                const newNodes = this.gates.or[this.gates.or.length - 1].add(coords, size);
 
-                    this.addNodes(newNodes);
-                    this.onChange();
-                }
-                break;
+                this.addNodes(newNodes);
+                this.onChange();
+                change = true;
+            }
+            break;
 
-            case "not":
-                if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
-                    this.gates.not.push(new LogicGates.NotGate(this.ctx));
-                    const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
-                    const newNodes = this.gates.not[this.gates.not.length - 1].add(coords, size);
+        case "not":
+            if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
+                this.gates.not.push(new LogicGates.NotGate(this.ctx));
+                const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+                const newNodes = this.gates.not[this.gates.not.length - 1].add(coords, size);
 
-                    this.addNodes(newNodes);
-                    this.onChange();
-                }
-                break;
+                this.addNodes(newNodes);
+                this.onChange();
+                change = true;
+            }
+            break;
 
-            case "led":
-                if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
-                    this.gates.led.push(new LogicGates.LED(this.ctx));
-                    const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
-                    const newNodes = this.gates.led[this.gates.led.length - 1].add(coords, size);
+        case "led":
+            if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
+                this.gates.led.push(new LogicGates.LED(this.ctx));
+                const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+                const newNodes = this.gates.led[this.gates.led.length - 1].add(coords, size);
 
-                    this.addNodes(newNodes);
-                    this.onChange();
-                }
-                break;
+                this.addNodes(newNodes);
+                this.onChange();
+                change = true;
+            }
+            break;
 
-            case "switch":
-                if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
-                    this.gates.switch.push(new LogicGates.Switch(this.ctx));
-                    const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
-                    const newNodes = this.gates.switch[this.gates.switch.length - 1].add(coords, size);
+        case "switch":
+            if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
+                this.gates.switch.push(new LogicGates.Switch(this.ctx));
+                const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+                const newNodes = this.gates.switch[this.gates.switch.length - 1].add(coords, size);
 
-                    this.addNodes(newNodes);
-                    this.onChange();
-                }
-                break;
+                this.addNodes(newNodes);
+                this.onChange();
+                change = true;
+            }
+            break;
         }
 
+        if (change && !this.state.unsavedChanges) {
+            this.setState({unsavedChanges: true});   
+        }
+        if (change) {
+            console.log(this.state.unsavedChanges);
+        }
+        
     }
 
     /**
@@ -442,12 +456,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @memberof Workspace
      */
     public clear = (): void => {
-        if(this.i > 3) this.setState({ unsavedChanges: true });
-        this.i++;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.updateCanvas();
     }
-    private i = 0
 
     /**
      * Checks if a gate is clicked 
