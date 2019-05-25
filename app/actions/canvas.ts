@@ -97,8 +97,8 @@ export namespace Wiring {
         ctx.moveTo(init.x, init.y);
         ctx.lineTo(breakpoint.x, breakpoint.y);
         ctx.lineTo(current.x, current.y);
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#222";
+        ctx.lineWidth = 2;
         ctx.stroke();
 
         return breakpoint;
