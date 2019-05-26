@@ -1,7 +1,7 @@
 {
   "name": "newlogic",
   "productName": "newlogic",
-  "version": "0.1.1-beta",
+  "version": "0.1.2-beta",
   "description": "Circuit Builder Desktop Application (like mmlogic) made with Electron + React Typescript. Compatible with Windows, Mac and Linux.",
   "main": "main.js",
   "preferGlobal": true,
@@ -16,7 +16,6 @@
     "build": "npm run build-main && npm run build-renderer",
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron ./app/main.development",
-    "postinstall": "npm run build",
     "dev": "npm run hot-server -- --start-hot",
     "package": "npm run build && build --publish never",
     "package-win": "npm run build && build --win --x64",
@@ -92,7 +91,6 @@
     }
   },
   "bin": {
-    "electron": "./node_modules/.bin/electron",
     "newlogic": "./start.js"
   },
   "repository": {

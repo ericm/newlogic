@@ -9,6 +9,12 @@
     border-bottom: 3px solid rgba(0, 0, 0, 0.74);
     z-index: 1001;
     padding: .2em 1em 0 1em;
+    transition: all .3s;
+    animation: in .3s;
+}
+@keyframes in {
+    0% {top: -50px;}
+    100% {top: 30px;}
 }
 .status p {
     font-size: 14px;

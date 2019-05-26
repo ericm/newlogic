@@ -19,7 +19,8 @@ export interface HomeState {
 	child1: Child,
 	child2: Child,
 	popup?: JSX.Element,
-	status?: JSX.Element[]
+	status?: JSX.Element[],
+	statusOffset: number[]
 }
 export interface HomeProps {
 	testing?: boolean
@@ -131,7 +132,8 @@ export interface StatusState {
 export interface StatusProps {
 	message: string,
 	reload: boolean,
-	unmount: () => void
+	unmount: () => void,
+	offset: number
 }
 interface GateStatePlecibo {
 	coords: GateCoords,

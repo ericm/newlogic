@@ -29,7 +29,8 @@ export default class Home extends RComponent<HomeProps, HomeState> {
         super(props);
         this.state = {
             child1: { width: 92, height: 100, x: 0, y: 0, initHeight: 80, initWidth: 80, initX: 0, initY: 0 },
-            child2: { width: 7, height: 100, x: 0, y: 0, initHeight: 80, initWidth: 80, initX: 0, initY: 0 }
+            child2: { width: 7, height: 100, x: 0, y: 0, initHeight: 80, initWidth: 80, initX: 0, initY: 0 },
+            statusOffset: []
         };
         // Add keybind listener
         document.addEventListener("keydown", this.keyBinds);
@@ -100,8 +101,15 @@ export default class Home extends RComponent<HomeProps, HomeState> {
 
     public addStatus = (message: string, reload: boolean): void => {
         let status = this.state.status || [];
-        status = [((<Status unmount={this.unmountStatus} message={message} reload={reload} />))].concat(status);
+        let nums = this.state.statusOffset || [];
+        for (let i in nums) {
+            nums[i] += 110;
+        }
+        nums = [30].concat(nums);
+        this.setState({statusOffset: nums});
+        status = [((<Status offset={this.state.statusOffset[0]} unmount={this.unmountStatus} message={message} reload={reload} />))].concat(status);
         this.setState({status});
+        console.log(this.state.statusOffset)
     }
 
     public componentDidUpdate(): void {
