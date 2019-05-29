@@ -1,6 +1,6 @@
 // Gates imports
 import { AndGate, GateNode, LED, NotGate, OrGate, Switch, Wire } from '../gates/all';
-import { GateCoords, GateSize, AnyGate } from "./canvas";
+import { GateCoords, GateSize, AnyGate, SelectedNode } from "./canvas";
 import Home from '../components/Home';
 import { notDeepEqual } from 'assert';
 
@@ -24,6 +24,14 @@ export interface HomeState {
 }
 export interface HomeProps {
 	testing?: boolean
+}
+export interface StateHistory {
+	clicked: AnyGate[],
+	nodeSelectEnd: SelectedNode<any>,
+	nodeSelectStart: SelectedNode<any>,
+	endNode: GateNode<AnyGate>,
+	startNode: GateNode<AnyGate>,
+	gates: AllGates
 }
 export interface PropertiesState {
 

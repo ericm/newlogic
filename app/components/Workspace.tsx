@@ -37,6 +37,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     private clicked: ICanvas.AnyGate[] = [];
     private clickedDrag: ICanvas.AnyGate[] = [];
 
+    private stateHistory: IComponent.StateHistory[] = []
+
     public constructor(props: IComponent.WorkspaceProps) {
         super(props);
         this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
@@ -203,6 +205,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         console.log(this.gates);
         this.setState({ unsavedChanges: false });
 
+        // Start State history
+        this.pushState();
+        console.log(this.stateHistory);
+
         // Get settings through IPC
         let settings = getSettings();
         this.setState({
@@ -213,6 +219,24 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         });
 
     }
+
+    private pushState = () => 
+        this.stateHistory.push({
+            clicked: Array.from(this.clicked),
+            nodeSelectEnd: Object.create(this.nodeSelectEnd),
+            nodeSelectStart: Object.create(this.nodeSelectStart),
+            endNode: Object.create(this.endNodes),
+            startNode: Object.create(this.startNodes),
+            gates: Object.create({
+                and: Array.from(this.gates.and),
+                or: Array.from(this.gates.or),
+                wire: Array.from(this.gates.wire),
+                not: Array.from(this.gates.not),
+                switch: Array.from(this.gates.switch),
+                led: Array.from(this.gates.led)
+            })
+        })
+    
 
     public componentDidUpdate() {
         this.updateCanvas();
@@ -429,6 +453,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         }
         if (change) {
             console.log(this.state.unsavedChanges);
+            this.pushState();
+            console.log(this.stateHistory);
         }
         
     }
