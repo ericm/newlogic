@@ -222,7 +222,11 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
     }
 
-    private pushState = () => 
+    private pushState = () => {
+        if (this.state.undoIndex < this.stateHistory.length - 2 && this.state.undoIndex !== -1) {
+            this.stateHistory = this.stateHistory.slice(0, this.state.undoIndex);  
+        }
+        // TODO: Fix for moving
         this.stateHistory.push({
             endNodes: cloneDeep(this.endNodes),
             startNodes: cloneDeep(this.startNodes),
@@ -234,24 +238,26 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 switch: cloneDeep(this.gates.switch),
                 led: cloneDeep(this.gates.led)
             })
-        })
+        });
+        this.setState({undoIndex: this.stateHistory.length - 1});
+        console.log(this.stateHistory.length - 1);
+    }
+        
     
     public undo = () => {
-        let index = this.state.undoIndex;
-        if (index < 0) {
-            index = this.stateHistory.length - 2;
-        } else {
-            index -= 1;
+        let index = this.state.undoIndex - 1;
+        if (index >= 0) {
+            let state = this.stateHistory[index];
+            if (!!state) {
+                this.endNodes = state.endNodes;
+                this.startNodes = state.startNodes;
+                this.gates = state.gates;
+            }
+            this.clear();
+            console.log(index, this.state);
+            this.setState({undoIndex: index});
         }
-        let state = this.stateHistory[index];
-        if (!!state) {
-            this.endNodes = state.endNodes;
-            this.startNodes = state.startNodes;
-            this.gates = state.gates;
-        }
-        this.clear();
-        this.setState({undoIndex: index});
-        console.log(this.gates, state);
+        
     }
 
     public componentDidUpdate() {
