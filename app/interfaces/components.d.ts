@@ -26,11 +26,8 @@ export interface HomeProps {
 	testing?: boolean
 }
 export interface StateHistory {
-	clicked: AnyGate[],
-	nodeSelectEnd: SelectedNode<any>,
-	nodeSelectStart: SelectedNode<any>,
-	endNode: GateNode<AnyGate>,
-	startNode: GateNode<AnyGate>,
+	endNodes: GateNode<AnyGate>[],
+	startNodes: GateNode<AnyGate>[],
 	gates: AllGates
 }
 export interface PropertiesState {
@@ -109,7 +106,8 @@ export interface WorkspaceState {
 	context: IContext | null,
 	path?: string,
 	gridType: number,
-	unsavedChanges: boolean
+	unsavedChanges: boolean,
+	undoIndex: number
 }
 export interface WorkspaceProps extends Component {
 	name?: string,

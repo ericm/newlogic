@@ -57,7 +57,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             context: null,
             gridType: 0,
             unsavedChanges: false,
-            snapGrid: true
+            snapGrid: true,
+            undoIndex: -1
         }
 
         this.nodeSelectEnd = { node: null, selected: false }
@@ -223,11 +224,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
     private pushState = () => 
         this.stateHistory.push({
-            clicked: Array.from(this.clicked),
-            nodeSelectEnd: Object.create(this.nodeSelectEnd),
-            nodeSelectStart: Object.create(this.nodeSelectStart),
-            endNode: Object.create(this.endNodes),
-            startNode: Object.create(this.startNodes),
+            endNodes: cloneDeep(this.endNodes),
+            startNodes: cloneDeep(this.startNodes),
             gates: Object.create({
                 and: cloneDeep(this.gates.and),
                 or: cloneDeep(this.gates.or),
@@ -239,7 +237,21 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         })
     
     public undo = () => {
-
+        let index = this.state.undoIndex;
+        if (index < 0) {
+            index = this.stateHistory.length - 2;
+        } else {
+            index -= 1;
+        }
+        let state = this.stateHistory[index];
+        if (!!state) {
+            this.endNodes = state.endNodes;
+            this.startNodes = state.startNodes;
+            this.gates = state.gates;
+        }
+        this.clear();
+        this.setState({undoIndex: index});
+        console.log(this.gates, state);
     }
 
     public componentDidUpdate() {

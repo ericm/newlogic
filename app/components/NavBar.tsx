@@ -78,6 +78,8 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
         }
     }
 
+    private undo = (e: event): void => this.workspace().undo()
+
     private exit = (): void => {
         if (!!this.home) {
             this.workspace().checkSave();
@@ -104,6 +106,7 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
                         <li onClick={this.exit}>Exit<i>Ctrl + Q</i></li>
                     </ul></li>
                     <li onClick={this.click}>Edit<ul>
+                        <li onClick={this.undo}>Undo<i>Ctrl + Z</i></li>
                         <li onClick={this.settings}>Settings<i>Alt + P</i></li>
                     </ul></li>
                     <li onClick={this.click}>Window<ul>
