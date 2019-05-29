@@ -8,6 +8,7 @@ import * as ICanvas from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
 import { Exit } from '../actions/system';
 import { getSettings } from '../actions/settings';
+import { cloneDeep } from 'lodash';
 
 
 let styles = require('./styles/Workspace.scss');
@@ -228,15 +229,18 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             endNode: Object.create(this.endNodes),
             startNode: Object.create(this.startNodes),
             gates: Object.create({
-                and: Array.from(this.gates.and),
-                or: Array.from(this.gates.or),
-                wire: Array.from(this.gates.wire),
-                not: Array.from(this.gates.not),
-                switch: Array.from(this.gates.switch),
-                led: Array.from(this.gates.led)
+                and: cloneDeep(this.gates.and),
+                or: cloneDeep(this.gates.or),
+                not: cloneDeep(this.gates.not),
+                wire: cloneDeep(this.gates.wire),
+                switch: cloneDeep(this.gates.switch),
+                led: cloneDeep(this.gates.led)
             })
         })
     
+    public undo = () => {
+
+    }
 
     public componentDidUpdate() {
         this.updateCanvas();
@@ -374,7 +378,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         let change = false;
         switch (this.state.mode) {
         case "click":
-            this.canvasClick(e, coords);
+            change = this.canvasClick(e, coords);
             break;
 
         case "draw":
@@ -507,7 +511,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @private
      * @memberof Workspace
      */
-    private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords): void => {
+    private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords): boolean => {
 
         // Find if a gate was clicked
         let gate = this.isClicked(coords);
@@ -577,6 +581,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     }
                     this.clear();
                     this.setState({ dragging: false });
+                    return true;
                 } else if (this.state.canvasDrag) {
                     this.setState({ canvasDrag: false });
                 }
@@ -588,6 +593,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 break;
 
         }
+        return false;
     }
 
     /**
