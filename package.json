@@ -21,7 +21,8 @@
     "package-win": "npm run build && build --win --x64",
     "package-linux": "npm run build && build --linux",
     "package-all": "npm run build && build -mwl",
-    "cleanup": "mop -v"
+    "cleanup": "mop -v",
+    "prepack": "npm run package-linux"
   },
   "jest": {
     "moduleNameMapper": {
@@ -91,7 +92,7 @@
     }
   },
   "bin": {
-    "newlogic": "./start.js"
+    "newlogic": "./release/linux-unpacked/newlogic"
   },
   "repository": {
     "type": "git",
