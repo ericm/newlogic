@@ -423,6 +423,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.addNodes(newNodes);
                 this.onChange();
                 change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.and[this.gates.and.length - 1])
+                });
             }
             break;
 
@@ -436,6 +440,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.addNodes(newNodes);
                 this.onChange();
                 change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.or[this.gates.or.length - 1])
+                });
             }
             break;
 
@@ -448,6 +456,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.addNodes(newNodes);
                 this.onChange();
                 change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.not[this.gates.not.length - 1])
+                });
             }
             break;
 
@@ -460,6 +472,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.addNodes(newNodes);
                 this.onChange();
                 change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.led[this.gates.led.length - 1])
+                });
             }
             break;
 
@@ -472,6 +488,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.addNodes(newNodes);
                 this.onChange();
                 change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.switch[this.gates.switch.length - 1])
+                });
             }
             break;
         }
@@ -597,6 +617,11 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                             y: this.state.dragInit.y
                         }
                         if (move.x > 0 && move.y > 0) for (let g of this.clickedDrag) g.drag(move);
+                        // TODO: add multi move support for history
+                        this.pushState({
+                            method: 'move',
+                            gate: this.genPlecibo(this.clickedDrag[0])
+                        });
                     }
                     this.clear();
                     this.setState({ dragging: false });
@@ -691,8 +716,16 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     if (endNode.setWire(wire, "end") && startNode.setWire(wire, "start")) {
                         this.gates.wire.push(wire);
                         console.log(this.gates.wire);
+
                         this.onChange();
                         Logic.evalAll(this.gates);
+
+                        // Appending to state history 
+                        this.pushState({
+                            method: 'join',
+                            gate: this.genPlecibo(startNode.state.gate),
+                            secondGate: this.genPlecibo(endNode.state.gate)
+                        })
                     }
                     
                 } else {
@@ -736,6 +769,13 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         gateIn.state.gateOut = gateIn.state.gateOut.filter(v => { return v.state.id !== gateOut.state.id; });
                         gateOut.state.gateIn = gateOut.state.gateIn.filter(v => { return v.state.id !== gateIn.state.id; });
                         this.gates.wire = this.gates.wire.filter((_, i) => { return i !== cut; });
+
+                        // Send to history
+                        this.pushState({
+                            method: 'unjoin',
+                            gate: this.genPlecibo(gateIn),
+                            secondGate: this.genPlecibo(gateOut)
+                        })
                     }
                     window.requestAnimationFrame(() => {
                         this.clear();

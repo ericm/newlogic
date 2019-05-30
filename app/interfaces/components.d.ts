@@ -26,8 +26,9 @@ export interface HomeProps {
 	testing?: boolean
 }
 export interface StateHistory {
-	method: 'create' | 'move' | 'join' | 'delete',
-	gate: GateStatePlecibo
+	method: 'create' | 'move' | 'join' | 'delete' | 'unjoin',
+	gate: GateStatePlecibo,
+	secondGate?: GateStatePlecibo
 }
 export interface PropertiesState {
 
