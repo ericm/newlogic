@@ -8,7 +8,6 @@ import * as ICanvas from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
 import { Exit } from '../actions/system';
 import { getSettings } from '../actions/settings';
-import { cloneDeep } from 'lodash';
 
 
 let styles = require('./styles/Workspace.scss');
@@ -106,6 +105,14 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @memberof Workspace
      */
     public deleteGate = (id: number): void => {
+        // Find gate for history
+        let gate = this.allGates().find(val => { return val.state.id === id });
+        if (gate) {
+            this.pushState({
+                method: 'delete',
+                gate: this.genPlecibo(gate)
+            })
+        }
         // Remove context menu
         // Delete Wires referencing gate
         let is: number[] = [];
@@ -169,6 +176,19 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         this.clear();
     }
 
+    private genPlecibo = (gate: ICanvas.AnyGate): IComponent.GateStatePlecibo => {
+        const state = gate.state;
+        return {
+            coords: state.coords,
+            size: state.size,
+            id: state.id,
+            inputs: state.gateIn.map(val => val.state.id),
+            outputs: state.gateOut.map(val => val.state.id),
+            type: (typeof gate).toString(),
+            invert: state.invert
+        }
+    }
+
     /**
      * Returns an array of all the gates held in this.gates.
      * Update this with new gates as added.
@@ -207,8 +227,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         console.log(this.gates);
         this.setState({ unsavedChanges: false });
 
-        // Start State history
-        this.pushState();
         console.log(this.stateHistory);
 
         // Get settings through IPC
@@ -222,41 +240,29 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
     }
 
-    private pushState = () => {
+    private pushState = (action: IComponent.StateHistory) => {
         if (this.state.undoIndex < this.stateHistory.length - 2 && this.state.undoIndex !== -1) {
             this.stateHistory = this.stateHistory.slice(0, this.state.undoIndex);  
-        }
-        // TODO: Fix for moving
-        this.stateHistory.push({
-            endNodes: cloneDeep(this.endNodes),
-            startNodes: cloneDeep(this.startNodes),
-            gates: Object.create({
-                and: cloneDeep(this.gates.and),
-                or: cloneDeep(this.gates.or),
-                not: cloneDeep(this.gates.not),
-                wire: cloneDeep(this.gates.wire),
-                switch: cloneDeep(this.gates.switch),
-                led: cloneDeep(this.gates.led)
-            })
-        });
+        }        
+        this.stateHistory.push(action);
         this.setState({undoIndex: this.stateHistory.length - 1});
-        console.log(this.stateHistory.length - 1);
+        console.log(this.stateHistory.length - 1, this.stateHistory);
     }
         
     
     public undo = () => {
-        let index = this.state.undoIndex - 1;
-        if (index >= 0) {
-            let state = this.stateHistory[index];
-            if (!!state) {
-                this.endNodes = state.endNodes;
-                this.startNodes = state.startNodes;
-                this.gates = state.gates;
-            }
-            this.clear();
-            console.log(index, this.state);
-            this.setState({undoIndex: index});
-        }
+        // let index = this.state.undoIndex - 1;
+        // if (index >= 0) {
+        //     let state = this.stateHistory[index];
+        //     if (!!state) {
+        //         this.endNodes = state.endNodes;
+        //         this.startNodes = state.startNodes;
+        //         this.gates = state.gates;
+        //     }
+        //     this.clear();
+        //     console.log(index, this.gates);
+        //     this.setState({undoIndex: index});
+        // }
         
     }
 
@@ -472,11 +478,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
         if (change && !this.state.unsavedChanges) {
             this.setState({unsavedChanges: true});   
-        }
-        if (change) {
-            console.log(this.state.unsavedChanges);
-            this.pushState();
-            console.log(this.stateHistory);
         }
         
     }

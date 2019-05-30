@@ -26,9 +26,8 @@ export interface HomeProps {
 	testing?: boolean
 }
 export interface StateHistory {
-	endNodes: GateNode<AnyGate>[],
-	startNodes: GateNode<AnyGate>[],
-	gates: AllGates
+	method: 'create' | 'move' | 'join' | 'delete',
+	gate: GateStatePlecibo
 }
 export interface PropertiesState {
 
@@ -141,7 +140,7 @@ export interface StatusProps {
 	unmount: () => void,
 	offset: number
 }
-interface GateStatePlecibo {
+export interface GateStatePlecibo {
 	coords: GateCoords,
 	size: GateSize,
 	id: number,
