@@ -176,11 +176,12 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         this.clear();
     }
 
-    private genPlecibo = (gate: ICanvas.AnyGate): IComponent.GateStatePlecibo => {
+    private genPlecibo = (gate: ICanvas.AnyGate, coords?: ICanvas.GateCoords): IComponent.GateStatePlecibo => {
         const state = gate.state;
+        const coordsObj = !!coords ? coords : state.coords;
         return {
-            coords: state.coords,
-            size: state.size,
+            coords: Object.assign({}, coordsObj),
+            size: Object.assign({}, state.size),
             id: state.id,
             inputs: state.gateIn.map(val => val.state.id),
             outputs: state.gateOut.map(val => val.state.id),
@@ -245,24 +246,45 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             this.stateHistory = this.stateHistory.slice(0, this.state.undoIndex);  
         }        
         this.stateHistory.push(action);
-        this.setState({undoIndex: this.stateHistory.length - 1});
-        console.log(this.stateHistory.length - 1, this.stateHistory);
+        this.setState({undoIndex: this.stateHistory.length});
+        console.log(this.stateHistory.length - 1, this.state.undoIndex, this.stateHistory);
     }
         
     
     public undo = () => {
-        // let index = this.state.undoIndex - 1;
-        // if (index >= 0) {
-        //     let state = this.stateHistory[index];
-        //     if (!!state) {
-        //         this.endNodes = state.endNodes;
-        //         this.startNodes = state.startNodes;
-        //         this.gates = state.gates;
-        //     }
-        //     this.clear();
-        //     console.log(index, this.gates);
-        //     this.setState({undoIndex: index});
-        // }
+        let index = this.state.undoIndex - 1;
+        console.log(index);
+        if (index >= 0) {
+            let state = this.stateHistory[index];
+            
+            if (!!state) {
+                this.clear();
+                switch (state.method) {
+                case "create":
+                    // Delete the gate in current state
+                    break;
+                case "delete":
+                    // Create the gate again
+                    break;
+                case "join":
+                    // Disconnect and delete wire
+                    break;
+                case "unjoin":
+                    // Connect and create wire
+                    break;
+                case "move":
+                    // Move to previous position
+                    let gate = this.allGates().find(val => { return val.state.id === state.gate.id });
+                    if (!!gate) {
+                        gate.drag(state.gate.coords);
+                    }
+                    break;
+                }
+                this.clear();
+                console.log(index, this.gates);
+                this.setState({undoIndex: index});
+            }
+        }
         
     }
 
@@ -617,12 +639,12 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                             y: this.state.dragInit.y
                         }
                         if (move.x > 0 && move.y > 0) for (let g of this.clickedDrag) g.drag(move);
-                        // TODO: add multi move support for history
-                        this.pushState({
-                            method: 'move',
-                            gate: this.genPlecibo(this.clickedDrag[0])
-                        });
                     }
+                    // TODO: add multi move support for history
+                    this.pushState({
+                        method: 'move',
+                        gate: this.genPlecibo(this.clickedDrag[0], this.state.drag)
+                    });
                     this.clear();
                     this.setState({ dragging: false });
                     return true;
