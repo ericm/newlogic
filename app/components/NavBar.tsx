@@ -78,7 +78,7 @@ export default class NavBar extends Component<NavBarProps, NavBarState> {
         }
     }
 
-    private undo = (e: event): void => this.workspace().undo()
+    private undo = (e: event) => this.workspace().undo()
 
     private exit = (): void => {
         if (!!this.home) {

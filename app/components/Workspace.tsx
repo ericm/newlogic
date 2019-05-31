@@ -251,7 +251,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     }
         
     
-    public undo = () => {
+    public undo = (): number => {
         let index = this.state.undoIndex - 1;
         console.log(index);
         if (index >= 0) {
@@ -262,6 +262,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 switch (state.method) {
                 case "create":
                     // Delete the gate in current state
+                    this.deleteGate(state.gate.id);
                     break;
                 case "delete":
                     // Create the gate again
@@ -285,7 +286,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.setState({undoIndex: index});
             }
         }
-        
+        return index;
     }
 
     public componentDidUpdate() {
