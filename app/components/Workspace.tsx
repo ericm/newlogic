@@ -805,23 +805,13 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 if (this.state.dragging) {
                     let cut = Wiring.cutIntersect(coords, this.gates.wire);
                     if (cut !== -1) {
-                        let wire = this.gates.wire[cut];
-                        // GIANT REREF BLOCK
-                        // DONT TRY THIS AT HOME
-                        let checkWire = (v: LogicGates.Wire): boolean => { return v.state.break.x !== wire.state.break.x || v.state.break.y !== wire.state.break.y; }
-                        wire.state.startNode.state.wire = wire.state.startNode.state.wire.filter(checkWire);
-                        wire.state.endNode.state.wire = wire.state.endNode.state.wire.filter(checkWire);
-                        let gateIn = wire.state.startNode.state.gate;
-                        let gateOut = wire.state.endNode.state.gate;
-                        gateIn.state.gateOut = gateIn.state.gateOut.filter(v => { return v.state.id !== gateOut.state.id; });
-                        gateOut.state.gateIn = gateOut.state.gateIn.filter(v => { return v.state.id !== gateIn.state.id; });
-                        this.gates.wire = this.gates.wire.filter((_, i) => { return i !== cut; });
+                        let deref = this.derefWire(cut);
 
                         // Send to history
                         this.pushState({
                             method: 'unjoin',
-                            gate: this.genPlecibo(gateIn),
-                            secondGate: this.genPlecibo(gateOut)
+                            gate: this.genPlecibo(deref[0]),
+                            secondGate: this.genPlecibo(deref[1])
                         })
                     }
                     window.requestAnimationFrame(() => {
@@ -837,6 +827,21 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.clear();
                 break;
         }
+    }
+
+    private derefWire = (cut: number): ICanvas.AnyGate[] => {
+        let wire = this.gates.wire[cut];
+        // GIANT REREF BLOCK
+        // DONT TRY THIS AT HOME
+        let checkWire = (v: LogicGates.Wire): boolean => { return v.state.break.x !== wire.state.break.x || v.state.break.y !== wire.state.break.y; }
+        wire.state.startNode.state.wire = wire.state.startNode.state.wire.filter(checkWire);
+        wire.state.endNode.state.wire = wire.state.endNode.state.wire.filter(checkWire);
+        let gateIn = wire.state.startNode.state.gate;
+        let gateOut = wire.state.endNode.state.gate;
+        gateIn.state.gateOut = gateIn.state.gateOut.filter(v => { return v.state.id !== gateOut.state.id; });
+        gateOut.state.gateIn = gateOut.state.gateIn.filter(v => { return v.state.id !== gateIn.state.id; });
+        this.gates.wire = this.gates.wire.filter((_, i) => { return i !== cut; });
+        return [gateIn, gateOut]
     }
 
     /**
