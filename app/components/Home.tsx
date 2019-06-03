@@ -223,7 +223,11 @@ export default class Home extends RComponent<HomeProps, HomeState> {
                 workspace.checkSave();
                 break;
             case "z":
-                workspace.undo();
+                if (e.shiftKey) {
+                    workspace.redo();
+                } else {
+                    workspace.undo();
+                }
                 break;
             }
         }

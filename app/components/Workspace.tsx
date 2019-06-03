@@ -253,7 +253,18 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     
     public undo = (): number => {
         let index = this.state.undoIndex - 1;
-        console.log(index);
+        this.changeState(index);
+        return index;
+    }
+    public redo = (): number => {
+        let index = this.state.undoIndex + 1;
+        if (index < this.stateHistory.length) {
+            this.changeState(index);
+        }
+        return index;
+    }
+
+    private changeState = (index: number) => {
         if (index >= 0) {
             let state = this.stateHistory[index];
             
@@ -304,7 +315,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     }
                     break;
                 case "unjoin":
-                    // Connect and create wire
+                    // TODO: Connect and create wire
                     break;
                 case "move":
                     // Move to previous position
@@ -319,7 +330,6 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.setState({undoIndex: index});
             }
         }
-        return index;
     }
 
     public componentDidUpdate() {
