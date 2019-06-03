@@ -47,7 +47,8 @@ export default class LED extends Gates<LED> {
             input: false,
             gateIn: new Array(),
             gateOut: new Array(),
-            id: !!id ? id : Gates.INCID()
+            id: !!id ? id : Gates.INCID(),
+            type: "led"
         }
 
         this.render();

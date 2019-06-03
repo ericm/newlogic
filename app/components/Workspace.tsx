@@ -37,6 +37,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     private clicked: ICanvas.AnyGate[] = [];
     private clickedDrag: ICanvas.AnyGate[] = [];
 
+    private stateHistory: IComponent.StateHistory[] = []
+
     public constructor(props: IComponent.WorkspaceProps) {
         super(props);
         this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
@@ -54,7 +56,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             context: null,
             gridType: 0,
             unsavedChanges: false,
-            snapGrid: true
+            snapGrid: true,
+            undoIndex: -1
         }
 
         this.nodeSelectEnd = { node: null, selected: false }
@@ -102,6 +105,14 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @memberof Workspace
      */
     public deleteGate = (id: number): void => {
+        // Find gate for history
+        let gate = this.allGates().find(val => { return val.state.id === id });
+        if (gate) {
+            this.pushState({
+                method: 'delete',
+                gate: this.genPlecibo(gate)
+            })
+        }
         // Remove context menu
         // Delete Wires referencing gate
         let is: number[] = [];
@@ -165,6 +176,20 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         this.clear();
     }
 
+    private genPlecibo = (gate: ICanvas.AnyGate, coords?: ICanvas.GateCoords): IComponent.GateStatePlecibo => {
+        const state = gate.state;
+        const coordsObj = !!coords ? coords : state.coords;
+        return {
+            coords: Object.assign({}, coordsObj),
+            size: Object.assign({}, state.size),
+            id: state.id,
+            inputs: state.gateIn.map(val => val.state.id),
+            outputs: state.gateOut.map(val => val.state.id),
+            type: gate.state.type,
+            invert: state.invert
+        }
+    }
+
     /**
      * Returns an array of all the gates held in this.gates.
      * Update this with new gates as added.
@@ -203,6 +228,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         console.log(this.gates);
         this.setState({ unsavedChanges: false });
 
+        console.log(this.stateHistory);
+
         // Get settings through IPC
         let settings = getSettings();
         this.setState({
@@ -212,6 +239,101 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 	        gridType: settings.gridType
         });
 
+    }
+
+    private pushState = (action: IComponent.StateHistory) => {
+        if (this.state.undoIndex < this.stateHistory.length - 2 && this.state.undoIndex !== -1) {
+            this.stateHistory = this.stateHistory.slice(0, this.state.undoIndex);  
+        }        
+        this.stateHistory.push(action);
+        this.setState({undoIndex: this.stateHistory.length});
+        console.log(this.stateHistory.length - 1, this.state.undoIndex, this.stateHistory);
+    }
+        
+    
+    public undo = (): number => {
+        let index = this.state.undoIndex - 1;
+        this.changeState(index);
+        if (this.props.addStatus) {
+            this.props.addStatus("Undone", false);
+        }
+        return index;
+    }
+    public redo = (): number => {
+        let index = this.state.undoIndex + 1;
+        if (index < this.stateHistory.length && this.props.addStatus) {
+            this.changeState(index);
+            this.props.addStatus("Redone", false);
+        }
+        return index;
+    }
+
+    private changeState = (index: number) => {
+        if (index >= 0) {
+            let state = this.stateHistory[index];
+            
+            if (!!state) {
+                this.clear();
+                switch (state.method) {
+                case "create":
+                    // Delete the gate in current state
+                    this.deleteGate(state.gate.id);
+                    break;
+                case "delete":
+                    // Create the gate again
+                    // Deserialize
+                    let newGate = Saving.deserialize([state.gate], this.endNodes, this.startNodes, this.ctx, state.gate.type)[0] as LogicGates.Gates<any>;
+                    console.log(newGate);
+                    // Set previous id
+                    newGate.state.id = state.gate.id;
+                    // Remove constructed ID
+                    LogicGates.Gates.REMID(LogicGates.Gates.IDS[LogicGates.Gates.IDS.length-1]);
+                    switch (state.gate.type) {
+                    case "and":
+                        this.gates.and.push(newGate);
+                        break;
+                    case "or":
+                        this.gates.or.push(newGate);
+                        break;
+                    case "not":
+                        this.gates.not.push(newGate);
+                        break;
+                    case "switch":
+                        this.gates.switch.push(newGate as LogicGates.Switch);
+                        break;
+                    case "led":
+                        this.gates.led.push(newGate as LogicGates.LED);
+                        break;
+                    }
+                    break;
+                case "join":
+                    // Disconnect and delete wire
+                    let id = 0;
+                    for (let wire of this.gates.wire) {
+                        if (state.secondGate 
+                            && wire.state.startNode.state.gate.state.id === state.gate.id 
+                            && wire.state.endNode.state.gate.state.id === state.secondGate.id) {
+                                this.derefWire(id);
+                            }
+                        id++;
+                    }
+                    break;
+                case "unjoin":
+                    // TODO: Connect and create wire
+                    break;
+                case "move":
+                    // Move to previous position
+                    let gate = this.allGates().find(val => { return val.state.id === state.gate.id });
+                    if (!!gate) {
+                        gate.drag(state.gate.coords);
+                    }
+                    break;
+                }
+                this.clear();
+                console.log(index, this.gates);
+                this.setState({undoIndex: index});
+            }
+        }
     }
 
     public componentDidUpdate() {
@@ -350,7 +472,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         let change = false;
         switch (this.state.mode) {
         case "click":
-            this.canvasClick(e, coords);
+            change = this.canvasClick(e, coords);
             break;
 
         case "draw":
@@ -371,6 +493,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.addNodes(newNodes);
                 this.onChange();
                 change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.and[this.gates.and.length - 1])
+                });
             }
             break;
 
@@ -384,6 +510,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.addNodes(newNodes);
                 this.onChange();
                 change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.or[this.gates.or.length - 1])
+                });
             }
             break;
 
@@ -396,6 +526,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.addNodes(newNodes);
                 this.onChange();
                 change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.not[this.gates.not.length - 1])
+                });
             }
             break;
 
@@ -408,6 +542,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.addNodes(newNodes);
                 this.onChange();
                 change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.led[this.gates.led.length - 1])
+                });
             }
             break;
 
@@ -420,15 +558,16 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.addNodes(newNodes);
                 this.onChange();
                 change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.switch[this.gates.switch.length - 1])
+                });
             }
             break;
         }
 
         if (change && !this.state.unsavedChanges) {
             this.setState({unsavedChanges: true});   
-        }
-        if (change) {
-            console.log(this.state.unsavedChanges);
         }
         
     }
@@ -481,7 +620,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @private
      * @memberof Workspace
      */
-    private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords): void => {
+    private canvasClick = (e: React.MouseEvent<HTMLCanvasElement>, coords: ICanvas.GateCoords): boolean => {
 
         // Find if a gate was clicked
         let gate = this.isClicked(coords);
@@ -549,8 +688,14 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         }
                         if (move.x > 0 && move.y > 0) for (let g of this.clickedDrag) g.drag(move);
                     }
+                    // TODO: add multi move support for history
+                    this.pushState({
+                        method: 'move',
+                        gate: this.genPlecibo(this.clickedDrag[0], this.state.drag)
+                    });
                     this.clear();
                     this.setState({ dragging: false });
+                    return true;
                 } else if (this.state.canvasDrag) {
                     this.setState({ canvasDrag: false });
                 }
@@ -562,6 +707,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 break;
 
         }
+        return false;
     }
 
     /**
@@ -640,8 +786,16 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     if (endNode.setWire(wire, "end") && startNode.setWire(wire, "start")) {
                         this.gates.wire.push(wire);
                         console.log(this.gates.wire);
+
                         this.onChange();
                         Logic.evalAll(this.gates);
+
+                        // Appending to state history 
+                        this.pushState({
+                            method: 'join',
+                            gate: this.genPlecibo(startNode.state.gate),
+                            secondGate: this.genPlecibo(endNode.state.gate)
+                        })
                     }
                     
                 } else {
@@ -674,17 +828,14 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 if (this.state.dragging) {
                     let cut = Wiring.cutIntersect(coords, this.gates.wire);
                     if (cut !== -1) {
-                        let wire = this.gates.wire[cut];
-                        // GIANT REREF BLOCK
-                        // DONT TRY THIS AT HOME
-                        let checkWire = (v: LogicGates.Wire): boolean => { return v.state.break.x !== wire.state.break.x || v.state.break.y !== wire.state.break.y; }
-                        wire.state.startNode.state.wire = wire.state.startNode.state.wire.filter(checkWire);
-                        wire.state.endNode.state.wire = wire.state.endNode.state.wire.filter(checkWire);
-                        let gateIn = wire.state.startNode.state.gate;
-                        let gateOut = wire.state.endNode.state.gate;
-                        gateIn.state.gateOut = gateIn.state.gateOut.filter(v => { return v.state.id !== gateOut.state.id; });
-                        gateOut.state.gateIn = gateOut.state.gateIn.filter(v => { return v.state.id !== gateIn.state.id; });
-                        this.gates.wire = this.gates.wire.filter((_, i) => { return i !== cut; });
+                        let deref = this.derefWire(cut);
+
+                        // Send to history
+                        this.pushState({
+                            method: 'unjoin',
+                            gate: this.genPlecibo(deref[0]),
+                            secondGate: this.genPlecibo(deref[1])
+                        })
                     }
                     window.requestAnimationFrame(() => {
                         this.clear();
@@ -699,6 +850,21 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 this.clear();
                 break;
         }
+    }
+
+    private derefWire = (cut: number): ICanvas.AnyGate[] => {
+        let wire = this.gates.wire[cut];
+        // GIANT REREF BLOCK
+        // DONT TRY THIS AT HOME
+        let checkWire = (v: LogicGates.Wire): boolean => { return v.state.break.x !== wire.state.break.x || v.state.break.y !== wire.state.break.y; }
+        wire.state.startNode.state.wire = wire.state.startNode.state.wire.filter(checkWire);
+        wire.state.endNode.state.wire = wire.state.endNode.state.wire.filter(checkWire);
+        let gateIn = wire.state.startNode.state.gate;
+        let gateOut = wire.state.endNode.state.gate;
+        gateIn.state.gateOut = gateIn.state.gateOut.filter(v => { return v.state.id !== gateOut.state.id; });
+        gateOut.state.gateIn = gateOut.state.gateIn.filter(v => { return v.state.id !== gateIn.state.id; });
+        this.gates.wire = this.gates.wire.filter((_, i) => { return i !== cut; });
+        return [gateIn, gateOut]
     }
 
     /**

@@ -68,7 +68,8 @@ export default class AndGate extends Gates<AndGate> {
             gateIn: new Array(),
             gateOut: new Array(),
             id: !!id ? id : Gates.INCID(),
-            invert
+            invert,
+            type: "and"
         }
 
         if (invert) {
