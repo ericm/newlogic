@@ -254,12 +254,16 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     public undo = (): number => {
         let index = this.state.undoIndex - 1;
         this.changeState(index);
+        if (this.props.addStatus) {
+            this.props.addStatus("Undone", false);
+        }
         return index;
     }
     public redo = (): number => {
         let index = this.state.undoIndex + 1;
-        if (index < this.stateHistory.length) {
+        if (index < this.stateHistory.length && this.props.addStatus) {
             this.changeState(index);
+            this.props.addStatus("Redone", false);
         }
         return index;
     }
