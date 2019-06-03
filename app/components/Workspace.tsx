@@ -185,7 +185,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             id: state.id,
             inputs: state.gateIn.map(val => val.state.id),
             outputs: state.gateOut.map(val => val.state.id),
-            type: (typeof gate).toString(),
+            type: gate.state.type,
             invert: state.invert
         }
     }
@@ -266,6 +266,30 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     break;
                 case "delete":
                     // Create the gate again
+                    // Deserialize
+                    let newGate = Saving.deserialize([state.gate], this.endNodes, this.startNodes, this.ctx, state.gate.type)[0] as LogicGates.Gates<any>;
+                    console.log(newGate);
+                    // Set previous id
+                    newGate.state.id = state.gate.id;
+                    // Remove constructed ID
+                    LogicGates.Gates.REMID(LogicGates.Gates.IDS[LogicGates.Gates.IDS.length-1]);
+                    switch (state.gate.type) {
+                    case "and":
+                        this.gates.and.push(newGate);
+                        break;
+                    case "or":
+                        this.gates.or.push(newGate);
+                        break;
+                    case "not":
+                        this.gates.not.push(newGate);
+                        break;
+                    case "switch":
+                        this.gates.switch.push(newGate as LogicGates.Switch);
+                        break;
+                    case "led":
+                        this.gates.led.push(newGate as LogicGates.LED);
+                        break;
+                    }
                     break;
                 case "join":
                     // Disconnect and delete wire

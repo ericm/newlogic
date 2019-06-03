@@ -49,7 +49,8 @@ export default class Switch extends Gates<Switch> {
             connected: false,
             gateIn: new Array(),
             gateOut: new Array(),
-            id: !!id ? id : Gates.INCID()
+            id: !!id ? id : Gates.INCID(),
+            type: "switch"
         }
 
         this.render();

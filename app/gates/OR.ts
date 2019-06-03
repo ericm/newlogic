@@ -65,7 +65,8 @@ export default class OrGate extends Gates<OrGate> {
             gateIn: new Array(),
             gateOut: new Array(),
             id: !!id ? id : Gates.INCID(),
-            invert
+            invert,
+            type: "or"
         }
 
         if (invert) {
