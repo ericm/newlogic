@@ -293,6 +293,15 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     break;
                 case "join":
                     // Disconnect and delete wire
+                    let id = 0;
+                    for (let wire of this.gates.wire) {
+                        if (state.secondGate 
+                            && wire.state.startNode.state.gate.state.id === state.gate.id 
+                            && wire.state.endNode.state.gate.state.id === state.secondGate.id) {
+                                this.derefWire(id);
+                            }
+                        id++;
+                    }
                     break;
                 case "unjoin":
                     // Connect and create wire
