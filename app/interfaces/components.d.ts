@@ -133,7 +133,8 @@ export interface SettingsProps {
 }
 
 export interface StatusState {
-	offset: number
+	offset: number,
+	class: string
 }
 export interface StatusProps {
 	message: string,

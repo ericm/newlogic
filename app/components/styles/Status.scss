@@ -9,8 +9,12 @@
     border-bottom: 3px solid rgba(0, 0, 0, 0.74);
     z-index: 1001;
     padding: .2em 1em 0 1em;
-    transition: all .3s;
+    transition: all .5s;
     animation: in .3s;
+    opacity: 1;
+}
+.outS {
+    opacity: 0;
 }
 @keyframes in {
     0% {top: -50px;}
