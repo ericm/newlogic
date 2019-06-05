@@ -100,16 +100,10 @@ export default class Home extends RComponent<HomeProps, HomeState> {
     }
 
     public addStatus = (message: string, reload: boolean): void => {
-        let status = this.state.status || [];
-        let nums = this.state.statusOffset || [];
-        for (let i in nums) {
-            nums[i] += 110;
-        }
-        nums = [30].concat(nums);
-        this.setState({statusOffset: nums});
-        status = [((<Status offset={this.state.statusOffset[0]} unmount={this.unmountStatus} message={message} reload={reload} />))].concat(status);
+        this.unmountStatus()
+        let status: JSX.Element[] =  [];
+        status = [((<Status offset={30} unmount={this.unmountStatus} message={message} reload={reload} />))].concat(status);
         this.setState({status});
-        console.log(this.state.statusOffset)
     }
 
     public componentDidUpdate(): void {
