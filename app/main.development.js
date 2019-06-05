@@ -8,6 +8,7 @@ const {
 	remote
 } = require("electron");
 const fs = require("fs");
+const exec = require("child_process").execSync;
 
 const esettings = require("electron-settings");
 
@@ -26,9 +27,17 @@ let settingsWindow = null;
 
 const settingsFile = app.getPath('userData') + "/Settings"
 
-if (!fs.existsSync(settingsFile)) {
-	fs.writeFileSync(settingsFile, "");
+if (process.platform == "linux") {
+	if (!fs.existsSync(settingsFile)) {
+		exec(`mkdir -p ${app.getPath('userData')}`);
+		exec(`touch ${settingsFile}`);
+	}
+} else {
+	if (!fs.existsSync(settingsFile)) {
+		fs.writeFileSync(settingsFile, "");
+	}
 }
+
 
 // set defaults
 if (!esettings.has("settings")) {
