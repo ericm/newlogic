@@ -5,10 +5,10 @@ import './app.global.scss';
 import Home from './components/Home';
 
 render(
-	<AppContainer>
-		<Home />
-	</AppContainer>,
-	document.getElementById('root')
+    <AppContainer>
+        <Home />
+    </AppContainer>,
+    document.getElementById('root')
 );
 
 
