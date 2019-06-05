@@ -78,7 +78,8 @@
 	right: 5px;
 	top: 4px;
 	z-index: 1999;
-	user-select: initial;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
 	-webkit-app-region: no-drag;
 }
 .opt img {

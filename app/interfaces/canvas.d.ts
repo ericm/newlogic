@@ -12,7 +12,8 @@ export interface State<T extends Gates<any>>  {
 	nodes: Nodes<T>,
 	gateIn: Array<AnyGate>,
 	gateOut: Array<AnyGate>,
-	invert?: boolean
+	invert?: boolean,
+	type: string
 }
 export interface Nodes<T extends Gates<any>>  {
 	start: GateNode<T>[],

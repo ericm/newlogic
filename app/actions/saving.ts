@@ -39,7 +39,7 @@ export namespace Saving {
             });
         }
     }
-    function deserialize<T extends Gates<T>>(gates: IComponent.GateStatePlecibo[], 
+    export function deserialize<T extends Gates<T>>(gates: IComponent.GateStatePlecibo[], 
         endNodes: GateNode<any>[], startNodes: GateNode<any>[], ctx: CanvasRenderingContext2D, type: string): T[] {
             const construct = (): AnyGate => {
                 switch (type) {

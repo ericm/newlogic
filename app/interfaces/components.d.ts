@@ -1,6 +1,6 @@
 // Gates imports
 import { AndGate, GateNode, LED, NotGate, OrGate, Switch, Wire } from '../gates/all';
-import { GateCoords, GateSize, AnyGate } from "./canvas";
+import { GateCoords, GateSize, AnyGate, SelectedNode } from "./canvas";
 import Home from '../components/Home';
 import { notDeepEqual } from 'assert';
 
@@ -24,6 +24,11 @@ export interface HomeState {
 }
 export interface HomeProps {
 	testing?: boolean
+}
+export interface StateHistory {
+	method: 'create' | 'move' | 'join' | 'delete' | 'unjoin',
+	gate: GateStatePlecibo,
+	secondGate?: GateStatePlecibo
 }
 export interface PropertiesState {
 
@@ -101,7 +106,8 @@ export interface WorkspaceState {
 	context: IContext | null,
 	path?: string,
 	gridType: number,
-	unsavedChanges: boolean
+	unsavedChanges: boolean,
+	undoIndex: number
 }
 export interface WorkspaceProps extends Component {
 	name?: string,
@@ -135,7 +141,7 @@ export interface StatusProps {
 	unmount: () => void,
 	offset: number
 }
-interface GateStatePlecibo {
+export interface GateStatePlecibo {
 	coords: GateCoords,
 	size: GateSize,
 	id: number,
