@@ -107,7 +107,8 @@ export interface WorkspaceState {
 	path?: string,
 	gridType: number,
 	unsavedChanges: boolean,
-	undoIndex: number
+	undoIndex: number,
+	undoing: boolean
 }
 export interface WorkspaceProps extends Component {
 	name?: string,

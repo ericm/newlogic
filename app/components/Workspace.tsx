@@ -57,7 +57,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             gridType: 0,
             unsavedChanges: false,
             snapGrid: true,
-            undoIndex: -1
+            undoIndex: -1,
+            undoing: false
         }
 
         this.nodeSelectEnd = { node: null, selected: false }
@@ -122,7 +123,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 is.push(+i);
             }
         }
-        // this.gates.wire = this.gates.wire.filter((_, i)  => { console.log(i, is); return i !in is; });
+
         this.gates.wire = this.gates.wire.filter((_val, i: number, _arr) => { return is.findIndex(ii => { return i === ii; }) === -1; });
 
         // Delete nodes referencing the gate
@@ -242,12 +243,14 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     }
 
     private pushState = (action: IComponent.StateHistory) => {
-        if (this.state.undoIndex < this.stateHistory.length - 2 && this.state.undoIndex !== -1) {
-            this.stateHistory = this.stateHistory.slice(0, this.state.undoIndex);  
-        }        
-        this.stateHistory.push(action);
-        this.setState({undoIndex: this.stateHistory.length});
-        console.log(this.stateHistory.length - 1, this.state.undoIndex, this.stateHistory);
+        if (!this.state.undoing) {
+            if (this.state.undoIndex < this.stateHistory.length - 2 && this.state.undoIndex !== -1) {
+                this.stateHistory = this.stateHistory.slice(0, this.state.undoIndex);  
+            }        
+            this.stateHistory.push(action);
+            this.setState({undoIndex: this.stateHistory.length});
+            console.log(this.stateHistory.length - 1, this.state.undoIndex, this.stateHistory);
+        }
     }
         
     
@@ -255,26 +258,49 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         let index = this.state.undoIndex - 1;
         this.changeState(index);
         if (this.props.addStatus) {
-            this.props.addStatus("Undone", false);
+            if (index >= 0) {
+                this.props.addStatus("Undone", false);
+                this.setState({undoIndex: index});
+            } else {
+                this.props.addStatus("No more actions to undo", false);
+            }
+            
         }
         return index;
     }
     public redo = (): number => {
-        let index = this.state.undoIndex + 1;
-        if (index < this.stateHistory.length && this.props.addStatus) {
-            this.changeState(index);
-            this.props.addStatus("Redone", false);
+        let index = this.state.undoIndex;
+        if (this.props.addStatus) {
+            if (index < this.stateHistory.length) {
+                this.changeState(index, true);
+                this.props.addStatus("Redone", false);
+                this.setState({undoIndex: index+1});
+            } else {
+                this.props.addStatus("No more actions to redo", false);
+            }
         }
         return index;
     }
 
-    private changeState = (index: number) => {
+    private changeState = (index: number, redo = false) => {
+        this.setState({undoing: true});
         if (index >= 0) {
             let state = this.stateHistory[index];
-            
+            let method = state.method;
+            if (redo) {
+                switch (method) {
+                case "create":
+                    method = "delete";
+                    break;
+                case "delete":
+                    method = "create";
+                    break;
+                
+                }
+            }
             if (!!state) {
                 this.clear();
-                switch (state.method) {
+                switch (method) {
                 case "create":
                     // Delete the gate in current state
                     this.deleteGate(state.gate.id);
@@ -325,15 +351,17 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     // Move to previous position
                     let gate = this.allGates().find(val => { return val.state.id === state.gate.id });
                     if (!!gate) {
+                        let coords = gate.state.coords;
                         gate.drag(state.gate.coords);
+                        state.gate.coords = coords;
                     }
                     break;
                 }
                 this.clear();
                 console.log(index, this.gates);
-                this.setState({undoIndex: index});
             }
         }
+        this.setState({undoing: false});
     }
 
     public componentDidUpdate() {
