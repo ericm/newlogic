@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=newlogic
+Name=Newlogic
 Exec=newlogic
 TryExec=newlogic
 Terminal=false
 Categories=Application;Desktop;Education;
-Icon=/usr/lib/node_modules/newlogic/resources/icon.png
+Icon=/usr/lib/node_modules/newlogic/icon.png
