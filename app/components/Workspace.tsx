@@ -295,7 +295,12 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 case "delete":
                     method = "create";
                     break;
-                
+                case "join":
+                    method = "unjoin";
+                    break;
+                case "unjoin":
+                    method = "join";
+                    break;
                 }
             }
             if (!!state) {
@@ -345,7 +350,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     }
                     break;
                 case "unjoin":
-                    // TODO: Connect and create wire
+                    // Connect and create wire
+
                     break;
                 case "move":
                     // Move to previous position
@@ -856,14 +862,29 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                 if (this.state.dragging) {
                     let cut = Wiring.cutIntersect(coords, this.gates.wire);
                     if (cut !== -1) {
-                        let deref = this.derefWire(cut);
-
                         // Send to history
+                        let wire = this.gates.wire[cut];
                         this.pushState({
                             method: 'unjoin',
-                            gate: this.genPlecibo(deref[0]),
-                            secondGate: this.genPlecibo(deref[1])
+                            gate: this.genPlecibo(wire.gateIn()),
+                            inGate: { 
+                                id: wire.gateIn().state.id,
+                                // Find index of other gate in state
+                                index: wire.gateIn().state.gateOut.findIndex(v => {
+                                    return v.state.id === wire.gateOut().state.id;
+                                })
+                            },
+                            outGate: {
+                                id: wire.gateOut().state.id,
+                                // Find index of other gate in state
+                                index: wire.gateOut().state.gateIn.findIndex(v => {
+                                    return v.state.id === wire.gateIn().state.id;
+                                })
+                            }
                         })
+
+                        // Dereference
+                        this.derefWire(cut);
                     }
                     window.requestAnimationFrame(() => {
                         this.clear();

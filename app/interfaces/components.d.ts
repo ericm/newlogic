@@ -29,6 +29,8 @@ export interface StateHistory {
 	method: 'create' | 'move' | 'join' | 'delete' | 'unjoin',
 	gate: GateStatePlecibo,
 	secondGate?: GateStatePlecibo
+	inGate?: { id: number, index: number },
+	outGate?: { id: number, index: number }
 }
 export interface PropertiesState {
 
