@@ -268,6 +268,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         }
         return index;
     }
+
     public redo = (): number => {
         let index = this.state.undoIndex;
         if (this.props.addStatus) {
@@ -303,7 +304,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     break;
                 }
             }
-            if (!!state) {
+            if (!!state && !!this.stateHistory[index]) {
                 this.clear();
                 switch (method) {
                 case "create":
@@ -350,7 +351,35 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     }
                     break;
                 case "unjoin":
+                    // Fix typing issue
+                    let inGate = this.stateHistory[index].inGate as IComponent.GateHistory;
+                    let outGate = this.stateHistory[index].outGate as IComponent.GateHistory;
+
                     // Connect and create wire
+                    
+                    // Find gates
+                    let gateIn = this.allGates().find(v => { return v.state.id === inGate.id; });
+                    let gateOut = this.allGates().find(v => { return v.state.id === outGate.id; });
+
+                    // Connect
+                    if (gateIn && gateOut) {
+                        gateIn.connect("out", gateOut);
+                        gateOut.connect("in", gateIn);
+                        
+                        let startNode = gateIn.state.nodes.start.find((_, i) => {
+                            return i === inGate.nodeIndex;
+                        });
+
+                        let endNode = gateOut.state.nodes.end.find((_, i: number) => {
+                            return i === outGate.nodeIndex;
+                        });
+
+                        if (startNode && endNode) {
+                            let wire = new LogicGates.Wire({startNode, endNode});
+                            this.gates.wire.push(wire);
+                            this.clear();
+                        }
+                    }
 
                     break;
                 case "move":
@@ -872,6 +901,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                                 // Find index of other gate in state
                                 index: wire.gateIn().state.gateOut.findIndex(v => {
                                     return v.state.id === wire.gateOut().state.id;
+                                }),
+                                nodeIndex: wire.gateIn().state.nodes.start.findIndex((v: LogicGates.GateNode<LogicGates.AndGate>): boolean => {
+                                    return v.state.gate.state.id === wire.gateOut().state.id;
                                 })
                             },
                             outGate: {
@@ -879,6 +911,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                                 // Find index of other gate in state
                                 index: wire.gateOut().state.gateIn.findIndex(v => {
                                     return v.state.id === wire.gateIn().state.id;
+                                }),
+                                nodeIndex: wire.gateOut().state.nodes.start.findIndex((v: LogicGates.GateNode<LogicGates.AndGate>): boolean => {
+                                    return v.state.gate.state.id === wire.gateIn().state.id;
                                 })
                             }
                         })
