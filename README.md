@@ -30,6 +30,13 @@
 
 ## Installation
 
+### Through npm:
+- `sudo npm i -g newlogic`
+
+### Using a binary / installer:
+- Download an install a binary / installer from the [releases page](https://github.com/ericm/newlogic/releases) (Windows and Linux).
+
+### From source:
 - **Note: requires a node version >= 6, npm version >= 3 and yarn version >= 1.**
 
 First, clone the repo via git:
@@ -43,6 +50,8 @@ And then install dependencies.
 ```bash
 $ cd newlogic && yarn
 ```
+
+### Or you can install through a package manager on linux
 
 ---
 
