@@ -366,13 +366,23 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         gateIn.connect("out", gateOut);
                         gateOut.connect("in", gateIn);
                         
-                        let startNode = gateIn.state.nodes.start.find((_, i) => {
-                            return i === inGate.nodeIndex;
-                        });
+                        let startNode: LogicGates.GateNode<LogicGates.Gates<any>> | null = null
+                        let endNode: LogicGates.GateNode<LogicGates.Gates<any>> | null = null
+                        
+                        for (let i in gateIn.state.nodes.start) {
+                            if (+i === inGate.nodeIndex) {
+                                startNode = gateIn.state.nodes.start[i];
+                                break;
+                            }
+                        }
 
-                        let endNode = gateOut.state.nodes.end.find((_, i: number) => {
-                            return i === outGate.nodeIndex;
-                        });
+                        for (let i in gateOut.state.nodes.end) {
+                            if (+i === outGate.nodeIndex) {
+                                endNode = gateOut.state.nodes.end[i];
+                                break;
+                            }
+                        }
+
 
                         if (startNode && endNode) {
                             let wire = new LogicGates.Wire({startNode, endNode});
@@ -893,6 +903,24 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     if (cut !== -1) {
                         // Send to history
                         let wire = this.gates.wire[cut];
+
+                        // Get node indexes
+                        let sNodes = wire.gateIn().state.nodes.start;
+                        let startNodeIndex = -1;
+                        for (let i in sNodes) {
+                            if (sNodes[i].state.gate.state.id === wire.gateOut().state.id) {
+                                startNodeIndex = +i;
+                            }
+                        }
+
+                        let eNodes = wire.gateOut().state.nodes.end;
+                        let endNodeIndex = -1;
+                        for (let i in eNodes) {
+                            if (eNodes[i].state.gate.state.id === wire.gateIn().state.id) {
+                                endNodeIndex = +i;
+                            }
+                        }
+
                         this.pushState({
                             method: 'unjoin',
                             gate: this.genPlecibo(wire.gateIn()),
@@ -902,9 +930,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                                 index: wire.gateIn().state.gateOut.findIndex(v => {
                                     return v.state.id === wire.gateOut().state.id;
                                 }),
-                                nodeIndex: wire.gateIn().state.nodes.start.findIndex((v: LogicGates.GateNode<LogicGates.AndGate>): boolean => {
-                                    return v.state.gate.state.id === wire.gateOut().state.id;
-                                })
+                                nodeIndex: startNodeIndex
                             },
                             outGate: {
                                 id: wire.gateOut().state.id,
@@ -912,9 +938,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                                 index: wire.gateOut().state.gateIn.findIndex(v => {
                                     return v.state.id === wire.gateIn().state.id;
                                 }),
-                                nodeIndex: wire.gateOut().state.nodes.start.findIndex((v: LogicGates.GateNode<LogicGates.AndGate>): boolean => {
-                                    return v.state.gate.state.id === wire.gateIn().state.id;
-                                })
+                                nodeIndex: endNodeIndex
                             }
                         })
 
