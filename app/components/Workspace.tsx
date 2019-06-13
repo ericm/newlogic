@@ -268,6 +268,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         }
         return index;
     }
+
     public redo = (): number => {
         let index = this.state.undoIndex;
         if (this.props.addStatus) {
@@ -303,7 +304,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     break;
                 }
             }
-            if (!!state) {
+            if (!!state && !!this.stateHistory[index]) {
                 this.clear();
                 switch (method) {
                 case "create":
@@ -350,7 +351,45 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     }
                     break;
                 case "unjoin":
+                    // Fix typing issue
+                    let inGate = this.stateHistory[index].inGate as IComponent.GateHistory;
+                    let outGate = this.stateHistory[index].outGate as IComponent.GateHistory;
+
                     // Connect and create wire
+                    
+                    // Find gates
+                    let gateIn = this.allGates().find(v => { return v.state.id === inGate.id; });
+                    let gateOut = this.allGates().find(v => { return v.state.id === outGate.id; });
+
+                    // Connect
+                    if (gateIn && gateOut) {
+                        gateIn.connect("out", gateOut);
+                        gateOut.connect("in", gateIn);
+                        
+                        let startNode: LogicGates.GateNode<LogicGates.Gates<any>> | null = null
+                        let endNode: LogicGates.GateNode<LogicGates.Gates<any>> | null = null
+                        
+                        for (let i in gateIn.state.nodes.start) {
+                            if (+i === inGate.nodeIndex) {
+                                startNode = gateIn.state.nodes.start[i];
+                                break;
+                            }
+                        }
+
+                        for (let i in gateOut.state.nodes.end) {
+                            if (+i === outGate.nodeIndex) {
+                                endNode = gateOut.state.nodes.end[i];
+                                break;
+                            }
+                        }
+
+
+                        if (startNode && endNode) {
+                            let wire = new LogicGates.Wire({startNode, endNode});
+                            this.gates.wire.push(wire);
+                            this.clear();
+                        }
+                    }
 
                     break;
                 case "move":
@@ -824,11 +863,45 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         this.onChange();
                         Logic.evalAll(this.gates);
 
+                        // Get node indexes
+                        let sNodes = wire.gateIn().state.nodes.start;
+                        console.log(sNodes.length)
+                        let startNodeIndex = -1;
+                        for (let i in sNodes) {
+                            if (sNodes[+i].state.gate.state.gateOut.findIndex(v => { return v.state.id === wire.gateOut().state.id; }) > -1 ) {
+                                startNodeIndex = +i;
+                                break;
+                            }
+                        }
+
+                        let eNodes = wire.gateOut().state.nodes.end;
+                        let endNodeIndex = -1;
+                        for (let i in eNodes) {
+                            if (eNodes[+i].state.gate.state.gateIn.findIndex(v => { return v.state.id === wire.gateIn().state.id; }) > -1 ) {
+                                endNodeIndex = +i;
+                                break;
+                            }
+                        }
+
                         // Appending to state history 
                         this.pushState({
                             method: 'join',
                             gate: this.genPlecibo(startNode.state.gate),
-                            secondGate: this.genPlecibo(endNode.state.gate)
+                            secondGate: this.genPlecibo(endNode.state.gate),
+                            inGate: {
+                                id: wire.gateIn().state.id,
+                                index: wire.gateIn().state.gateOut.findIndex(v => {
+                                    return v.state.id === wire.gateOut().state.id;
+                                }),
+                                nodeIndex: startNodeIndex
+                            },
+                            outGate: {
+                                id: wire.gateOut().state.id,
+                                index: wire.gateOut().state.gateIn.findIndex(v => {
+                                    return v.state.id === wire.gateIn().state.id;
+                                }),
+                                nodeIndex: endNodeIndex
+                            }
                         })
                     }
                     
@@ -864,6 +937,27 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     if (cut !== -1) {
                         // Send to history
                         let wire = this.gates.wire[cut];
+
+                        // Get node indexes
+                        let sNodes = wire.gateIn().state.nodes.start;
+                        console.log(sNodes.length)
+                        let startNodeIndex = -1;
+                        for (let i in sNodes) {
+                            if (sNodes[+i].state.gate.state.gateOut.findIndex(v => { return v.state.id === wire.gateOut().state.id; }) > -1 ) {
+                                startNodeIndex = +i;
+                                break;
+                            }
+                        }
+
+                        let eNodes = wire.gateOut().state.nodes.end;
+                        let endNodeIndex = -1;
+                        for (let i in eNodes) {
+                            if (eNodes[+i].state.gate.state.gateIn.findIndex(v => { return v.state.id === wire.gateIn().state.id; }) > -1 ) {
+                                endNodeIndex = +i;
+                                break;
+                            }
+                        }
+
                         this.pushState({
                             method: 'unjoin',
                             gate: this.genPlecibo(wire.gateIn()),
@@ -872,14 +966,16 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                                 // Find index of other gate in state
                                 index: wire.gateIn().state.gateOut.findIndex(v => {
                                     return v.state.id === wire.gateOut().state.id;
-                                })
+                                }),
+                                nodeIndex: startNodeIndex
                             },
                             outGate: {
                                 id: wire.gateOut().state.id,
                                 // Find index of other gate in state
                                 index: wire.gateOut().state.gateIn.findIndex(v => {
                                     return v.state.id === wire.gateIn().state.id;
-                                })
+                                }),
+                                nodeIndex: endNodeIndex
                             }
                         })
 

@@ -1,6 +1,5 @@
 import * as canvas from "../actions/canvas";
-import { WireProps, WireState } from "../interfaces/canvas";
-import { Gates } from "./all";
+import { WireProps, WireState, AnyGate } from "../interfaces/canvas";
 
 export default class Wire {
     public state: WireState
@@ -11,11 +10,11 @@ export default class Wire {
         };
     }
 
-    public gateIn = (): Gates<any> => {
+    public gateIn = (): AnyGate => {
         return this.state.startNode.state.gate;
     }
 
-    public gateOut = (): Gates<any> => {
+    public gateOut = (): AnyGate => {
         return this.state.endNode.state.gate;
     }
 
