@@ -42,7 +42,7 @@
 First, clone the repo via git:
 
 ```bash
-git clone https://github.com/TooFiveFive/newlogic.git
+git clone https://github.com/ericm/newlogic.git
 ```
 
 And then install dependencies.
@@ -122,6 +122,6 @@ $ npm run test-e2e
 - [Eric Moynihan (ericm)](https://github.com/ericm)
 
 ## License
-MIT © [Eric Moynihan](https://github.com/TooFiveFive)
+MIT © 2019 [Eric Moynihan](https://github.com/ericm)
 
 (Boilerplate) MIT © [C. T. Lin](https://github.com/chentsulin)
