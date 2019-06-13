@@ -906,18 +906,21 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
                         // Get node indexes
                         let sNodes = wire.gateIn().state.nodes.start;
+                        console.log(sNodes.length)
                         let startNodeIndex = -1;
                         for (let i in sNodes) {
-                            if (sNodes[i].state.gate.state.id === wire.gateOut().state.id) {
+                            if (sNodes[+i].state.gate.state.gateOut.findIndex(v => { return v.state.id === wire.gateOut().state.id; }) > -1 ) {
                                 startNodeIndex = +i;
+                                break;
                             }
                         }
 
                         let eNodes = wire.gateOut().state.nodes.end;
                         let endNodeIndex = -1;
                         for (let i in eNodes) {
-                            if (eNodes[i].state.gate.state.id === wire.gateIn().state.id) {
+                            if (eNodes[+i].state.gate.state.gateIn.findIndex(v => { return v.state.id === wire.gateIn().state.id; }) > -1 ) {
                                 endNodeIndex = +i;
+                                break;
                             }
                         }
 
