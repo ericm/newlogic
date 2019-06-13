@@ -863,11 +863,45 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         this.onChange();
                         Logic.evalAll(this.gates);
 
+                        // Get node indexes
+                        let sNodes = wire.gateIn().state.nodes.start;
+                        console.log(sNodes.length)
+                        let startNodeIndex = -1;
+                        for (let i in sNodes) {
+                            if (sNodes[+i].state.gate.state.gateOut.findIndex(v => { return v.state.id === wire.gateOut().state.id; }) > -1 ) {
+                                startNodeIndex = +i;
+                                break;
+                            }
+                        }
+
+                        let eNodes = wire.gateOut().state.nodes.end;
+                        let endNodeIndex = -1;
+                        for (let i in eNodes) {
+                            if (eNodes[+i].state.gate.state.gateIn.findIndex(v => { return v.state.id === wire.gateIn().state.id; }) > -1 ) {
+                                endNodeIndex = +i;
+                                break;
+                            }
+                        }
+
                         // Appending to state history 
                         this.pushState({
                             method: 'join',
                             gate: this.genPlecibo(startNode.state.gate),
-                            secondGate: this.genPlecibo(endNode.state.gate)
+                            secondGate: this.genPlecibo(endNode.state.gate),
+                            inGate: {
+                                id: wire.gateIn().state.id,
+                                index: wire.gateIn().state.gateOut.findIndex(v => {
+                                    return v.state.id === wire.gateOut().state.id;
+                                }),
+                                nodeIndex: startNodeIndex
+                            },
+                            outGate: {
+                                id: wire.gateOut().state.id,
+                                index: wire.gateOut().state.gateIn.findIndex(v => {
+                                    return v.state.id === wire.gateIn().state.id;
+                                }),
+                                nodeIndex: endNodeIndex
+                            }
                         })
                     }
                     
