@@ -2,7 +2,7 @@ import Workspace from "../components/Workspace";
 import GateNode from "../gates/Node";
 import { AnyGate, GateCoords, GateGeneric, GateSize } from "../interfaces/canvas";
 import { IContext } from "../interfaces/components";
-import { Wire } from "../gates/all";
+import { Wire } from "../gates";
 
 export namespace Wiring {
 

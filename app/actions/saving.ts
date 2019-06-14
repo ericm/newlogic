@@ -1,6 +1,6 @@
 import { get } from 'electron-settings';
 import Workspace from '../components/Workspace';
-import { GateNode, Gates, Wire, AndGate, LED, NotGate, Switch, OrGate } from '../gates/all';
+import { GateNode, Gates, Wire, AndGate, LED, NotGate, Switch, OrGate, XOrGate } from '../gates';
 import { AnyGate } from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
 import { ipcRenderer } from "electron";
@@ -47,6 +47,8 @@ export namespace Saving {
                         return new AndGate(ctx);
                     case "or":
                         return new OrGate(ctx);
+                    case "xor":
+                        return new XOrGate(ctx);
                     case "not":
                         return new NotGate(ctx);
                     case "switch":

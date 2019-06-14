@@ -1,7 +1,7 @@
-import {AndGate, OrGate, LED, Gates, GateNode, NotGate, Switch, Wire} from '../gates/all';
+import { AndGate, GateNode, Gates, LED, NotGate, OrGate, Switch, Wire, XOrGate } from '../gates';
 
 // set any type of gate
-export type AnyGate = AndGate | OrGate | NotGate | Switch | LED;
+export type AnyGate = AndGate | OrGate | NotGate | Switch | LED | XOrGate;
 
 export type Assoc = Array<Array<boolean>>
 

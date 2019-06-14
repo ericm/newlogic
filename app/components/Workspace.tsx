@@ -3,7 +3,7 @@ import { Wiring } from '../actions/canvas';
 import { Logic } from '../actions/logic';
 import { Saving } from '../actions/saving';
 // import items (gates etc)
-import * as LogicGates from '../gates/all';
+import * as LogicGates from '../gates';
 import * as ICanvas from '../interfaces/canvas';
 import * as IComponent from '../interfaces/components';
 import { Exit } from '../actions/system';
@@ -41,7 +41,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
     public constructor(props: IComponent.WorkspaceProps) {
         super(props);
-        this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [] }
+        this.gates = { and: [], wire: [], or: [], not: [], switch: [], led: [], xor: [] }
 
         this.state = {
             width: (this.props.width * window.innerWidth / 100).toString(),
@@ -198,7 +198,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
      * @memberof Workspace
      */
     private allGates = (): ICanvas.AnyGate[] => {
-        return [...this.gates.and, ...this.gates.or, ...this.gates.not, ...this.gates.led, ...this.gates.switch];
+        return [...this.gates.and, ...this.gates.or, ...this.gates.not, ...this.gates.led, ...this.gates.switch, ...this.gates.xor];
     }
 
     public load = (): void => Saving.loadState(this);
@@ -217,6 +217,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         // Preload gates
         await LogicGates.AndGate.LOAD(this.ctx);
         await LogicGates.OrGate.LOAD(this.ctx);
+        await LogicGates.XOrGate.LOAD(this.ctx);
         await LogicGates.NotGate.LOAD(this.ctx);
         await LogicGates.Switch.LOAD(this.ctx);
         await LogicGates.LED.LOAD(this.ctx);
@@ -335,6 +336,9 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         break;
                     case "led":
                         this.gates.led.push(newGate as LogicGates.LED);
+                        break;
+                    case "xor":
+                        this.gates.xor.push(newGate);
                         break;
                     }
                     break;
@@ -474,6 +478,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         Wiring.rerender(this.gates.wire, this.ctx);
         Wiring.rerender(this.gates.and, null);
         Wiring.rerender(this.gates.or, null);
+        Wiring.rerender(this.gates.xor, null);
         Wiring.rerender(this.gates.not, null);
         Wiring.rerender(this.gates.switch, null);
         Wiring.rerender(this.gates.led, null);
@@ -590,6 +595,22 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             }
             break;
 
+        case "xor":
+            if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
+                this.gates.xor.push(new LogicGates.XOrGate(this.ctx));
+                const size: ICanvas.GateSize = { width: 2 * this.state.gridFactor + 1, height: 2 * this.state.gridFactor + 1 }
+                const newNodes = this.gates.xor[this.gates.xor.length - 1].add(coords, size);
+
+                this.addNodes(newNodes);
+                this.onChange();
+                change = true;
+                this.pushState({
+                    method: 'create',
+                    gate: this.genPlecibo(this.gates.xor[this.gates.xor.length - 1])
+                });
+            }
+            break;
+
         case "not":
             if (e.type == "click" && !Wiring.otherGates(coords, this.allGates())) {
                 this.gates.not.push(new LogicGates.NotGate(this.ctx));
@@ -681,6 +702,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
     private isClicked = (coords: ICanvas.GateCoords): ICanvas.AnyGate | null => {
         return Wiring.isClicked(this.gates.and, coords)
             || Wiring.isClicked(this.gates.or, coords)
+            || Wiring.isClicked(this.gates.xor, coords)
             || Wiring.isClicked(this.gates.not, coords)
             || Wiring.isClicked(this.gates.switch, coords)
             || Wiring.isClicked(this.gates.led, coords);

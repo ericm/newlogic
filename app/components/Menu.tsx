@@ -7,7 +7,7 @@ let styles = require("./styles/Menu.scss")
 const imgs = {
     "and": require('../img/icons/and.svg'), "led": require('../img/icons/led.svg'), "or": require('../img/icons/or.svg'), 
     "not": require("../img/icons/not.svg"), "switch": require("../img/icons/switch.svg"), "click": require('../img/click.svg'),
-    "draw": require('../img/draw.svg'), "cut": require("../img/icons/cut.svg")
+    "draw": require('../img/draw.svg'), "cut": require("../img/icons/cut.svg"), "xor": require("../img/icons/xor.svg")
 };
 
 export default class Menu extends Component<MenuProps, MenuState> {
@@ -24,6 +24,7 @@ export default class Menu extends Component<MenuProps, MenuState> {
                 "cut": '',
                 "and": '',
                 "or": '',
+                "xor": '',
                 "not": '',
                 "switch": '',
                 "led": ''
@@ -70,6 +71,7 @@ export default class Menu extends Component<MenuProps, MenuState> {
                     <a title={"NOT Gate"} className={`${styles.tool} ${this.state.clicked['not']}`} id={"not"} onClick={this.toggleMode}><div><img src={imgs["not"]}/></div></a>
                     <a title={"AND Gate"} className={`${styles.tool} ${this.state.clicked['and']}`} id={"and"} onClick={this.toggleMode}><div><img src={imgs["and"]}/></div></a>
                     <a title={"OR Gate"} className={`${styles.tool} ${this.state.clicked['or']}`} id={"or"} onClick={this.toggleMode}><div><img src={imgs["or"]}/></div></a>
+                    <a title={"XOR Gate"} className={`${styles.tool} ${this.state.clicked['xor']}`} id={"xor"} onClick={this.toggleMode}><div><img src={imgs["xor"]}/></div></a>
                     <a title={"Switch"} className={`${styles.tool} ${this.state.clicked['switch']}`} id={"switch"} onClick={this.toggleMode}><div><img src={imgs["switch"]}/></div></a>
                     <a title={"LED"} className={`${styles.tool} ${this.state.clicked['led']}`} id={"led"} onClick={this.toggleMode}><div><img src={imgs["led"]}/></div></a>
                 </div>

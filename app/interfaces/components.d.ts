@@ -1,5 +1,5 @@
 // Gates imports
-import { AndGate, GateNode, LED, NotGate, OrGate, Switch, Wire } from '../gates/all';
+import { AndGate, GateNode, LED, NotGate, OrGate, Switch, Wire, XOrGate } from '../gates';
 import { GateCoords, GateSize, AnyGate, SelectedNode } from "./canvas";
 import Home from '../components/Home';
 import { notDeepEqual } from 'assert';
@@ -51,7 +51,8 @@ export interface AllGates {
 	wire: Wire[],
 	not: NotGate[],
 	switch: Switch[],
-	led: LED[]
+	led: LED[],
+	xor: XOrGate[]
 }
 // WinBar
 export interface WinBarState extends Component {
@@ -82,6 +83,7 @@ export interface MenuState {
 		"cut": string
 		"and": string,
 		"or": string,
+		"xor": string,
 		"not": string,
 		"switch": string,
 		"led": string
