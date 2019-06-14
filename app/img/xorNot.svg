@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 283.4 195"
+   style="enable-background:new 0 0 283.4 195;"
+   xml:space="preserve"
+   sodipodi:docname="xorNot.svg"
+   inkscape:version="0.92.4 5da689c313, 2019-01-14"><metadata
+   id="metadata4729"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title>or</dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs4727" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="930"
+   inkscape:window-height="1017"
+   id="namedview4725"
+   showgrid="false"
+   inkscape:zoom="1.5669127"
+   inkscape:cx="191.65045"
+   inkscape:cy="60.123535"
+   inkscape:window-x="2890"
+   inkscape:window-y="20"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Layer_1" />
+<style
+   type="text/css"
+   id="style4708">
+	.st0{fill:#FFFFFF;stroke:#000000;stroke-width:13;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#000000;stroke-width:13;stroke-miterlimit:10;}
+</style>
+<title
+   id="title4710">or</title>
+<path
+   class="st0"
+   d="M199,210"
+   id="path4712" />
+<path
+   class="st0"
+   d="M199-15"
+   id="path4714" />
+<line
+   class="st1"
+   x1="57.7"
+   y1="6.5"
+   x2="0"
+   y2="6.5"
+   id="line4716" />
+<line
+   class="st1"
+   x1="57.7"
+   y1="189"
+   x2="0"
+   y2="189"
+   id="line4718" />
+<path
+   class="st0"
+   d="M255.5,97.5C207.5-1.8,24.4,6.7,24.4,6.7C43.2,6.7,70,47.3,70,97.5l0,0c0,50.2-26.7,91.5-45.5,91.5  C24.5,189,207.5,196.8,255.5,97.5h27.9"
+   id="path4720" />
+<ellipse
+   class="st0"
+   cx="242.3"
+   cy="97.5"
+   rx="21.9"
+   ry="19"
+   id="ellipse4722" />
+<path
+   style="fill:none;stroke:#000000;stroke-width:14.53188038;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   d="m 5.4149109,6.5509095 c 0,0 84.5729801,86.5475645 0.614111,184.0911405"
+   id="path3793"
+   inkscape:connector-curvature="0" /></svg>
