@@ -107,7 +107,8 @@ export namespace Saving {
                     or: genGates(workspace.gates.or),
                     not: genGates(workspace.gates.not),
                     led: genGates(workspace.gates.led),
-                    switch: genGates(workspace.gates.switch)
+                    switch: genGates(workspace.gates.switch),
+                    xor: genGates(workspace.gates.xor)
                 },
                 gridFactor: workspace.state.gridFactor,
                 snapFactor: workspace.state.snapFactor,
@@ -138,13 +139,15 @@ export namespace Saving {
         workspace.gates.not = deserialize(save.gates.not, endNodes, startNodes, workspace.ctx, "not");
         workspace.gates.switch = deserialize(save.gates.switch, endNodes, startNodes, workspace.ctx, "switch");
         workspace.gates.led = deserialize(save.gates.led, endNodes, startNodes, workspace.ctx, "led");
+        workspace.gates.xor = deserialize(save.gates.xor, endNodes, startNodes, workspace.ctx, "xor");
         console.log(workspace.gates.and);
         let all: AnyGate[] = [
             ...workspace.gates.and,
             ...workspace.gates.or,
             ...workspace.gates.not,
             ...workspace.gates.switch,
-            ...workspace.gates.led
+            ...workspace.gates.led,
+            ...workspace.gates.xor
         ];
         // Push all gate ids
         Gates.IDS = [];
@@ -156,7 +159,8 @@ export namespace Saving {
             ...save.gates.or,
             ...save.gates.not,
             ...save.gates.switch,
-            ...save.gates.led
+            ...save.gates.led,
+            ...save.gates.xor
         ]
         addWires(all, wires, allPlecibo);
         workspace.gates.wire = wires;

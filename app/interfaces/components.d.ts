@@ -166,7 +166,8 @@ export interface WorkspaceSaveState {
 		or: GateStatePlecibo[], 
 		not: GateStatePlecibo[], 
 		switch: GateStatePlecibo[], 
-		led: GateStatePlecibo[] },
+		led: GateStatePlecibo[],
+		xor: GateStatePlecibo[] },
 	gridFactor: number,
 	snapFactor: number
 }
