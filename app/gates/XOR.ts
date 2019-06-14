@@ -82,8 +82,11 @@ export default class XOrGate extends Gates<XOrGate> {
     public evaluate = (): void => {
         this.upEval();
         
-        // Bitwise OR
-        let val = this.state.nodes.end[0].getVal() || this.state.nodes.end[1].getVal();
+        // Bitwise XOR
+        let a = this.state.nodes.end[0].getVal(),
+            b = this.state.nodes.end[1].getVal();
+        
+        let val =  (!a && b) || (a && !b) ;
         if (this.state.invert) {
             val = !val;
         }
