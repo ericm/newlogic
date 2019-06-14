@@ -22,7 +22,8 @@ export default class Gates<T extends Gates<any>>  {
 
     public click = (): void => {
         this.ctx.setLineDash([6]);
-        this.ctx.lineWidth = 1;
+        this.ctx.strokeStyle = "#555";
+        this.ctx.lineWidth = 2;
         this.ctx.rect(this.state.coords.x - 6, this.state.coords.y - 6,
             this.state.size.width + 12, this.state.size.height + 12);
         this.ctx.stroke();
