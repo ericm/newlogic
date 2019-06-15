@@ -149,6 +149,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
         }
 
         // Lambda to delete gate
+        // Add for eacha gate
         const find = (check: (val: ICanvas.AnyGate) => boolean): void => {
             let i = this.gates.and.findIndex(check);
             if (i !== -1) this.gates.and.splice(i, 1);
@@ -167,6 +168,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             if (i === -1) {
                 i = this.gates.switch.findIndex(check);
                 if (i !== -1) this.gates.switch.splice(i, 1);
+            }
+            if (i === -1) {
+                i = this.gates.xor.findIndex(check);
+                if (i !== -1) this.gates.xor.splice(i, 1);
             }
         }
         find(val => { return val.state.id === id; });
