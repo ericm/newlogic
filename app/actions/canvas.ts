@@ -23,12 +23,13 @@ export namespace Wiring {
             let c1 = wire.state.startNode.getCoords();
             let c2 = wire.state.break;
             coords = {x: Math.round(coords.x), y: Math.round(coords.y)};
-            // console.log(c1, c2, coords);
-            if (Math.abs(c1.x - coords.x) <= 10 && coords.y >= c1.y && coords.y <= c2.y) {
+            console.log(Math.abs(c1.x - coords.x), coords.y, c1.y, coords.y, c2.y);
+            if (Math.abs(c1.x - coords.x) <= 10 && ((coords.y >= c1.y && coords.y <= c2.y) || (coords.y <= c1.y && coords.y >= c2.y))) {
                 return parseInt(i);
             }
 
             c1 = wire.state.endNode.getCoords();
+            console.log("sec", Math.abs(c1.y - coords.y),  coords.x,c2.x,  coords.x, c1.x);
             if (Math.abs(c1.y - coords.y) <= 10  && coords.x >= c2.x && coords.x <= c1.x) {
                 return parseInt(i);
             }

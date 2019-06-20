@@ -1017,6 +1017,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     this.clear();
                 }
                 break;
+            case "mouseleave":
             case "mouseup":
                 this.setState({dragging: false});
                 this.clear();
