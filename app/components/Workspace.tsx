@@ -742,16 +742,15 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
 
             case "mousedown":
                 if (gate !== null) {
-                    if (gate == this.clicked[0]) {
-                        this.setState({
-                            dragging: true,
-                            dragInit: coords,
-                            drag: gate.state.coords
-                        });
-                        this.clickedDrag = [];
-                        this.clickedDrag.push(gate);
-                        this.clear();
-                    }
+                    this.setState({
+                        dragging: true,
+                        dragInit: coords,
+                        drag: gate.state.coords
+                    });
+                    this.clickedDrag = [];
+                    this.clickedDrag.push(gate);
+                    this.clear();
+                    
                 } else {
                     this.setState({ canvasDrag: true });
                 }
