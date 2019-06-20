@@ -107,6 +107,7 @@ export interface WorkspaceState {
 	mode: string,
 	dragInit: GateCoords,
 	drag: GateCoords,
+	gateDragInit: GateCoords,
 	dragging: boolean,
 	canvasDrag: boolean,
 	gridFactor: number,

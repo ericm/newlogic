@@ -50,6 +50,7 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
             dragging: false,
             dragInit: { x: 0, y: 0 },
             drag: { x: 0, y: 0 },
+            gateDragInit: { x: 0, y: 0 },
             gridFactor: 20,
             snapFactor: 20,
             canvasDrag: false,
@@ -745,7 +746,8 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     this.setState({
                         dragging: true,
                         dragInit: coords,
-                        drag: gate.state.coords
+                        drag: gate.state.coords,
+                        gateDragInit: {x: gate.state.coords.x, y: gate.state.coords.y}
                     });
                     this.clickedDrag = [];
                     this.clickedDrag.push(gate);
@@ -788,10 +790,14 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         if (move.x > 0 && move.y > 0) for (let g of this.clickedDrag) g.drag(move);
                     }
                     // TODO: add multi move support for history
-                    this.pushState({
-                        method: 'move',
-                        gate: this.genPlecibo(this.clickedDrag[0], this.state.drag)
-                    });
+                    console.log(this.state)
+                    if (Math.abs(this.clickedDrag[0].state.coords.x - this.state.drag.x) > 2
+                        || Math.abs(this.clickedDrag[0].state.coords.y - this.state.drag.y) > 2) {
+                            this.pushState({
+                                method: 'move',
+                                gate: this.genPlecibo(this.clickedDrag[0], this.state.drag)
+                            });
+                        }
                     this.clear();
                     this.setState({ dragging: false });
                     return true;
