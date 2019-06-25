@@ -806,6 +806,19 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     return true;
                 } else if (this.state.canvasDrag) {
                     this.setState({ canvasDrag: false });
+                    // Add all selected gates to state
+                    let init = this.state.dragInit;
+                    // TODO: handle for reverse movement
+                    let selectedGates = this.allGates().filter(g => {
+                        return (
+                            (g.state.coords.x >= init.x &&
+                            g.state.coords.x <= coords.x) ||
+                            (g.state.coords.y >= init.y &&
+                                g.state.coords.y <= coords.y)
+                        );
+                    });
+                    // TODO: add to state
+                    console.log(selectedGates);
                 }
 
                 break;
