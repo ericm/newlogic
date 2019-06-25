@@ -754,7 +754,10 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                     this.clear();
                     
                 } else {
-                    this.setState({ canvasDrag: true });
+                    this.setState({ 
+                        canvasDrag: true,
+                        dragInit: coords
+                    });
                 }
                 break;
 
@@ -771,12 +774,12 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                         this.clear();
                     }
                 } else if (this.state.canvasDrag) {
-                    console.log("dragging");
-                    const move: ICanvas.GateCoords = {
-                        x: coords.x - (this.state.dragInit.x - this.state.drag.x),
-                        y: coords.y - (this.state.dragInit.y - this.state.drag.y)
-                    }
-                    Wiring.selection(this.ctx, move, { x: this.state.dragInit.x - this.state.drag.x, y: this.state.dragInit.x - this.state.drag.x });
+                    console.log("dragging", this.state.dragInit, coords);
+                    
+                    window.requestAnimationFrame(() => {
+                        this.clear();
+                        Wiring.selection(this.ctx, this.state.dragInit, coords);
+                    });
                 }
                 break;
 

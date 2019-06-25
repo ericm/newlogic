@@ -105,8 +105,10 @@ export namespace Wiring {
         return breakpoint;
     }
 
-    export function selection(ctx: CanvasRenderingContext2D, init: GateCoords, curent: GateCoords): void {
-        // ctx.beginPath();
+    export function selection(ctx: CanvasRenderingContext2D, init: GateCoords, current: GateCoords): void {
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(0,0,0,.4)";
+        ctx.fillRect(init.x, init.y, current.x-init.x, current.y-init.y)
     }
 
     export function gridLayout(coords: GateCoords, factor: number): GateCoords {
