@@ -817,8 +817,13 @@ export default class Workspace extends React.Component<IComponent.WorkspaceProps
                                 g.state.coords.y <= coords.y)
                         );
                     });
-                    // TODO: add to state
+                    this.clear();
                     console.log(selectedGates);
+                    for (let gate of selectedGates) {
+                        gate.click();
+                    }
+                    this.clicked = selectedGates;
+                    return true;
                 }
 
                 break;
