@@ -9,8 +9,6 @@
 
 **Newlogic** is a *Circuit Builder / Logic Design Desktop Application* (like mmlogic) made with *Electron + React Typescript*. It's currently compatible with **Windows**, **Mac** and **Linux**.
 
-**NOTE**: This app is currently in development so functionality is limited.
-
 ## Features
 
 ### An intuitive UI
